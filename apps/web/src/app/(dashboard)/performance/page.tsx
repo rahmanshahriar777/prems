@@ -41,10 +41,17 @@ interface Review {
   managerFeedback?: string;
 }
 
+interface ReviewCycle {
+  id: string;
+  title: string;
+  isActive?: boolean;
+}
+
 export default function PerformancePage() {
   const { user } = useAuth();
   const [goals, setGoals] = useState<Goal[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [cycles, setCycles] = useState<ReviewCycle[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'IN_PROGRESS' | 'COMPLETED'>('ALL');
@@ -59,80 +66,33 @@ export default function PerformancePage() {
   const fetchPerformance = async () => {
     setLoading(true);
     try {
-      const [goalsRes, reviewsRes] = await Promise.all([
+      const [goalsRes, reviewsRes, cyclesRes] = await Promise.all([
         api.get('/goals').catch(() => null),
         api.get('/performance/reviews').catch(() => null),
+        api.get('/performance/cycles').catch(() => null),
       ]);
 
-      if (goalsRes && Array.isArray(goalsRes) && goalsRes.length > 0) {
+      if (goalsRes && Array.isArray(goalsRes)) {
         setGoals(goalsRes);
       } else {
-        setGoals([
-          {
-            id: '1',
-            title: 'Architect Enterprise AI Inference Layer with dual fallback',
-            category: 'Engineering & Platform',
-            targetDate: '2026-10-31',
-            progress: 85,
-            status: 'IN_PROGRESS',
-          },
-          {
-            id: '2',
-            title: 'Achieve 95%+ E2E Test Coverage on Core Payroll Logic',
-            category: 'Quality & Reliability',
-            targetDate: '2026-11-15',
-            progress: 60,
-            status: 'IN_PROGRESS',
-          },
-          {
-            id: '3',
-            title: 'Implement Editorial Design System Tokens across Next.js Web Portal',
-            category: 'UI/UX Excellence',
-            targetDate: '2026-09-30',
-            progress: 100,
-            status: 'COMPLETED',
-          },
-        ]);
+        setGoals([]);
       }
 
-      if (reviewsRes && Array.isArray(reviewsRes) && reviewsRes.length > 0) {
+      if (reviewsRes && Array.isArray(reviewsRes)) {
         setReviews(reviewsRes);
       } else {
-        setReviews([
-          {
-            id: '1',
-            cycle: { title: 'H2 2026 Company Performance Appraisal Cycle' },
-            selfRating: 4.8,
-            managerRating: 4.9,
-            finalScore: 4.85,
-            status: 'COMPLETED',
-            managerFeedback:
-              'Exceptional architectural stewardship and velocity. Code quality, security guardrails, and responsive design execution meet the highest tier of enterprise standards.',
-          },
-        ]);
+        setReviews([]);
+      }
+
+      if (cyclesRes && Array.isArray(cyclesRes)) {
+        setCycles(cyclesRes);
+      } else {
+        setCycles([]);
       }
     } catch {
-      setGoals([
-        {
-          id: '1',
-          title: 'Architect Enterprise AI Inference Layer with dual fallback',
-          category: 'Engineering & Platform',
-          targetDate: '2026-10-31',
-          progress: 85,
-          status: 'IN_PROGRESS',
-        },
-      ]);
-      setReviews([
-        {
-          id: '1',
-          cycle: { title: 'H2 2026 Performance Cycle' },
-          selfRating: 4.8,
-          managerRating: 4.9,
-          finalScore: 4.85,
-          status: 'COMPLETED',
-          managerFeedback: 'Exceptional architectural delivery.',
-        },
-      ]);
+      setGoals([]);
+      setReviews([]);
+      setCycles([]);
     } finally {
       setLoading(false);
     }
@@ -196,7 +156,7 @@ export default function PerformancePage() {
               <div className="perf-header-actions">
                 <div className="perf-stat-pill">
                   <span>Active Cycle</span>
-                  <span className="count">H2 2026</span>
+                  <span className="count">{cycles.length > 0 ? cycles[0].title : 'No Active Cycles'}</span>
                 </div>
 
                 <button onClick={() => setShowGoalModal(true)} className="perf-btn-primary">
@@ -212,7 +172,7 @@ export default function PerformancePage() {
                 <div>
                   <div className="perf-quick-stat-label">Appraisal Rating</div>
                   <div className="perf-quick-stat-value" style={{ color: 'var(--perf-warning)' }}>
-                    {latestReview?.finalScore || '4.85'} / 5.0
+                    {latestReview?.finalScore ? `${latestReview.finalScore} / 5.0` : 'Pending Appraisal'}
                   </div>
                 </div>
                 <div className="perf-quick-stat-icon">
@@ -235,9 +195,8 @@ export default function PerformancePage() {
                   <div className="perf-quick-stat-label">Avg Completion Rate</div>
                   <div className="perf-quick-stat-value">
                     {goals.length
-                      ? Math.round(goals.reduce((acc, c) => acc + c.progress, 0) / goals.length)
-                      : 81}
-                    %
+                      ? `${Math.round(goals.reduce((acc, c) => acc + c.progress, 0) / goals.length)}%`
+                      : '0%'}
                   </div>
                 </div>
                 <div className="perf-quick-stat-icon">
@@ -249,7 +208,7 @@ export default function PerformancePage() {
                 <div>
                   <div className="perf-quick-stat-label">Leadership Standing</div>
                   <div className="perf-quick-stat-value" style={{ fontSize: '15px', color: 'var(--perf-accent)' }}>
-                    Top Decile
+                    {reviews.length ? 'Top Decile' : 'Pending Review'}
                   </div>
                 </div>
                 <div className="perf-quick-stat-icon">
@@ -351,42 +310,88 @@ export default function PerformancePage() {
 
               {/* Goals Cards List */}
               <div className="perf-goals-list">
-                {filteredGoals.map((g) => (
-                  <div key={g.id} className="perf-goal-card">
-                    <div className="perf-goal-top">
-                      <div>
-                        <div className="perf-goal-name">{g.title}</div>
-                        {g.category && (
-                          <span style={{ fontSize: '11px', color: 'var(--perf-text-tertiary)', fontFamily: 'var(--perf-font-mono)' }}>
-                            {g.category}
-                          </span>
-                        )}
+                {filteredGoals.length > 0 ? (
+                  filteredGoals.map((g) => (
+                    <div key={g.id} className="perf-goal-card">
+                      <div className="perf-goal-top">
+                        <div>
+                          <div className="perf-goal-name">{g.title}</div>
+                          {g.category && (
+                            <span style={{ fontSize: '11px', color: 'var(--perf-text-tertiary)', fontFamily: 'var(--perf-font-mono)' }}>
+                              {g.category}
+                            </span>
+                          )}
+                        </div>
+                        <span className="perf-goal-percent">{g.progress}%</span>
                       </div>
-                      <span className="perf-goal-percent">{g.progress}%</span>
-                    </div>
 
-                    <div className="perf-progress-bar">
-                      <div
-                        className="perf-progress-fill"
-                        style={{
-                          width: `${g.progress}%`,
-                          background: g.progress === 100 ? 'var(--perf-positive)' : 'var(--perf-accent)',
-                        }}
-                      />
-                    </div>
+                      <div className="perf-progress-bar">
+                        <div
+                          className="perf-progress-fill"
+                          style={{
+                            width: `${g.progress}%`,
+                            background: g.progress === 100 ? 'var(--perf-positive)' : 'var(--perf-accent)',
+                          }}
+                        />
+                      </div>
 
-                    <div className="perf-goal-meta">
-                      <span>Target: {g.targetDate?.split('T')[0] || '2026-12-31'}</span>
-                      <span
-                        className={`perf-goal-badge ${
-                          g.progress === 100 ? 'perf-goal-completed' : 'perf-goal-active'
-                        }`}
-                      >
-                        {g.status ? g.status.replace('_', ' ') : 'IN PROGRESS'}
-                      </span>
+                      <div className="perf-goal-meta">
+                        <span>Target: {g.targetDate?.split('T')[0] || '2026-12-31'}</span>
+                        <span
+                          className={`perf-goal-badge ${
+                            g.progress === 100 ? 'perf-goal-completed' : 'perf-goal-active'
+                          }`}
+                        >
+                          {g.status ? g.status.replace('_', ' ') : 'IN PROGRESS'}
+                        </span>
+                      </div>
                     </div>
+                  ))
+                ) : (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '48px 24px',
+                      background: 'var(--perf-surface-muted)',
+                      borderRadius: 'var(--perf-radius-lg)',
+                      border: '1px dashed var(--perf-border)',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '44px',
+                        height: '44px',
+                        borderRadius: '50%',
+                        background: 'rgba(37, 99, 235, 0.08)',
+                        color: 'var(--perf-accent)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '12px',
+                      }}
+                    >
+                      <Target className="w-5 h-5" />
+                    </div>
+                    <div style={{ fontWeight: 600, fontSize: '14px', color: 'var(--perf-text)', marginBottom: '4px' }}>
+                      No Performance Objectives
+                    </div>
+                    <p style={{ fontSize: '12px', color: 'var(--perf-text-tertiary)', maxWidth: '320px', margin: '0 0 16px 0' }}>
+                      No active OKRs or quarterly targets recorded. Establish a target to initiate tracked telemetry.
+                    </p>
+                    <button
+                      onClick={() => setShowGoalModal(true)}
+                      className="perf-btn-primary"
+                      style={{ fontSize: '12px', padding: '6px 14px' }}
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Establish New Target</span>
+                    </button>
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
@@ -400,25 +405,21 @@ export default function PerformancePage() {
               {latestReview ? (
                 <>
                   <div className="perf-score-card">
-                    <div className="perf-score-number">{latestReview.finalScore || '4.85'}</div>
-                    <div className="perf-score-desc">Exceeds High Enterprise Expectations</div>
+                    <div className="perf-score-number">{latestReview.finalScore || '0.0'}</div>
+                    <div className="perf-score-desc">Evaluation Complete</div>
                     <span style={{ fontSize: '10.5px', fontFamily: 'var(--perf-font-mono)', color: 'var(--perf-text-tertiary)' }}>
-                      Benchmark: Top 5% Organization-wide
+                      Benchmark: Cycle Appraisal
                     </span>
                   </div>
 
                   <div className="perf-ratings-breakdown">
                     <div className="perf-rating-row">
                       <span className="perf-rating-label">Self Evaluation:</span>
-                      <span className="perf-rating-val">{latestReview.selfRating || '4.80'} / 5.0</span>
+                      <span className="perf-rating-val">{latestReview.selfRating ? `${latestReview.selfRating} / 5.0` : 'Pending'}</span>
                     </div>
                     <div className="perf-rating-row">
                       <span className="perf-rating-label">Manager Appraisal:</span>
-                      <span className="perf-rating-val">{latestReview.managerRating || '4.90'} / 5.0</span>
-                    </div>
-                    <div className="perf-rating-row">
-                      <span className="perf-rating-label">Peer Benchmark:</span>
-                      <span className="perf-rating-val">4.82 / 5.0</span>
+                      <span className="perf-rating-val">{latestReview.managerRating ? `${latestReview.managerRating} / 5.0` : 'Pending'}</span>
                     </div>
                   </div>
 
@@ -427,48 +428,43 @@ export default function PerformancePage() {
                       "{latestReview.managerFeedback}"
                     </div>
                   )}
-
-                  {/* Competency Milestones */}
-                  <div className="perf-competency-row">
-                    <span style={{ fontSize: '11px', fontFamily: 'var(--perf-font-mono)', textTransform: 'uppercase', color: 'var(--perf-text-tertiary)' }}>
-                      Verified Competencies
-                    </span>
-
-                    <div className="perf-comp-item">
-                      <div className="perf-comp-top">
-                        <span>Architecture & Systems Delivery</span>
-                        <span style={{ fontFamily: 'var(--perf-font-mono)', fontWeight: 600 }}>98%</span>
-                      </div>
-                      <div className="perf-progress-bar" style={{ height: '4px', margin: 0 }}>
-                        <div className="perf-progress-fill" style={{ width: '98%' }} />
-                      </div>
-                    </div>
-
-                    <div className="perf-comp-item">
-                      <div className="perf-comp-top">
-                        <span>Reliability & Code Quality</span>
-                        <span style={{ fontFamily: 'var(--perf-font-mono)', fontWeight: 600 }}>96%</span>
-                      </div>
-                      <div className="perf-progress-bar" style={{ height: '4px', margin: 0 }}>
-                        <div className="perf-progress-fill" style={{ width: '96%' }} />
-                      </div>
-                    </div>
-
-                    <div className="perf-comp-item">
-                      <div className="perf-comp-top">
-                        <span>Team Mentorship & Culture</span>
-                        <span style={{ fontFamily: 'var(--perf-font-mono)', fontWeight: 600 }}>94%</span>
-                      </div>
-                      <div className="perf-progress-bar" style={{ height: '4px', margin: 0 }}>
-                        <div className="perf-progress-fill" style={{ width: '94%' }} />
-                      </div>
-                    </div>
-                  </div>
                 </>
               ) : (
-                <p style={{ fontSize: '12px', color: 'var(--perf-text-tertiary)' }}>
-                  No finalized appraisal records for this evaluation cycle yet.
-                </p>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '48px 24px',
+                    background: 'var(--perf-surface-muted)',
+                    borderRadius: 'var(--perf-radius-lg)',
+                    border: '1px dashed var(--perf-border)',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '50%',
+                      background: 'rgba(217, 119, 6, 0.08)',
+                      color: '#d97706',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: '12px',
+                    }}
+                  >
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div style={{ fontWeight: 600, fontSize: '14px', color: 'var(--perf-text)', marginBottom: '4px' }}>
+                    No Finalized Appraisals
+                  </div>
+                  <p style={{ fontSize: '12px', color: 'var(--perf-text-tertiary)', maxWidth: '280px', margin: '0' }}>
+                    Appraisal scorecards, manager ratings, and verified competencies will display here once review cycles are conducted.
+                  </p>
+                </div>
               )}
             </div>
           </div>
