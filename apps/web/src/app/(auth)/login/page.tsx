@@ -215,7 +215,6 @@ export default function LoginPage() {
 
           {/* Quick-Fill Persona Chips */}
           <div className="login-quick-fill-section">
-            <div className="login-quick-fill-header">One-Click Demo Personas</div>
             <div className="login-quick-fill-grid">
               {DEMO_PERSONAS.map((persona) => (
                 <button
