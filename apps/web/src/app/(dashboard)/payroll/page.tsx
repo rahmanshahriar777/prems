@@ -80,141 +80,20 @@ export default function PayrollPage() {
         api.get('/payroll/payslips').catch(() => null),
       ]);
 
-      if (runs && Array.isArray(runs) && runs.length > 0) {
+      if (runs && Array.isArray(runs)) {
         setPayrollRuns(runs);
       } else {
-        setPayrollRuns([
-          {
-            id: '1',
-            month: 8,
-            year: 2026,
-            totalGross: 38000.0,
-            totalDeductions: 5700.0,
-            totalNet: 32300.0,
-            status: 'APPROVED',
-            department: { name: 'Engineering & Operations' },
-          },
-        ]);
+        setPayrollRuns([]);
       }
 
-      if (slips && Array.isArray(slips) && slips.length > 0) {
+      if (slips && Array.isArray(slips)) {
         setPayslips(slips);
       } else {
-        setPayslips([
-          {
-            id: '1',
-            periodMonth: 8,
-            periodYear: 2026,
-            grossPay: 9500.0,
-            totalDeductions: 1425.0,
-            netPay: 8075.0,
-            status: 'PAID',
-            employee: {
-              firstName: 'Sadia',
-              lastName: 'Rahman',
-              employeeNumber: 'EMP-2026-0004',
-              designation: { title: 'Senior Software Engineer' },
-              department: { name: 'Engineering' },
-            },
-            breakdown: [
-              { component: 'Base Salary (Monthly)', type: 'EARNING', amount: 4750.0 },
-              { component: 'House Rent Allowance (HRA)', type: 'EARNING', amount: 1900.0 },
-              { component: 'Medical & Transit Allowance', type: 'EARNING', amount: 500.0 },
-              { component: 'Special Engineering Performance', type: 'EARNING', amount: 2350.0 },
-              { component: 'Income Tax & Statutory Withholding', type: 'DEDUCTION', amount: 1425.0 },
-            ],
-          },
-          {
-            id: '2',
-            periodMonth: 8,
-            periodYear: 2026,
-            grossPay: 10500.0,
-            totalDeductions: 1575.0,
-            netPay: 8925.0,
-            status: 'PAID',
-            employee: {
-              firstName: 'Shahriar',
-              lastName: 'Rahman',
-              employeeNumber: 'EMP-2026-0003',
-              designation: { title: 'Engineering Manager' },
-              department: { name: 'Engineering' },
-            },
-            breakdown: [
-              { component: 'Base Salary (Monthly)', type: 'EARNING', amount: 5250.0 },
-              { component: 'House Rent Allowance (HRA)', type: 'EARNING', amount: 2100.0 },
-              { component: 'Medical & Executive Transit', type: 'EARNING', amount: 650.0 },
-              { component: 'Managerial Performance Incentive', type: 'EARNING', amount: 2500.0 },
-              { component: 'Income Tax & Statutory Withholding', type: 'DEDUCTION', amount: 1575.0 },
-            ],
-          },
-          {
-            id: '3',
-            periodMonth: 8,
-            periodYear: 2026,
-            grossPay: 8500.0,
-            totalDeductions: 1275.0,
-            netPay: 7225.0,
-            status: 'PAID',
-            employee: {
-              firstName: 'HR',
-              lastName: 'Manager',
-              employeeNumber: 'EMP-2026-0002',
-              designation: { title: 'HR Operations Manager' },
-              department: { name: 'Human Resources' },
-            },
-            breakdown: [
-              { component: 'Base Salary (Monthly)', type: 'EARNING', amount: 4250.0 },
-              { component: 'House Rent Allowance (HRA)', type: 'EARNING', amount: 1700.0 },
-              { component: 'Medical & Transit Allowance', type: 'EARNING', amount: 500.0 },
-              { component: 'HR Operations Allowance', type: 'EARNING', amount: 2050.0 },
-              { component: 'Income Tax (Estimated)', type: 'DEDUCTION', amount: 1275.0 },
-            ],
-          },
-          {
-            id: '4',
-            periodMonth: 8,
-            periodYear: 2026,
-            grossPay: 9500.0,
-            totalDeductions: 1425.0,
-            netPay: 8075.0,
-            status: 'PAID',
-            employee: {
-              firstName: 'System',
-              lastName: 'Administrator',
-              employeeNumber: 'EMP-2026-0001',
-              designation: { title: 'VP of Engineering' },
-              department: { name: 'Engineering' },
-            },
-            breakdown: [
-              { component: 'Base Salary (Monthly)', type: 'EARNING', amount: 4750.0 },
-              { component: 'House Rent Allowance (HRA)', type: 'EARNING', amount: 1900.0 },
-              { component: 'Medical Allowance', type: 'EARNING', amount: 500.0 },
-              { component: 'VP Leadership Allowance', type: 'EARNING', amount: 2350.0 },
-              { component: 'Income Tax & Statutory Withholding', type: 'DEDUCTION', amount: 1425.0 },
-            ],
-          },
-        ]);
+        setPayslips([]);
       }
     } catch {
-      setPayslips([
-        {
-          id: '1',
-          periodMonth: 8,
-          periodYear: 2026,
-          grossPay: 9500.0,
-          totalDeductions: 1425.0,
-          netPay: 8075.0,
-          status: 'PAID',
-          employee: { firstName: 'Sadia', lastName: 'Rahman', employeeNumber: 'EMP-2026-0004' },
-          breakdown: [
-            { component: 'Base Salary', type: 'EARNING', amount: 4750.0 },
-            { component: 'House Rent Allowance (HRA)', type: 'EARNING', amount: 1900.0 },
-            { component: 'Medical Allowance', type: 'EARNING', amount: 500.0 },
-            { component: 'Performance Allowance', type: 'EARNING', amount: 2350.0 },
-            { component: 'Income Tax (Estimated)', type: 'DEDUCTION', amount: 1425.0 },
-          ],
-        },
-      ]);
+      setPayrollRuns([]);
+      setPayslips([]);
     } finally {
       setLoading(false);
     }
@@ -303,7 +182,9 @@ export default function PayrollPage() {
                 <div>
                   <div className="pay-quick-stat-label">Active Cycle</div>
                   <div className="pay-quick-stat-value" style={{ fontSize: '16px' }}>
-                    Month 8, 2026 &bull; Approved
+                    {payrollRuns.length > 0
+                      ? `Month ${payrollRuns[0].month}, ${payrollRuns[0].year} • ${payrollRuns[0].status}`
+                      : 'No Active Cycles'}
                   </div>
                 </div>
                 <div className="pay-quick-stat-icon">
@@ -315,7 +196,7 @@ export default function PayrollPage() {
                 <div>
                   <div className="pay-quick-stat-label">Average Compensation</div>
                   <div className="pay-quick-stat-value">
-                    BDT {payslips.length ? Math.round(totalDisbursed / payslips.length).toLocaleString() : '8,075'}
+                    BDT {payslips.length ? Math.round(totalDisbursed / payslips.length).toLocaleString() : '0'}
                   </div>
                 </div>
                 <div className="pay-quick-stat-icon">
@@ -409,15 +290,26 @@ export default function PayrollPage() {
                 No Payslip Records Found
               </h3>
               <p style={{ fontSize: '13px', color: 'var(--pay-text-secondary)', marginTop: '4px' }}>
-                There are no salary records matching your search query or selected tab.
+                {search
+                  ? 'There are no salary records matching your search query.'
+                  : 'No active payroll cycles or disbursed salary statements have been generated yet.'}
               </p>
-              {search && (
+              {search ? (
                 <button
                   onClick={() => setSearch('')}
                   className="pay-btn-primary"
                   style={{ marginTop: '16px', display: 'inline-flex' }}
                 >
                   Reset Query
+                </button>
+              ) : hasRole(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN) && (
+                <button
+                  onClick={() => setShowRunModal(true)}
+                  className="pay-btn-primary"
+                  style={{ marginTop: '16px', display: 'inline-flex' }}
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Run First Payroll Cycle</span>
                 </button>
               )}
             </div>
@@ -453,7 +345,7 @@ export default function PayrollPage() {
                               {slip.employee?.firstName} {slip.employee?.lastName}
                             </div>
                             <span className="pay-user-code">
-                              {slip.employee?.employeeNumber || 'EMP-2026-0004'}
+                              {slip.employee?.employeeNumber || 'ID Pending'}
                             </span>
                           </div>
                         </div>
@@ -530,7 +422,7 @@ export default function PayrollPage() {
                   {selectedPayslip.employee?.firstName} {selectedPayslip.employee?.lastName}
                 </span>
                 <span style={{ display: 'block', fontFamily: 'var(--pay-font-mono)', fontSize: '11px', color: 'var(--pay-text-tertiary)' }}>
-                  {selectedPayslip.employee?.employeeNumber || 'EMP-2026-0004'}
+                  {selectedPayslip.employee?.employeeNumber || 'ID Pending'}
                 </span>
               </div>
               <div style={{ textAlign: 'right' }}>

@@ -771,7 +771,7 @@
                 <span>Standard</span>
                 <span class="count">BDT (৳) Currency</span>
               </div>
-              <button class="pay-btn-primary" onclick="alert('Opening payroll cycle generator...')">
+              <button class="pay-btn-primary" onclick="window.location.href='/payroll'">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 <span>Run Payroll Cycle</span>
               </button>
@@ -783,7 +783,7 @@
             <div class="pay-quick-stat-card">
               <div>
                 <div class="pay-quick-stat-label">Monthly Net Disbursed</div>
-                <div class="pay-quick-stat-value">BDT 32,300</div>
+                <div class="pay-quick-stat-value">BDT 0</div>
               </div>
               <div class="pay-quick-stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
@@ -793,7 +793,7 @@
             <div class="pay-quick-stat-card">
               <div>
                 <div class="pay-quick-stat-label">Active Cycle</div>
-                <div class="pay-quick-stat-value" style="font-size: 16px;">Month 8, 2026 &bull; Approved</div>
+                <div class="pay-quick-stat-value" style="font-size: 16px;">No Active Cycles</div>
               </div>
               <div class="pay-quick-stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -803,7 +803,7 @@
             <div class="pay-quick-stat-card">
               <div>
                 <div class="pay-quick-stat-label">Average Compensation</div>
-                <div class="pay-quick-stat-value">BDT 8,075</div>
+                <div class="pay-quick-stat-value">BDT 0</div>
               </div>
               <div class="pay-quick-stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
@@ -813,7 +813,7 @@
             <div class="pay-quick-stat-card">
               <div>
                 <div class="pay-quick-stat-label">Tax & Audit Standing</div>
-                <div class="pay-quick-stat-value" style="font-size: 15px; color: var(--accent);">100% Compliant</div>
+                <div class="pay-quick-stat-value" style="font-size: 15px; color: var(--accent);">Audit Ready</div>
               </div>
               <div class="pay-quick-stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -830,8 +830,8 @@
           </div>
 
           <div class="pay-filter-tabs">
-            <button class="pay-tab-btn active" onclick="filterPayTab('ALL', this)">All Payslips (4)</button>
-            <button class="pay-tab-btn" onclick="filterPayTab('PAID', this)">Disbursed / Paid (4)</button>
+            <button class="pay-tab-btn active" onclick="filterPayTab('ALL', this)">All Payslips (0)</button>
+            <button class="pay-tab-btn" onclick="filterPayTab('PAID', this)">Disbursed / Paid (0)</button>
           </div>
         </div>
 
@@ -850,88 +850,10 @@
               </tr>
             </thead>
             <tbody id="payTableBody">
-              <tr data-status="PAID" data-name="Sadia Rahman" data-code="EMP-2026-0004">
-                <td class="pay-period-col">Month 8/2026</td>
-                <td>
-                  <div class="pay-table-user">
-                    <div class="pay-user-avatar">SR</div>
-                    <div>
-                      <div class="pay-user-name">Sadia Rahman</div>
-                      <span class="pay-user-code">EMP-2026-0004</span>
-                    </div>
-                  </div>
-                </td>
-                <td class="pay-amount-mono">BDT 9,500.00</td>
-                <td class="pay-amount-deduct">-BDT 1,425.00</td>
-                <td class="pay-amount-net">BDT 8,075.00</td>
-                <td><span class="pay-status-badge">PAID</span></td>
-                <td style="text-align: right;">
-                  <button class="pay-action-btn" onclick="alert('Viewing itemized statement for Sadia Rahman: Gross BDT 9,500, Deductions BDT 1,425, Net BDT 8,075')">
-                    <span>View Payslip</span> &nearr;
-                  </button>
-                </td>
-              </tr>
-              <tr data-status="PAID" data-name="Shahriar Rahman" data-code="EMP-2026-0003">
-                <td class="pay-period-col">Month 8/2026</td>
-                <td>
-                  <div class="pay-table-user">
-                    <div class="pay-user-avatar" style="background: var(--info-bg); color: var(--info);">SR</div>
-                    <div>
-                      <div class="pay-user-name">Shahriar Rahman</div>
-                      <span class="pay-user-code">EMP-2026-0003</span>
-                    </div>
-                  </div>
-                </td>
-                <td class="pay-amount-mono">BDT 10,500.00</td>
-                <td class="pay-amount-deduct">-BDT 1,575.00</td>
-                <td class="pay-amount-net">BDT 8,925.00</td>
-                <td><span class="pay-status-badge">PAID</span></td>
-                <td style="text-align: right;">
-                  <button class="pay-action-btn" onclick="alert('Viewing itemized statement for Shahriar Rahman: Gross BDT 10,500, Deductions BDT 1,575, Net BDT 8,925')">
-                    <span>View Payslip</span> &nearr;
-                  </button>
-                </td>
-              </tr>
-              <tr data-status="PAID" data-name="HR Manager" data-code="EMP-2026-0002">
-                <td class="pay-period-col">Month 8/2026</td>
-                <td>
-                  <div class="pay-table-user">
-                    <div class="pay-user-avatar" style="background: var(--purple-bg); color: var(--purple);">HM</div>
-                    <div>
-                      <div class="pay-user-name">HR Manager</div>
-                      <span class="pay-user-code">EMP-2026-0002</span>
-                    </div>
-                  </div>
-                </td>
-                <td class="pay-amount-mono">BDT 8,500.00</td>
-                <td class="pay-amount-deduct">-BDT 1,275.00</td>
-                <td class="pay-amount-net">BDT 7,225.00</td>
-                <td><span class="pay-status-badge">PAID</span></td>
-                <td style="text-align: right;">
-                  <button class="pay-action-btn" onclick="alert('Viewing itemized statement for HR Manager: Gross BDT 8,500, Deductions BDT 1,275, Net BDT 7,225')">
-                    <span>View Payslip</span> &nearr;
-                  </button>
-                </td>
-              </tr>
-              <tr data-status="PAID" data-name="System Administrator" data-code="EMP-2026-0001">
-                <td class="pay-period-col">Month 8/2026</td>
-                <td>
-                  <div class="pay-table-user">
-                    <div class="pay-user-avatar">SA</div>
-                    <div>
-                      <div class="pay-user-name">System Administrator</div>
-                      <span class="pay-user-code">EMP-2026-0001</span>
-                    </div>
-                  </div>
-                </td>
-                <td class="pay-amount-mono">BDT 9,500.00</td>
-                <td class="pay-amount-deduct">-BDT 1,425.00</td>
-                <td class="pay-amount-net">BDT 8,075.00</td>
-                <td><span class="pay-status-badge">PAID</span></td>
-                <td style="text-align: right;">
-                  <button class="pay-action-btn" onclick="alert('Viewing itemized statement for System Administrator: Gross BDT 9,500, Deductions BDT 1,425, Net BDT 8,075')">
-                    <span>View Payslip</span> &nearr;
-                  </button>
+              <tr id="payEmptyRow">
+                <td colspan="7" style="padding: 48px 20px; text-align: center; color: var(--text-secondary);">
+                  <div style="font-size: 14px; font-weight: 500; margin-bottom: 4px; color: var(--text-primary);">No Payslips or Payroll Records Found</div>
+                  <div style="font-size: 12.5px; color: var(--text-tertiary);">No active payroll cycles or disbursed salary statements have been generated yet.</div>
                 </td>
               </tr>
             </tbody>
@@ -977,7 +899,8 @@
     }
 
     function applyFilters() {
-      const rows = document.querySelectorAll('#payTableBody tr');
+      const rows = document.querySelectorAll('#payTableBody tr:not(#payEmptyRow)');
+      let visible = 0;
       rows.forEach(row => {
         const status = row.getAttribute('data-status');
         const name = (row.getAttribute('data-name') || '').toLowerCase();
@@ -988,10 +911,15 @@
 
         if (matchStatus && matchSearch) {
           row.style.display = '';
+          visible++;
         } else {
           row.style.display = 'none';
         }
       });
+      const emptyRow = document.getElementById('payEmptyRow');
+      if (emptyRow) {
+        emptyRow.style.display = rows.length === 0 || visible === 0 ? '' : 'none';
+      }
     }
   </script>
 </body>
