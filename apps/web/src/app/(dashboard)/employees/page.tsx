@@ -152,7 +152,7 @@ export default function EmployeesPage() {
               <div className="emp-quick-stat-card">
                 <div>
                   <div className="emp-quick-stat-label">Departments</div>
-                  <div className="emp-quick-stat-value">{departments.length || 2}</div>
+                  <div className="emp-quick-stat-value">{departments.length}</div>
                 </div>
                 <div className="emp-quick-stat-icon">
                   <Building className="w-5 h-5" />
@@ -162,7 +162,7 @@ export default function EmployeesPage() {
               <div className="emp-quick-stat-card">
                 <div>
                   <div className="emp-quick-stat-label">Active Ratio</div>
-                  <div className="emp-quick-stat-value">100%</div>
+                  <div className="emp-quick-stat-value">{employees.length > 0 ? '100%' : '0%'}</div>
                 </div>
                 <div className="emp-quick-stat-icon">
                   <UserCheck className="w-5 h-5" />
@@ -173,7 +173,7 @@ export default function EmployeesPage() {
                 <div>
                   <div className="emp-quick-stat-label">Workforce Status</div>
                   <div className="emp-quick-stat-value" style={{ fontSize: '15px', color: 'var(--emp-accent)' }}>
-                    All Verified
+                    {employees.length > 0 ? 'All Verified' : 'Ready to Onboard'}
                   </div>
                 </div>
                 <div className="emp-quick-stat-icon">

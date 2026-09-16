@@ -954,7 +954,7 @@
             <div class="emp-header-actions">
               <div class="emp-stat-pill">
                 <span>Total Personnel</span>
-                <span class="count" id="totalCount">4</span>
+                <span class="count" id="totalCount">0</span>
               </div>
               <button class="emp-btn-primary" onclick="alert('Opening employee onboarding wizard...')">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -968,7 +968,7 @@
             <div class="emp-quick-stat-card">
               <div>
                 <div class="emp-quick-stat-label">Total Headcount</div>
-                <div class="emp-quick-stat-value">4</div>
+                <div class="emp-quick-stat-value">0</div>
               </div>
               <div class="emp-quick-stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -978,7 +978,7 @@
             <div class="emp-quick-stat-card">
               <div>
                 <div class="emp-quick-stat-label">Departments</div>
-                <div class="emp-quick-stat-value">2</div>
+                <div class="emp-quick-stat-value">0</div>
               </div>
               <div class="emp-quick-stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="9" y1="22" x2="9" y2="22"/><line x1="15" y1="22" x2="15" y2="22"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
@@ -988,7 +988,7 @@
             <div class="emp-quick-stat-card">
               <div>
                 <div class="emp-quick-stat-label">Active Ratio</div>
-                <div class="emp-quick-stat-value">100%</div>
+                <div class="emp-quick-stat-value">0%</div>
               </div>
               <div class="emp-quick-stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
@@ -998,7 +998,7 @@
             <div class="emp-quick-stat-card">
               <div>
                 <div class="emp-quick-stat-label">Workforce Status</div>
-                <div class="emp-quick-stat-value" style="font-size: 16px; color: var(--accent);">All Verified</div>
+                <div class="emp-quick-stat-value" style="font-size: 16px; color: var(--accent);">Ready for Onboarding</div>
               </div>
               <div class="emp-quick-stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -1028,164 +1028,22 @@
           </div>
 
           <div class="emp-filter-pills">
-            <button class="emp-filter-pill active" onclick="filterDept('ALL', this)">All Departments (4)</button>
-            <button class="emp-filter-pill" onclick="filterDept('Engineering', this)">Engineering (3)</button>
-            <button class="emp-filter-pill" onclick="filterDept('Human Resources', this)">Human Resources (1)</button>
+            <button class="emp-filter-pill active" onclick="filterDept('ALL', this)">All Departments (0)</button>
           </div>
         </div>
 
         <!-- Grid View -->
-        <div class="emp-grid" id="empGrid">
-          <!-- Card 1 -->
-          <div class="emp-card" data-dept="Engineering" data-name="System Administrator" data-code="EMP-2026-0001" data-email="superadmin@ems.local">
-            <div>
-              <div class="emp-card-header">
-                <div class="emp-avatar-fallback">SA</div>
-                <span class="emp-badge">FULL TIME</span>
-              </div>
-              <div class="emp-card-name">System Administrator</div>
-              <div class="emp-card-code">EMP-2026-0001</div>
-
-              <div class="emp-card-details">
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                  <span class="emp-detail-text" style="font-weight: 500; color: var(--text-primary);">VP of Engineering</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
-                  <span class="emp-detail-text">Engineering</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">superadmin@ems.local</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">+1 (555) 010-0001</span>
-                </div>
-              </div>
+        <div class="emp-grid" id="empGrid" style="display: block;">
+          <div style="text-align: center; padding: 60px 20px; background: #ffffff; border: 1px dashed var(--border); border-radius: 12px; margin-top: 10px;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-subtle); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; color: var(--text-tertiary);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
-
-            <div class="emp-card-footer">
-              <button class="emp-profile-link" onclick="alert('Viewing personnel file for System Administrator')">
-                <span>View Full Profile</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="emp-card" data-dept="Human Resources" data-name="HR Manager" data-code="EMP-2026-0002" data-email="hradmin@ems.local">
-            <div>
-              <div class="emp-card-header">
-                <div class="emp-avatar-fallback" style="background: var(--purple-bg); color: var(--purple); border-color: rgba(107, 76, 138, 0.2);">HM</div>
-                <span class="emp-badge">FULL TIME</span>
-              </div>
-              <div class="emp-card-name">HR Manager</div>
-              <div class="emp-card-code">EMP-2026-0002</div>
-
-              <div class="emp-card-details">
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                  <span class="emp-detail-text" style="font-weight: 500; color: var(--text-primary);">HR Operations Manager</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
-                  <span class="emp-detail-text">Human Resources</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">hradmin@ems.local</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">+880 1711-000002</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="emp-card-footer">
-              <button class="emp-profile-link" onclick="alert('Viewing personnel file for HR Manager')">
-                <span>View Full Profile</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="emp-card" data-dept="Engineering" data-name="Shahriar Rahman" data-code="EMP-2026-0003" data-email="manager@ems.local">
-            <div>
-              <div class="emp-card-header">
-                <div class="emp-avatar-fallback" style="background: var(--info-bg); color: var(--info); border-color: rgba(74, 111, 165, 0.2);">SR</div>
-                <span class="emp-badge">FULL TIME</span>
-              </div>
-              <div class="emp-card-name">Shahriar Rahman</div>
-              <div class="emp-card-code">EMP-2026-0003</div>
-
-              <div class="emp-card-details">
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                  <span class="emp-detail-text" style="font-weight: 500; color: var(--text-primary);">Engineering Manager</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
-                  <span class="emp-detail-text">Engineering</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">manager@ems.local</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">+880 1711-000003</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="emp-card-footer">
-              <button class="emp-profile-link" onclick="alert('Viewing personnel file for Shahriar Rahman')">
-                <span>View Full Profile</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="emp-card" data-dept="Engineering" data-name="Sadia Rahman" data-code="EMP-2026-0004" data-email="sadia.rahman@ems.local">
-            <div>
-              <div class="emp-card-header">
-                <div class="emp-avatar-fallback">SR</div>
-                <span class="emp-badge">FULL TIME</span>
-              </div>
-              <div class="emp-card-name">Sadia Rahman</div>
-              <div class="emp-card-code">EMP-2026-0004</div>
-
-              <div class="emp-card-details">
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                  <span class="emp-detail-text" style="font-weight: 500; color: var(--text-primary);">Senior Software Engineer</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
-                  <span class="emp-detail-text">Engineering</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">sadia.rahman@ems.local</span>
-                </div>
-                <div class="emp-detail-row">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">+880 1711-000004</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="emp-card-footer">
-              <button class="emp-profile-link" onclick="alert('Viewing personnel file for Sadia Rahman')">
-                <span>View Full Profile</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            </div>
+            <h3 style="font-family: var(--font-serif); font-size: 18px; margin-bottom: 6px; color: var(--text-primary);">No Personnel Records Found</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); max-width: 420px; margin: 0 auto 18px auto;">No active employee records are currently enrolled. Add new team members to populate the directory.</p>
+            <button class="emp-btn-primary" style="display: inline-flex; margin: 0 auto;" onclick="alert('Opening employee onboarding wizard...')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Add First Employee</span>
+            </button>
           </div>
         </div>
 
@@ -1203,69 +1061,10 @@
               </tr>
             </thead>
             <tbody id="empTableBody">
-              <tr data-dept="Engineering" data-name="System Administrator" data-code="EMP-2026-0001" data-email="superadmin@ems.local">
-                <td>
-                  <div class="emp-table-user">
-                    <div class="emp-table-avatar-fallback">SA</div>
-                    <div>
-                      <div class="emp-table-name">System Administrator</div>
-                      <div class="emp-table-email">superadmin@ems.local</div>
-                    </div>
-                  </div>
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 48px 20px; color: var(--text-tertiary); font-size: 13px;">
+                  No personnel records found.
                 </td>
-                <td><span class="emp-table-code">EMP-2026-0001</span></td>
-                <td>Engineering</td>
-                <td style="font-weight: 500; color: var(--text-primary);">VP of Engineering</td>
-                <td><span class="emp-badge">FULL TIME</span></td>
-                <td style="text-align: right;"><a href="#" onclick="alert('Viewing personnel profile'); return false;" class="emp-table-action"><span>Profile</span> &nearr;</a></td>
-              </tr>
-              <tr data-dept="Human Resources" data-name="HR Manager" data-code="EMP-2026-0002" data-email="hradmin@ems.local">
-                <td>
-                  <div class="emp-table-user">
-                    <div class="emp-table-avatar-fallback" style="background: var(--purple-bg); color: var(--purple);">HM</div>
-                    <div>
-                      <div class="emp-table-name">HR Manager</div>
-                      <div class="emp-table-email">hradmin@ems.local</div>
-                    </div>
-                  </div>
-                </td>
-                <td><span class="emp-table-code">EMP-2026-0002</span></td>
-                <td>Human Resources</td>
-                <td style="font-weight: 500; color: var(--text-primary);">HR Operations Manager</td>
-                <td><span class="emp-badge">FULL TIME</span></td>
-                <td style="text-align: right;"><a href="#" onclick="alert('Viewing personnel profile'); return false;" class="emp-table-action"><span>Profile</span> &nearr;</a></td>
-              </tr>
-              <tr data-dept="Engineering" data-name="Shahriar Rahman" data-code="EMP-2026-0003" data-email="manager@ems.local">
-                <td>
-                  <div class="emp-table-user">
-                    <div class="emp-table-avatar-fallback" style="background: var(--info-bg); color: var(--info);">SR</div>
-                    <div>
-                      <div class="emp-table-name">Shahriar Rahman</div>
-                      <div class="emp-table-email">manager@ems.local</div>
-                    </div>
-                  </div>
-                </td>
-                <td><span class="emp-table-code">EMP-2026-0003</span></td>
-                <td>Engineering</td>
-                <td style="font-weight: 500; color: var(--text-primary);">Engineering Manager</td>
-                <td><span class="emp-badge">FULL TIME</span></td>
-                <td style="text-align: right;"><a href="#" onclick="alert('Viewing personnel profile'); return false;" class="emp-table-action"><span>Profile</span> &nearr;</a></td>
-              </tr>
-              <tr data-dept="Engineering" data-name="Sadia Rahman" data-code="EMP-2026-0004" data-email="sadia.rahman@ems.local">
-                <td>
-                  <div class="emp-table-user">
-                    <div class="emp-table-avatar-fallback">SR</div>
-                    <div>
-                      <div class="emp-table-name">Sadia Rahman</div>
-                      <div class="emp-table-email">sadia.rahman@ems.local</div>
-                    </div>
-                  </div>
-                </td>
-                <td><span class="emp-table-code">EMP-2026-0004</span></td>
-                <td>Engineering</td>
-                <td style="font-weight: 500; color: var(--text-primary);">Senior Software Engineer</td>
-                <td><span class="emp-badge">FULL TIME</span></td>
-                <td style="text-align: right;"><a href="#" onclick="alert('Viewing personnel profile'); return false;" class="emp-table-action"><span>Profile</span> &nearr;</a></td>
               </tr>
             </tbody>
           </table>
