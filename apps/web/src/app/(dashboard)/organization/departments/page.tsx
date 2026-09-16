@@ -57,26 +57,13 @@ export default function DepartmentsPage() {
     setLoading(true);
     try {
       const res = await api.get('/departments');
-      if (Array.isArray(res) && res.length > 0) {
+      if (Array.isArray(res)) {
         setDepartments(res);
       } else {
-        // Fallback default organizational units
-        setDepartments([
-          { id: '1', name: 'Engineering', code: 'ENG', description: 'Core software engineering, architecture, platform systems, and infrastructure.', _count: { employees: 3, designations: 2 } },
-          { id: '2', name: 'Human Resources', code: 'HR', description: 'Talent acquisition, organizational development, employee lifecycle, and culture.', _count: { employees: 1, designations: 1 } },
-          { id: '3', name: 'Finance & Accounting', code: 'FIN', description: 'Financial forecasting, compensation modeling, audit compliance, and payroll accounting.', _count: { employees: 0, designations: 1 } },
-          { id: '4', name: 'Product & Design', code: 'PRD', description: 'User experience research, interaction design, product roadmap, and feature discovery.', _count: { employees: 0, designations: 1 } },
-          { id: '5', name: 'Legal & Governance', code: 'LGL', description: 'Corporate governance, contracts, regulatory oversight, and policy execution.', _count: { employees: 0, designations: 1 } },
-        ]);
+        setDepartments([]);
       }
     } catch {
-      setDepartments([
-        { id: '1', name: 'Engineering', code: 'ENG', description: 'Core software engineering, architecture, platform systems, and infrastructure.', _count: { employees: 3, designations: 2 } },
-        { id: '2', name: 'Human Resources', code: 'HR', description: 'Talent acquisition, organizational development, employee lifecycle, and culture.', _count: { employees: 1, designations: 1 } },
-        { id: '3', name: 'Finance & Accounting', code: 'FIN', description: 'Financial forecasting, compensation modeling, audit compliance, and payroll accounting.', _count: { employees: 0, designations: 1 } },
-        { id: '4', name: 'Product & Design', code: 'PRD', description: 'User experience research, interaction design, product roadmap, and feature discovery.', _count: { employees: 0, designations: 1 } },
-        { id: '5', name: 'Legal & Governance', code: 'LGL', description: 'Corporate governance, contracts, regulatory oversight, and policy execution.', _count: { employees: 0, designations: 1 } },
-      ]);
+      setDepartments([]);
     } finally {
       setLoading(false);
     }
