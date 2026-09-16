@@ -23,7 +23,7 @@ export const DashboardLayout: React.FC<{
     return (
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-white text-slate-500">
         <div className="w-10 h-10 border-2 border-primary-500/30 border-t-primary-500 rounded-full animate-spin mb-4" />
-        <p className="text-sm font-medium">Authenticating NEO EMS session...</p>
+        <p className="text-sm font-medium">Authenticating EMS session...</p>
       </div>
     );
   }

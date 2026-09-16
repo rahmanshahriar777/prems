@@ -241,7 +241,7 @@ export default function HomePage() {
       <section className="landing-section" id="personas">
         <div className="landing-section-header">
           <span className="landing-section-tag">Instant Persona Simulation</span>
-          <h2 className="landing-section-title">Experience NEO EMS by Role</h2>
+          <h2 className="landing-section-title">Experience EMS by Role</h2>
           <p className="landing-section-desc">
             Select any enterprise persona below for instantaneous, one-click authenticated entry.
           </p>
