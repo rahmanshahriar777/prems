@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEO EMS — Neoteric Digital Employee Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f7f6f3;
+      --surface: #ffffff;
+      --surface-muted: #faf9f7;
+      --border: #e2dfda;
+      --border-subtle: #ece9e4;
+      --text-primary: #1a1816;
+      --text-secondary: #6b6560;
+      --text-tertiary: #9b9590;
+      --text-inverse: #faf9f7;
+      --accent: #2c5f4a;
+      --accent-light: #e8f0ec;
+      --accent-hover: #234d3b;
+      --accent-muted: #d4e3da;
+      --positive: #2c7a4e;
+      --positive-bg: #e8f5ec;
+      --warning: #b8860b;
+      --warning-bg: #fdf6e3;
+      --info: #4a6fa5;
+      --info-bg: #eef2f8;
+      --purple: #6b4c8a;
+      --purple-bg: #f3eef8;
+      --rose: #a0344a;
+      --rose-bg: #fce8ec;
+      --shadow-sm: 0 1px 2px rgba(26,24,22,0.04);
+      --shadow-md: 0 2px 8px rgba(26,24,22,0.06),0 1px 2px rgba(26,24,22,0.04);
+      --shadow-lg: 0 4px 16px rgba(26,24,22,0.08),0 2px 4px rgba(26,24,22,0.04);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-sans: 'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+      --font-mono: 'DM Mono','SF Mono','Fira Code',monospace;
+      --font-serif: 'Instrument Serif',Georgia,serif;
+      --transition-fast: 150ms cubic-bezier(.4,0,.2,1);
+      --transition-base: 200ms cubic-bezier(.4,0,.2,1);
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ─── SIDEBAR ──────────────────────────────────────── */
+    .sidebar {
+      width: 256px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      transition: width var(--transition-base);
+    }
+
+    /* ─── BRAND ────────────────────────────────────────── */
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 22px 20px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .sidebar-brand-mark {
+      width: 38px;
+      height: 38px;
+      background: var(--text-primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar-brand-mark::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%);
+    }
+
+    .sidebar-brand-letter {
+      color: var(--text-inverse);
+      font-family: var(--font-serif);
+      font-size: 21px;
+      font-style: italic;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sidebar-brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+    }
+
+    .sidebar-brand-name {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      color: var(--text-primary);
+    }
+
+    .sidebar-brand-sub {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sidebar-brand-label {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-brand-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--text-tertiary);
+    }
+
+    .sidebar-brand-type {
+      font-size: 10px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── NAV ──────────────────────────────────────────── */
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-section {
+      margin-bottom: 4px;
+    }
+
+    .nav-section-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-tertiary);
+      padding: 14px 10px 5px;
+      user-select: none;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 9px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      font-weight: 430;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+    }
+
+    .nav-link:hover {
+      background: var(--bg);
+      color: var(--text-primary);
+    }
+
+    .nav-link.active {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 560;
+    }
+
+    .nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 0 3px 3px 0;
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      opacity: 0.55;
+      transition: opacity var(--transition-fast);
+    }
+
+    .nav-link:hover .nav-icon {
+      opacity: 0.75;
+    }
+
+    .nav-link.active .nav-icon {
+      opacity: 1;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--positive-bg);
+      color: var(--positive);
+    }
+
+    .nav-badge.warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .nav-divider {
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 8px 10px;
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────── */
+    .sidebar-footer {
+      padding: 12px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px;
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .user-card:hover {
+      background: var(--bg);
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-muted) 0%, var(--accent-light) 100%);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .user-avatar::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--positive);
+      border: 2px solid var(--surface);
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-meta {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .user-role {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--accent);
+      padding: 1px 5px;
+      background: var(--accent-light);
+      border-radius: 3px;
+      letter-spacing: 0.03em;
+    }
+
+    .user-status {
+      font-size: 10.5px;
+      color: var(--text-tertiary);
+    }
+
+    .user-menu-btn {
+      margin-left: auto;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-tertiary);
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .user-menu-btn:hover {
+      background: var(--surface-muted);
+      color: var(--text-secondary);
+    }
+
+    .user-menu-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ─── MAIN CONTENT ─────────────────────────────────── */
+    .main-content {
+      flex: 1;
+      margin-left: 256px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: margin-left var(--transition-base);
+    }
+
+    /* ─── TOP BAR ──────────────────────────────────────── */
+    .topbar {
+      height: 56px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-menu-toggle {
+      display: none;
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .topbar-menu-toggle:hover {
+      background: var(--bg);
+    }
+
+    .topbar-menu-toggle svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .topbar-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .topbar-breadcrumb-current {
+      color: var(--text-primary);
+      font-weight: 550;
+    }
+
+    .topbar-breadcrumb-sep {
+      font-size: 11px;
+      opacity: 0.4;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar-clock {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+      padding: 5px 12px;
+      background: var(--surface-muted);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+    }
+
+    .topbar-clock-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--positive);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .topbar-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+
+    .topbar-btn:hover {
+      background: var(--bg);
+      color: var(--text-primary);
+    }
+
+    .topbar-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .topbar-btn-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--surface);
+    }
+
+    .topbar-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border-subtle);
+      margin: 0 4px;
+    }
+
+    /* ─── PAGE ─────────────────────────────────────────── */
+    .page {
+      flex: 1;
+      padding: 28px 32px 40px;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .page-header {
+      margin-bottom: 28px;
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .page-title {
+      font-family: var(--font-serif);
+      font-size: 30px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .page-subtitle {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin-top: 5px;
+    }
+
+    /* ─── QUICK STATS ROW ──────────────────────────────── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.5s ease 0.08s forwards;
+      opacity: 0;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      transition: all var(--transition-base);
+    }
+
+    .stat-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .stat-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-icon svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .stat-icon.teal { background: var(--accent-light); color: var(--accent); }
+    .stat-icon.blue { background: var(--info-bg); color: var(--info); }
+    .stat-icon.amber { background: var(--warning-bg); color: var(--warning); }
+    .stat-icon.purple { background: var(--purple-bg); color: var(--purple); }
+
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--positive-bg);
+      color: var(--positive);
+    }
+
+    .stat-trend svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 3px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 450;
+    }
+
+    .stat-context {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    /* ─── MODULE GRID ──────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      animation: fadeUp 0.5s ease 0.15s forwards;
+      opacity: 0;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-tertiary);
+    }
+
+    .section-link {
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+    }
+
+    .section-link:hover {
+      color: var(--accent-hover);
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 12px;
+      animation: fadeUp 0.5s ease 0.18s forwards;
+      opacity: 0;
+    }
+
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .module-card:hover {
+      border-color: var(--accent-muted);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .module-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-base);
+    }
+
+    .module-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .module-card:hover .module-icon.teal { background: var(--accent); color: var(--text-inverse); }
+    .module-card:hover .module-icon.blue { background: var(--info); color: var(--text-inverse); }
+    .module-card:hover .module-icon.amber { background: var(--warning); color: var(--text-inverse); }
+    .module-card:hover .module-icon.purple { background: var(--purple); color: var(--text-inverse); }
+    .module-card:hover .module-icon.rose { background: var(--rose); color: var(--text-inverse); }
+    .module-card:hover .module-icon.green { background: var(--positive); color: var(--text-inverse); }
+
+    .module-icon.teal { background: var(--accent-light); color: var(--accent); }
+    .module-icon.blue { background: var(--info-bg); color: var(--info); }
+    .module-icon.amber { background: var(--warning-bg); color: var(--warning); }
+    .module-icon.purple { background: var(--purple-bg); color: var(--purple); }
+    .module-icon.rose { background: var(--rose-bg); color: var(--rose); }
+    .module-icon.green { background: var(--positive-bg); color: var(--positive); }
+
+    .module-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .module-desc {
+      font-size: 12.5px;
+      color: var(--text-tertiary);
+      line-height: 1.45;
+    }
+
+    .module-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .module-stat {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-secondary);
+    }
+
+    .module-arrow {
+      color: var(--text-tertiary);
+      transition: all var(--transition-fast);
+    }
+
+    .module-arrow svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .module-card:hover .module-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* ─── OVERLAY ──────────────────────────────────────── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26,24,22,0.3);
+      z-index: 90;
+      backdrop-filter: blur(2px);
+    }
+
+    /* ─── ANIMATIONS ───────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .stats-row { grid-template-columns: repeat(2,1fr); }
+      .module-grid { grid-template-columns: repeat(2,1fr); }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        transform: translateX(-100%);
+        width: 268px;
+        box-shadow: var(--shadow-lg);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.open {
+        display: block;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .topbar-menu-toggle {
+        display: flex;
+      }
+
+      .page { padding: 20px; }
+
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .module-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- Overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ─── SIDEBAR ──────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <a href="/dashboard" class="sidebar-brand">
+        <div class="sidebar-brand-mark">
+          <span class="sidebar-brand-letter">N</span>
+        </div>
+        <div class="sidebar-brand-text">
+          <span class="sidebar-brand-name">Neoteric</span>
+          <div class="sidebar-brand-sub">
+            <span class="sidebar-brand-label">Digital</span>
+            <span class="sidebar-brand-dot"></span>
+            <span class="sidebar-brand-type">EMS</span>
+          </div>
+        </div>
+      </a>
+
+      <nav class="sidebar-nav">
+
+        <!-- Overview -->
+        <div class="nav-section">
+          <div class="nav-section-label">Overview</div>
+          <a href="/dashboard" class="nav-link active" data-page="dashboard">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </div>
+
+        <!-- People -->
+        <div class="nav-section">
+          <div class="nav-section-label">People</div>
+          <a href="/employees" class="nav-link" data-page="employees">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Employees</span>
+            <span class="nav-badge">4</span>
+          </a>
+          <a href="/organization/departments" class="nav-link" data-page="departments">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="6" height="13" rx="1"/><rect x="9" y="3" width="6" height="17" rx="1"/><rect x="16" y="10" width="6" height="10" rx="1"/></svg>
+            <span>Departments</span>
+          </a>
+        </div>
+
+        <!-- Operations -->
+        <div class="nav-section">
+          <div class="nav-section-label">Operations</div>
+          <a href="/attendance" class="nav-link" data-page="attendance">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Attendance</span>
+          </a>
+          <a href="/leaves" class="nav-link" data-page="leaves">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Leaves</span>
+            <span class="nav-badge warning">1</span>
+          </a>
+          <a href="/payroll" class="nav-link" data-page="payroll">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Payroll</span>
+          </a>
+        </div>
+
+        <!-- Strategy -->
+        <div class="nav-section">
+          <div class="nav-section-label">Strategy</div>
+          <a href="/performance" class="nav-link" data-page="performance">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Performance</span>
+          </a>
+        </div>
+
+        <div class="nav-divider"></div>
+
+        <!-- Tools -->
+        <div class="nav-section">
+          <div class="nav-section-label">Tools</div>
+          <a href="/ai-assistant" class="nav-link" data-page="ai-assistant">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+            <span>AI Assistant</span>
+          </a>
+          <a href="/admin/audit-logs" class="nav-link" data-page="audit-trail">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <span>Audit Trail</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-card" id="userCard">
+          <div class="user-avatar">SA</div>
+          <div class="user-info">
+            <span class="user-name">System Administrator</span>
+            <div class="user-meta">
+              <span class="user-role">SUPER_ADMIN</span>
+              <span class="user-status">Online</span>
+            </div>
+          </div>
+          <button class="user-menu-btn" title="User menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ─── MAIN ─────────────────────────────────────── -->
+    <main class="main-content">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-menu-toggle" id="menuToggle" title="Toggle sidebar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="topbar-breadcrumb">
+            <span>Overview</span>
+            <span class="topbar-breadcrumb-sep">/</span>
+            <span class="topbar-breadcrumb-current">Dashboard</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-clock">
+            <span class="topbar-clock-dot"></span>
+            <span id="topbarTime">--:--:-- --</span>
+            <span style="color:var(--text-tertiary)">Dhaka</span>
+          </div>
+          <div class="topbar-divider"></div>
+          <button class="topbar-btn" title="Search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <button class="topbar-btn" title="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="topbar-btn-badge"></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="page">
+
+        <div class="page-header">
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Neoteric Digital EMS — All enterprise operations active and nominal.</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon teal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+              <span class="stat-trend">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12" />
+                </svg>
+                +12%
+              </span>
+            </div>
+            <div class="stat-value">4</div>
+            <div class="stat-label">Total Headcount</div>
+            <div class="stat-context">Active workforce members</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <span class="stat-trend">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+                +3.1%
+              </span>
+            </div>
+            <div class="stat-value">96.2%</div>
+            <div class="stat-label">Attendance Rate</div>
+            <div class="stat-context">On-time shift arrival</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <span class="stat-trend" style="background:var(--surface-muted);color:var(--text-tertiary)">On schedule</span>
+            </div>
+            <div class="stat-value">0</div>
+            <div class="stat-label">Pending Leaves</div>
+            <div class="stat-context">Awaiting manager approval</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+              </div>
+              <span class="stat-trend">On time</span>
+            </div>
+            <div class="stat-value">38K</div>
+            <div class="stat-label">Monthly Payroll</div>
+            <div class="stat-context">Approved (Aug)</div>
+          </div>
+        </div>
+
+        <!-- Module Grid -->
+        <div class="section-header">
+          <span class="section-title">System Modules</span>
+          <span class="section-link">Customize layout</span>
+        </div>
+        <div class="module-grid">
+
+          <a href="/employees" class="module-card">
+            <div class="module-icon teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div class="module-title">Employees</div>
+              <div class="module-desc">Manage employee profiles, roles, departments, and organizational structure.</div>
+            </div>
+            <div class="module-footer">
+              <span class="module-stat">4 active members</span>
+              <span class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+          </a>
+
+          <a href="/organization/departments" class="module-card">
+            <div class="module-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="6" height="13" rx="1"/><rect x="9" y="3" width="6" height="17" rx="1"/><rect x="16" y="10" width="6" height="10" rx="1"/></svg>
+            </div>
+            <div>
+              <div class="module-title">Departments</div>
+              <div class="module-desc">Organizational units, team structures, reporting hierarchies, and headcount allocation.</div>
+            </div>
+            <div class="module-footer">
+              <span class="module-stat">Structures & org chart</span>
+              <span class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+          </a>
+
+          <a href="/attendance" class="module-card">
+            <div class="module-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="module-title">Attendance</div>
+              <div class="module-desc">Daily clock-in/out tracking, shift management, overtime calculations, and attendance reports.</div>
+            </div>
+            <div class="module-footer">
+              <span class="module-stat">96.2% today</span>
+              <span class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+          </a>
+
+          <a href="/leaves" class="module-card">
+            <div class="module-icon amber">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="module-title">Leaves</div>
+              <div class="module-desc">Leave applications, approval workflows, balance tracking, and leave policy management.</div>
+            </div>
+            <div class="module-footer">
+              <span class="module-stat">0 pending approvals</span>
+              <span class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+          </a>
+
+          <a href="/payroll" class="module-card">
+            <div class="module-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+            </div>
+            <div>
+              <div class="module-title">Payroll</div>
+              <div class="module-desc">Salary processing, deductions, payslip generation, and disbursement tracking.</div>
+            </div>
+            <div class="module-footer">
+              <span class="module-stat">38K approved</span>
+              <span class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+          </a>
+
+          <a href="/performance" class="module-card">
+            <div class="module-icon teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <div>
+              <div class="module-title">Performance</div>
+              <div class="module-desc">Goal setting, review cycles, competency assessments, and development planning.</div>
+            </div>
+            <div class="module-footer">
+              <span class="module-stat">Reviews & tracking</span>
+              <span class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+          </a>
+
+          <a href="/ai-assistant" class="module-card">
+            <div class="module-icon rose">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+            </div>
+            <div>
+              <div class="module-title">AI Assistant</div>
+              <div class="module-desc">Generate documents, summarize data, draft policies, and get intelligent workforce insights.</div>
+            </div>
+            <div class="module-footer">
+              <span class="module-stat">Powered by Gemini</span>
+              <span class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+          </a>
+
+          <a href="/admin/audit-logs" class="module-card">
+            <div class="module-icon amber">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <div>
+              <div class="module-title">Audit Trail</div>
+              <div class="module-desc">System activity logs, compliance tracking, user action history, and security audit records.</div>
+            </div>
+            <div class="module-footer">
+              <span class="module-stat">Full activity log</span>
+              <span class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ─── Clock ─────────────────────────────────────────
+    function updateClock() {
+      const now = new Date();
+      const time = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Dhaka',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+      }).format(now);
+      document.getElementById('topbarTime').textContent = time;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ─── Sidebar toggle (mobile) ──────────────────────
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const toggle = document.getElementById('menuToggle');
+
+    if (toggle && sidebar && overlay) {
+      toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      });
+
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      });
+    }
+  </script>
+</body>
+</html>

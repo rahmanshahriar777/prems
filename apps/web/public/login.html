@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Portal Sign In — NEO EMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f7f6f3;
+      --bg-warm: #f0eeea;
+      --surface: #ffffff;
+      --surface-muted: #faf9f7;
+      --border: #e2dfda;
+      --border-subtle: #ece9e4;
+      --text-primary: #1a1816;
+      --text-secondary: #6b6560;
+      --text-tertiary: #9b9590;
+      --text-inverse: #faf9f7;
+      --accent: #2c5f4a;
+      --accent-light: #e8f0ec;
+      --accent-hover: #234d3b;
+      --accent-muted: #d4e3da;
+      --positive: #2c7a4e;
+      --positive-bg: #e8f5ec;
+      --warning: #b8860b;
+      --warning-bg: #fdf6e3;
+      --info: #4a6fa5;
+      --info-bg: #eef2f8;
+      --purple: #6b4c8a;
+      --purple-bg: #f3eef8;
+      --rose: #a0344a;
+      --rose-bg: #fce8ec;
+      --shadow-sm: 0 1px 2px rgba(26, 24, 22, 0.04);
+      --shadow-md: 0 2px 8px rgba(26, 24, 22, 0.06), 0 1px 2px rgba(26, 24, 22, 0.04);
+      --shadow-lg: 0 4px 16px rgba(26, 24, 22, 0.08), 0 2px 4px rgba(26, 24, 22, 0.04);
+      --shadow-xl: 0 12px 36px rgba(26, 24, 22, 0.09);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'DM Mono', 'SF Mono', 'Fira Code', monospace;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 32px 16px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    /* ─── HEADER ──────────────────────────────────────── */
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+      margin-bottom: 12px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: var(--text-inverse);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-text {
+      text-align: left;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+    }
+
+    .brand-badge {
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-muted);
+    }
+
+    .title {
+      font-family: var(--font-serif);
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-top: 6px;
+    }
+
+    .subtitle {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 10px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--positive);
+    }
+
+    /* ─── CARD ────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+
+    .input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      color: var(--text-primary);
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .input:focus {
+      background: var(--surface);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .btn-toggle {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-tertiary);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-toggle:hover {
+      color: var(--text-primary);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 11px 16px;
+      border-radius: var(--radius-md);
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: var(--text-inverse);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .btn-submit:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ─── QUICK FILL CHIPS ────────────────────────────── */
+    .quick-fill {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .quick-fill-header {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .quick-fill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chip:hover {
+      background: var(--surface);
+      border-color: var(--accent-muted);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chip-role {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chip-email {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    .telemetry {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 20px;
+    }
+
+    .return-link {
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-top: 14px;
+    }
+
+    .return-link a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .return-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <!-- Header -->
+    <header class="header">
+      <a href="/landing.html" class="brand-link">
+        <div class="brand-mark">N</div>
+        <div class="brand-text">
+          <div class="brand-name">Neoteric Digital</div>
+          <div class="brand-sub">
+            <span>Identity Gateway</span>
+            <span class="brand-badge">EMS</span>
+          </div>
+        </div>
+      </a>
+
+      <h1 class="title">Enterprise Portal Sign In</h1>
+      <p class="subtitle">Secure, role-governed workforce management gateway.</p>
+
+      <div>
+        <span class="status-pill">
+          <span class="status-dot"></span>
+          <span id="dhakaClock">Dhaka (UTC+6)</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- Card Form -->
+    <div class="card">
+      <form id="loginForm" onsubmit="handleAuth(event)">
+        <div class="form-group">
+          <label class="label" for="emailInput">Official Work Email</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <input 
+              type="email" 
+              id="emailInput" 
+              class="input" 
+              required 
+              value="superadmin@ems.local" 
+              placeholder="name@ems.local"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <label class="label" for="pwdInput" style="margin: 0;">Password</label>
+            <span style="font-size: 11.5px; color: var(--text-tertiary);">
+              Demo: <code style="font-family: var(--font-mono); color: var(--accent);">Password123!</code>
+            </span>
+          </div>
+
+          <div class="input-wrapper">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input 
+              type="password" 
+              id="pwdInput" 
+              class="input" 
+              required 
+              value="Password123!" 
+              placeholder="••••••••••••"
+            >
+            <button type="button" class="btn-toggle" onclick="togglePassword()" title="Toggle visibility">
+              <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-submit">
+          <span>Authenticate & Enter Workspace</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </form>
+
+      <!-- Quick Fill Section -->
+      <div class="quick-fill">
+        <div class="quick-fill-header">One-Click Demo Personas</div>
+        <div class="quick-fill-grid">
+          <div class="chip" onclick="quickFill('superadmin@ems.local')">
+            <div class="chip-role">
+              <span style="color: var(--rose);">SUPER_ADMIN</span>
+              <span style="color: var(--text-tertiary); font-size: 9px;">FILL</span>
+            </div>
+            <div class="chip-email">superadmin@ems.local</div>
+          </div>
+
+          <div class="chip" onclick="quickFill('hradmin@ems.local')">
+            <div class="chip-role">
+              <span style="color: var(--info);">HR_ADMIN</span>
+              <span style="color: var(--text-tertiary); font-size: 9px;">FILL</span>
+            </div>
+            <div class="chip-email">hradmin@ems.local</div>
+          </div>
+
+          <div class="chip" onclick="quickFill('manager@ems.local')">
+            <div class="chip-role">
+              <span style="color: var(--warning);">MANAGER</span>
+              <span style="color: var(--text-tertiary); font-size: 9px;">FILL</span>
+            </div>
+            <div class="chip-email">manager@ems.local</div>
+          </div>
+
+          <div class="chip" onclick="quickFill('sadia.rahman@ems.local')">
+            <div class="chip-role">
+              <span style="color: var(--positive);">EMPLOYEE</span>
+              <span style="color: var(--text-tertiary); font-size: 9px;">FILL</span>
+            </div>
+            <div class="chip-email">sadia.rahman@ems.local</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Telemetry -->
+    <div class="telemetry">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--positive);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>AES-256 Encrypted &bull; RBAC Protected &bull; SOC2 Ready</span>
+    </div>
+
+    <div class="return-link">
+      <a href="/landing.html">&larr; Return to Neoteric Digital Overview</a>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const clock = document.getElementById('dhakaClock');
+      if (!clock) return;
+      const now = new Date();
+      const str = now.toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Dhaka',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+      clock.textContent = str + ' • Dhaka (UTC+6)';
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function togglePassword() {
+      const input = document.getElementById('pwdInput');
+      const isPwd = input.type === 'password';
+      input.type = isPwd ? 'text' : 'password';
+    }
+
+    function quickFill(email) {
+      document.getElementById('emailInput').value = email;
+      document.getElementById('pwdInput').value = 'Password123!';
+    }
+
+    function handleAuth(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.innerHTML = '<span>Verifying Credentials...</span>';
+      btn.disabled = true;
+      setTimeout(() => {
+        window.location.href = '/dashboard.html';
+      }, 700);
+    }
+  </script>
+</body>
+</html>

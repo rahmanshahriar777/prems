@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ems-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ems_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ems_secure_password_123!}
+      POSTGRES_DB: ${POSTGRES_DB:-ems_db}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - ems-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ems_admin} -d ${POSTGRES_DB:-ems_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ems-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ems-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - ems-redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - ems-network
+
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: ems-minio
+    restart: unless-stopped
+    ports:
+      - "${S3_PORT:-9000}:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio_secure_password_123!}
+    volumes:
+      - ems-minio-data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ems-network
+
+  minio-create-buckets:
+    image: quay.io/minio/mc:latest
+    container_name: ems-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set ems http://minio:9000 ${MINIO_ROOT_USER:-minio_admin} ${MINIO_ROOT_PASSWORD:-minio_secure_password_123!};
+      /usr/bin/mc mb --ignore-existing ems/${S3_BUCKET:-ems-documents};
+      /usr/bin/mc anonymous set download ems/${S3_BUCKET:-ems-documents};
+      exit 0;
+      "
+    networks:
+      - ems-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: ems-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ems.local
+      PGADMIN_DEFAULT_PASSWORD: admin_password_123!
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - ems-network
+
+networks:
+  ems-network:
+    driver: bridge
+
+volumes:
+  ems-postgres-data:
+    driver: local
+  ems-redis-data:
+    driver: local
+  ems-minio-data:
+    driver: local

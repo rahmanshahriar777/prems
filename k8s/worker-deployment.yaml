@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ems-worker
+  namespace: ems-production
+  labels:
+    app: ems-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ems-worker
+  template:
+    metadata:
+      labels:
+        app: ems-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/your-org/ems-worker:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: ems-config
+            - secretRef:
+                name: ems-secrets
+          resources:
+            requests:
+              cpu: "150m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

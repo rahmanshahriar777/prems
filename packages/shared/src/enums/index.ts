@@ -1,0 +1,124 @@
+export enum SystemRole {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  HR_ADMIN = 'HR_ADMIN',
+  MANAGER = 'MANAGER',
+  EMPLOYEE = 'EMPLOYEE',
+  AUDITOR = 'AUDITOR',
+}
+
+export enum PermissionAction {
+  CREATE = 'CREATE',
+  READ = 'READ',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
+  MANAGE = 'MANAGE',
+  APPROVE = 'APPROVE',
+}
+
+export enum PermissionSubject {
+  USER = 'USER',
+  EMPLOYEE = 'EMPLOYEE',
+  DEPARTMENT = 'DEPARTMENT',
+  DESIGNATION = 'DESIGNATION',
+  ATTENDANCE = 'ATTENDANCE',
+  LEAVE = 'LEAVE',
+  PAYROLL = 'PAYROLL',
+  PERFORMANCE = 'PERFORMANCE',
+  AUDIT_LOG = 'AUDIT_LOG',
+  DOCUMENT = 'DOCUMENT',
+}
+
+export enum EmploymentStatus {
+  FULL_TIME = 'FULL_TIME',
+  PART_TIME = 'PART_TIME',
+  CONTRACT = 'CONTRACT',
+  PROBATION = 'PROBATION',
+  INTERN = 'INTERN',
+  TERMINATED = 'TERMINATED',
+  RESIGNED = 'RESIGNED',
+}
+
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER',
+  PREFER_NOT_TO_SAY = 'PREFER_NOT_TO_SAY',
+}
+
+export enum AttendanceStatus {
+  PRESENT = 'PRESENT',
+  LATE = 'LATE',
+  HALF_DAY = 'HALF_DAY',
+  ABSENT = 'ABSENT',
+  ON_LEAVE = 'ON_LEAVE',
+}
+
+export enum LeaveStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum LeaveTypeEnum {
+  ANNUAL = 'ANNUAL',
+  SICK = 'SICK',
+  CASUAL = 'CASUAL',
+  MATERNITY = 'MATERNITY',
+  PATERNITY = 'PATERNITY',
+  UNPAID = 'UNPAID',
+  BEREAVEMENT = 'BEREAVEMENT',
+}
+
+export enum PayrollStatus {
+  DRAFT = 'DRAFT',
+  PROCESSING = 'PROCESSING',
+  APPROVED = 'APPROVED',
+  PAID = 'PAID',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum SalaryComponentType {
+  EARNING = 'EARNING',
+  DEDUCTION = 'DEDUCTION',
+}
+
+export enum CalculationType {
+  FIXED = 'FIXED',
+  PERCENTAGE_OF_BASIC = 'PERCENTAGE_OF_BASIC',
+  PERCENTAGE_OF_GROSS = 'PERCENTAGE_OF_GROSS',
+}
+
+export enum ReviewStatus {
+  DRAFT = 'DRAFT',
+  SELF_REVIEW_SUBMITTED = 'SELF_REVIEW_SUBMITTED',
+  MANAGER_REVIEW_SUBMITTED = 'MANAGER_REVIEW_SUBMITTED',
+  COMPLETED = 'COMPLETED',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum GoalStatus {
+  NOT_STARTED = 'NOT_STARTED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  ON_HOLD = 'ON_HOLD',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum FeedbackType {
+  PEER = 'PEER',
+  MANAGER = 'MANAGER',
+  SUBORDINATE = 'SUBORDINATE',
+  GENERAL = 'GENERAL',
+}
+
+export enum AuditAction {
+  CREATE = 'CREATE',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
+  LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
+  APPROVE = 'APPROVE',
+  REJECT = 'REJECT',
+  RUN_PAYROLL = 'RUN_PAYROLL',
+}

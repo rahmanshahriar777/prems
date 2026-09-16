@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employees Directory — NEO EMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f7f6f3;
+      --bg-warm: #f0eeea;
+      --surface: #ffffff;
+      --surface-muted: #faf9f7;
+      --border: #e2dfda;
+      --border-subtle: #ece9e4;
+      --text-primary: #1a1816;
+      --text-secondary: #6b6560;
+      --text-tertiary: #9b9590;
+      --text-inverse: #faf9f7;
+      --accent: #2c5f4a;
+      --accent-light: #e8f0ec;
+      --accent-hover: #234d3b;
+      --accent-muted: #d4e3da;
+      --positive: #2c7a4e;
+      --positive-bg: #e8f5ec;
+      --warning: #b8860b;
+      --warning-bg: #fdf6e3;
+      --info: #4a6fa5;
+      --info-bg: #eef2f8;
+      --purple: #6b4c8a;
+      --purple-bg: #f3eef8;
+      --rose: #a0344a;
+      --rose-bg: #fce8ec;
+      --shadow-sm: 0 1px 2px rgba(26, 24, 22, 0.04);
+      --shadow-md: 0 2px 8px rgba(26, 24, 22, 0.06), 0 1px 2px rgba(26, 24, 22, 0.04);
+      --shadow-lg: 0 4px 16px rgba(26, 24, 22, 0.08), 0 2px 4px rgba(26, 24, 22, 0.04);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'DM Mono', 'SF Mono', 'Fira Code', monospace;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ─── APP SHELL ─────────────────────────────────────── */
+    .app-shell {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* ─── SIDEBAR ──────────────────────────────────────── */
+    .sidebar {
+      width: 248px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 40;
+    }
+
+    .sidebar-brand {
+      height: 64px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .sidebar-brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: var(--text-inverse);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .sidebar-brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-brand-name {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .sidebar-brand-sub {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 1px;
+    }
+
+    .sidebar-brand-label {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sidebar-brand-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .sidebar-brand-type {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .nav-section-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-tertiary);
+      padding: 0 8px 6px;
+      font-weight: 500;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      background: var(--bg);
+      color: var(--text-primary);
+    }
+
+    .nav-link.active {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 3px;
+      border-radius: 0 2px 2px 0;
+      background: var(--accent);
+    }
+
+    .nav-icon {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
+
+    .nav-link.active .nav-icon {
+      opacity: 1;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text-tertiary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .nav-link.active .nav-badge {
+      background: var(--surface);
+      color: var(--accent);
+      border-color: var(--accent-muted);
+    }
+
+    /* ─── MAIN CONTENT ─────────────────────────────────── */
+    .main-content {
+      flex: 1;
+      margin-left: 248px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─── TOPBAR ───────────────────────────────────────── */
+    .topbar {
+      height: 64px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-time {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .topbar-time-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--positive);
+      box-shadow: 0 0 0 2px var(--positive-bg);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 8px 4px 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .topbar-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-light);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .topbar-user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar-user-name {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .topbar-user-role {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--text-tertiary);
+    }
+
+    /* ─── EMPLOYEES PAGE CONTENT ───────────────────────── */
+    .page-wrapper {
+      padding: 28px 32px 48px;
+      max-width: 1240px;
+      width: 100%;
+    }
+
+    .emp-header {
+      margin-bottom: 24px;
+    }
+
+    .emp-header-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .emp-title {
+      font-family: var(--font-serif);
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text-primary);
+    }
+
+    .emp-subtitle {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .emp-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .emp-stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .emp-stat-pill .count {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .emp-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      background: var(--accent);
+      color: var(--text-inverse);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+
+    .emp-btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ─── QUICK STATS ROW ──────────────────────────────── */
+    .emp-quick-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+      margin-bottom: 24px;
+    }
+
+    .emp-quick-stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all var(--transition-fast);
+    }
+
+    .emp-quick-stat-card:hover {
+      border-color: var(--accent-muted);
+      box-shadow: var(--shadow-md);
+    }
+
+    .emp-quick-stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+    }
+
+    .emp-quick-stat-value {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 2px;
+    }
+
+    .emp-quick-stat-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    /* ─── TOOLBAR & FILTERS ───────────────────────────── */
+    .emp-toolbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .emp-toolbar-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .emp-search-container {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+      max-width: 420px;
+    }
+
+    .emp-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+
+    .emp-search-input {
+      width: 100%;
+      padding: 9px 12px 9px 36px;
+      background: var(--surface-muted);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--text-primary);
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .emp-search-input:focus {
+      background: var(--surface);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .emp-view-toggle {
+      display: inline-flex;
+      align-items: center;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .emp-view-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .emp-view-btn.active {
+      background: var(--surface);
+      color: var(--accent);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+    }
+
+    .emp-filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+    }
+
+    .emp-filter-pill {
+      padding: 5px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface-muted);
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+
+    .emp-filter-pill:hover {
+      background: var(--bg-warm);
+      color: var(--text-primary);
+    }
+
+    .emp-filter-pill.active {
+      background: var(--accent-light);
+      border-color: var(--accent-muted);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ─── GRID CARDS VIEW ─────────────────────────────── */
+    .emp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+      gap: 18px;
+    }
+
+    .emp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .emp-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: transparent;
+      transition: background var(--transition-fast);
+    }
+
+    .emp-card:hover {
+      border-color: var(--accent-muted);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .emp-card:hover::before {
+      background: var(--accent);
+    }
+
+    .emp-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .emp-avatar-fallback {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .emp-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      background: var(--positive-bg);
+      color: var(--positive);
+      border: 1px solid rgba(44, 122, 78, 0.2);
+    }
+
+    .emp-card-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .emp-card-code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .emp-card-details {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .emp-detail-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    .emp-detail-row svg {
+      width: 14px;
+      height: 14px;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+    }
+
+    .emp-detail-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .emp-card-footer {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .emp-profile-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .emp-profile-link:hover {
+      background: var(--accent-light);
+      border-color: var(--accent-muted);
+      color: var(--accent);
+    }
+
+    /* ─── TABLE VIEW ──────────────────────────────────── */
+    .emp-table-wrapper {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .emp-table-wrapper.active {
+      display: block;
+    }
+
+    .emp-grid.hidden {
+      display: none;
+    }
+
+    .emp-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .emp-table thead {
+      background: var(--surface-muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .emp-table th {
+      padding: 12px 18px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+    }
+
+    .emp-table tbody tr {
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background var(--transition-fast);
+    }
+
+    .emp-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .emp-table tbody tr:hover {
+      background: var(--surface-muted);
+    }
+
+    .emp-table td {
+      padding: 14px 18px;
+      color: var(--text-secondary);
+    }
+
+    .emp-table-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .emp-table-avatar-fallback {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .emp-table-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 13.5px;
+    }
+
+    .emp-table-email {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .emp-table-code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .emp-table-action {
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 12.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .emp-table-action:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; }
+      .page-wrapper { padding: 20px; }
+      .emp-quick-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .emp-quick-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="/dashboard.html" class="sidebar-brand">
+        <div class="sidebar-brand-mark">N</div>
+        <div class="sidebar-brand-text">
+          <span class="sidebar-brand-name">Neoteric</span>
+          <div class="sidebar-brand-sub">
+            <span class="sidebar-brand-label">Digital</span>
+            <span class="sidebar-brand-dot"></span>
+            <span class="sidebar-brand-type">EMS</span>
+          </div>
+        </div>
+      </a>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <a href="/dashboard.html" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <div class="nav-section-label" style="margin-top: 10px;">People</div>
+        <a href="/employees.html" class="nav-link active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Employees</span>
+          <span class="nav-badge">4</span>
+        </a>
+
+        <div class="nav-section-label" style="margin-top: 10px;">Intelligence</div>
+        <a href="/ai-assistant.html" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span>AI Assistant</span>
+          <span class="nav-badge" style="color: var(--accent); font-weight: 600;">LIVE</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-time">
+            <span class="topbar-time-dot"></span>
+            <span id="dhakaClock">10:48 AM &bull; Dhaka (UTC+6)</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-user">
+            <div class="topbar-avatar">SR</div>
+            <div class="topbar-user-info">
+              <span class="topbar-user-name">Shahriar Rahman</span>
+              <span class="topbar-user-role">SUPER ADMIN</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Wrapper -->
+      <main class="page-wrapper">
+        <header class="emp-header">
+          <div class="emp-header-top">
+            <div>
+              <h1 class="emp-title">Employees Directory</h1>
+              <p class="emp-subtitle">Workforce telemetry, departmental rosters, and verified personnel credentials across Neoteric Digital.</p>
+            </div>
+
+            <div class="emp-header-actions">
+              <div class="emp-stat-pill">
+                <span>Total Personnel</span>
+                <span class="count" id="totalCount">4</span>
+              </div>
+              <button class="emp-btn-primary" onclick="alert('Opening employee onboarding wizard...')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>New Employee</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Stats 4-card Row -->
+          <div class="emp-quick-stats">
+            <div class="emp-quick-stat-card">
+              <div>
+                <div class="emp-quick-stat-label">Total Headcount</div>
+                <div class="emp-quick-stat-value">4</div>
+              </div>
+              <div class="emp-quick-stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+            </div>
+
+            <div class="emp-quick-stat-card">
+              <div>
+                <div class="emp-quick-stat-label">Departments</div>
+                <div class="emp-quick-stat-value">2</div>
+              </div>
+              <div class="emp-quick-stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="9" y1="22" x2="9" y2="22"/><line x1="15" y1="22" x2="15" y2="22"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+              </div>
+            </div>
+
+            <div class="emp-quick-stat-card">
+              <div>
+                <div class="emp-quick-stat-label">Active Ratio</div>
+                <div class="emp-quick-stat-value">100%</div>
+              </div>
+              <div class="emp-quick-stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+              </div>
+            </div>
+
+            <div class="emp-quick-stat-card">
+              <div>
+                <div class="emp-quick-stat-label">Workforce Status</div>
+                <div class="emp-quick-stat-value" style="font-size: 16px; color: var(--accent);">All Verified</div>
+              </div>
+              <div class="emp-quick-stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Toolbar & Filter -->
+        <div class="emp-toolbar">
+          <div class="emp-toolbar-row">
+            <div class="emp-search-container">
+              <svg class="emp-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="searchInput" class="emp-search-input" placeholder="Search by name, email, or employee ID...">
+            </div>
+
+            <div class="emp-view-toggle">
+              <button class="emp-view-btn active" id="btnGrid" onclick="setView('grid')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                <span>Cards</span>
+              </button>
+              <button class="emp-view-btn" id="btnTable" onclick="setView('table')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                <span>Table</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="emp-filter-pills">
+            <button class="emp-filter-pill active" onclick="filterDept('ALL', this)">All Departments (4)</button>
+            <button class="emp-filter-pill" onclick="filterDept('Engineering', this)">Engineering (3)</button>
+            <button class="emp-filter-pill" onclick="filterDept('Human Resources', this)">Human Resources (1)</button>
+          </div>
+        </div>
+
+        <!-- Grid View -->
+        <div class="emp-grid" id="empGrid">
+          <!-- Card 1 -->
+          <div class="emp-card" data-dept="Engineering" data-name="System Administrator" data-code="EMP-2026-0001" data-email="superadmin@ems.local">
+            <div>
+              <div class="emp-card-header">
+                <div class="emp-avatar-fallback">SA</div>
+                <span class="emp-badge">FULL TIME</span>
+              </div>
+              <div class="emp-card-name">System Administrator</div>
+              <div class="emp-card-code">EMP-2026-0001</div>
+
+              <div class="emp-card-details">
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  <span class="emp-detail-text" style="font-weight: 500; color: var(--text-primary);">VP of Engineering</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                  <span class="emp-detail-text">Engineering</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">superadmin@ems.local</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">+1 (555) 010-0001</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="emp-card-footer">
+              <button class="emp-profile-link" onclick="alert('Viewing personnel file for System Administrator')">
+                <span>View Full Profile</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="emp-card" data-dept="Human Resources" data-name="HR Manager" data-code="EMP-2026-0002" data-email="hradmin@ems.local">
+            <div>
+              <div class="emp-card-header">
+                <div class="emp-avatar-fallback" style="background: var(--purple-bg); color: var(--purple); border-color: rgba(107, 76, 138, 0.2);">HM</div>
+                <span class="emp-badge">FULL TIME</span>
+              </div>
+              <div class="emp-card-name">HR Manager</div>
+              <div class="emp-card-code">EMP-2026-0002</div>
+
+              <div class="emp-card-details">
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  <span class="emp-detail-text" style="font-weight: 500; color: var(--text-primary);">HR Operations Manager</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                  <span class="emp-detail-text">Human Resources</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">hradmin@ems.local</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">+880 1711-000002</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="emp-card-footer">
+              <button class="emp-profile-link" onclick="alert('Viewing personnel file for HR Manager')">
+                <span>View Full Profile</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="emp-card" data-dept="Engineering" data-name="Shahriar Rahman" data-code="EMP-2026-0003" data-email="manager@ems.local">
+            <div>
+              <div class="emp-card-header">
+                <div class="emp-avatar-fallback" style="background: var(--info-bg); color: var(--info); border-color: rgba(74, 111, 165, 0.2);">SR</div>
+                <span class="emp-badge">FULL TIME</span>
+              </div>
+              <div class="emp-card-name">Shahriar Rahman</div>
+              <div class="emp-card-code">EMP-2026-0003</div>
+
+              <div class="emp-card-details">
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  <span class="emp-detail-text" style="font-weight: 500; color: var(--text-primary);">Engineering Manager</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                  <span class="emp-detail-text">Engineering</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">manager@ems.local</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">+880 1711-000003</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="emp-card-footer">
+              <button class="emp-profile-link" onclick="alert('Viewing personnel file for Shahriar Rahman')">
+                <span>View Full Profile</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="emp-card" data-dept="Engineering" data-name="Sadia Rahman" data-code="EMP-2026-0004" data-email="sadia.rahman@ems.local">
+            <div>
+              <div class="emp-card-header">
+                <div class="emp-avatar-fallback">SR</div>
+                <span class="emp-badge">FULL TIME</span>
+              </div>
+              <div class="emp-card-name">Sadia Rahman</div>
+              <div class="emp-card-code">EMP-2026-0004</div>
+
+              <div class="emp-card-details">
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  <span class="emp-detail-text" style="font-weight: 500; color: var(--text-primary);">Senior Software Engineer</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                  <span class="emp-detail-text">Engineering</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">sadia.rahman@ems.local</span>
+                </div>
+                <div class="emp-detail-row">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span class="emp-detail-text" style="font-family: var(--font-mono); font-size: 11px;">+880 1711-000004</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="emp-card-footer">
+              <button class="emp-profile-link" onclick="alert('Viewing personnel file for Sadia Rahman')">
+                <span>View Full Profile</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="emp-table-wrapper" id="empTable">
+          <table class="emp-table">
+            <thead>
+              <tr>
+                <th>Personnel</th>
+                <th>Employee Code</th>
+                <th>Department</th>
+                <th>Designation</th>
+                <th>Status</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="empTableBody">
+              <tr data-dept="Engineering" data-name="System Administrator" data-code="EMP-2026-0001" data-email="superadmin@ems.local">
+                <td>
+                  <div class="emp-table-user">
+                    <div class="emp-table-avatar-fallback">SA</div>
+                    <div>
+                      <div class="emp-table-name">System Administrator</div>
+                      <div class="emp-table-email">superadmin@ems.local</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="emp-table-code">EMP-2026-0001</span></td>
+                <td>Engineering</td>
+                <td style="font-weight: 500; color: var(--text-primary);">VP of Engineering</td>
+                <td><span class="emp-badge">FULL TIME</span></td>
+                <td style="text-align: right;"><a href="#" onclick="alert('Viewing personnel profile'); return false;" class="emp-table-action"><span>Profile</span> &nearr;</a></td>
+              </tr>
+              <tr data-dept="Human Resources" data-name="HR Manager" data-code="EMP-2026-0002" data-email="hradmin@ems.local">
+                <td>
+                  <div class="emp-table-user">
+                    <div class="emp-table-avatar-fallback" style="background: var(--purple-bg); color: var(--purple);">HM</div>
+                    <div>
+                      <div class="emp-table-name">HR Manager</div>
+                      <div class="emp-table-email">hradmin@ems.local</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="emp-table-code">EMP-2026-0002</span></td>
+                <td>Human Resources</td>
+                <td style="font-weight: 500; color: var(--text-primary);">HR Operations Manager</td>
+                <td><span class="emp-badge">FULL TIME</span></td>
+                <td style="text-align: right;"><a href="#" onclick="alert('Viewing personnel profile'); return false;" class="emp-table-action"><span>Profile</span> &nearr;</a></td>
+              </tr>
+              <tr data-dept="Engineering" data-name="Shahriar Rahman" data-code="EMP-2026-0003" data-email="manager@ems.local">
+                <td>
+                  <div class="emp-table-user">
+                    <div class="emp-table-avatar-fallback" style="background: var(--info-bg); color: var(--info);">SR</div>
+                    <div>
+                      <div class="emp-table-name">Shahriar Rahman</div>
+                      <div class="emp-table-email">manager@ems.local</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="emp-table-code">EMP-2026-0003</span></td>
+                <td>Engineering</td>
+                <td style="font-weight: 500; color: var(--text-primary);">Engineering Manager</td>
+                <td><span class="emp-badge">FULL TIME</span></td>
+                <td style="text-align: right;"><a href="#" onclick="alert('Viewing personnel profile'); return false;" class="emp-table-action"><span>Profile</span> &nearr;</a></td>
+              </tr>
+              <tr data-dept="Engineering" data-name="Sadia Rahman" data-code="EMP-2026-0004" data-email="sadia.rahman@ems.local">
+                <td>
+                  <div class="emp-table-user">
+                    <div class="emp-table-avatar-fallback">SR</div>
+                    <div>
+                      <div class="emp-table-name">Sadia Rahman</div>
+                      <div class="emp-table-email">sadia.rahman@ems.local</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="emp-table-code">EMP-2026-0004</span></td>
+                <td>Engineering</td>
+                <td style="font-weight: 500; color: var(--text-primary);">Senior Software Engineer</td>
+                <td><span class="emp-badge">FULL TIME</span></td>
+                <td style="text-align: right;"><a href="#" onclick="alert('Viewing personnel profile'); return false;" class="emp-table-action"><span>Profile</span> &nearr;</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Live Dhaka Clock
+    function updateClock() {
+      const now = new Date();
+      const timeStr = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Dhaka',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      }).format(now);
+      const clockEl = document.getElementById('dhakaClock');
+      if (clockEl) {
+        clockEl.innerHTML = `${timeStr} &bull; Dhaka (UTC+6)`;
+      }
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // View switcher
+    function setView(mode) {
+      const gridEl = document.getElementById('empGrid');
+      const tableEl = document.getElementById('empTable');
+      const btnGrid = document.getElementById('btnGrid');
+      const btnTable = document.getElementById('btnTable');
+
+      if (mode === 'grid') {
+        gridEl.classList.remove('hidden');
+        tableEl.classList.remove('active');
+        btnGrid.classList.add('active');
+        btnTable.classList.remove('active');
+      } else {
+        gridEl.classList.add('hidden');
+        tableEl.classList.add('active');
+        btnGrid.classList.remove('active');
+        btnTable.classList.add('active');
+      }
+    }
+
+    // Filter & Search Logic
+    let currentDept = 'ALL';
+    let currentSearch = '';
+
+    function filterDept(dept, btn) {
+      currentDept = dept;
+      document.querySelectorAll('.emp-filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    }
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value.toLowerCase().trim();
+        applyFilters();
+      });
+    }
+
+    function applyFilters() {
+      const cards = document.querySelectorAll('.emp-card');
+      const rows = document.querySelectorAll('#empTableBody tr');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const dept = card.getAttribute('data-dept');
+        const name = (card.getAttribute('data-name') || '').toLowerCase();
+        const code = (card.getAttribute('data-code') || '').toLowerCase();
+        const email = (card.getAttribute('data-email') || '').toLowerCase();
+
+        const matchDept = currentDept === 'ALL' || dept === currentDept;
+        const matchSearch = !currentSearch || name.includes(currentSearch) || code.includes(currentSearch) || email.includes(currentSearch);
+
+        if (matchDept && matchSearch) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      rows.forEach(row => {
+        const dept = row.getAttribute('data-dept');
+        const name = (row.getAttribute('data-name') || '').toLowerCase();
+        const code = (row.getAttribute('data-code') || '').toLowerCase();
+        const email = (row.getAttribute('data-email') || '').toLowerCase();
+
+        const matchDept = currentDept === 'ALL' || dept === currentDept;
+        const matchSearch = !currentSearch || name.includes(currentSearch) || code.includes(currentSearch) || email.includes(currentSearch);
+
+        if (matchDept && matchSearch) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      const countEl = document.getElementById('totalCount');
+      if (countEl) countEl.innerText = visibleCount;
+    }
+  </script>
+</body>
+</html>

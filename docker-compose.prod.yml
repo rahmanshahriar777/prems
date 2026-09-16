@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ems-prod-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ems_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ems_secure_password_123!}
+      POSTGRES_DB: ${POSTGRES_DB:-ems_db}
+    volumes:
+      - ems-prod-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ems_admin} -d ${POSTGRES_DB:-ems_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ems-prod-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: ems-prod-redis
+    restart: always
+    command: redis-server --appendonly yes
+    volumes:
+      - ems-prod-redis-data:/data
+    networks:
+      - ems-prod-net
+
+  minio:
+    image: minio/minio:latest
+    container_name: ems-prod-minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio_secure_password_123!}
+    volumes:
+      - ems-prod-minio-data:/data
+    command: server /data
+    networks:
+      - ems-prod-net
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: ems-prod-api
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ems_admin}:${POSTGRES_PASSWORD:-ems_secure_password_123!}@postgres:5432/${POSTGRES_DB:-ems_db}?schema=public
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      S3_ENDPOINT: minio
+      S3_PORT: 9000
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ems-prod-net
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    container_name: ems-prod-worker
+    restart: always
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ems_admin}:${POSTGRES_PASSWORD:-ems_secure_password_123!}@postgres:5432/${POSTGRES_DB:-ems_db}?schema=public
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ems-prod-net
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: ems-prod-web
+    restart: always
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://localhost/api/v1
+    depends_on:
+      - api
+    networks:
+      - ems-prod-net
+
+  nginx:
+    image: nginx:alpine
+    container_name: ems-prod-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web
+      - api
+    networks:
+      - ems-prod-net
+
+networks:
+  ems-prod-net:
+    driver: bridge
+
+volumes:
+  ems-prod-postgres-data:
+  ems-prod-redis-data:
+  ems-prod-minio-data:

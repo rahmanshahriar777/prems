@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ems-web
+  namespace: ems-production
+  labels:
+    app: ems-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ems-web
+  template:
+    metadata:
+      labels:
+        app: ems-web
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/your-org/ems-web:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: NEXT_PUBLIC_API_URL
+              value: "https://ems.yourcompany.com/api/v1"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ems-web-service
+  namespace: ems-production
+spec:
+  type: ClusterIP
+  selector:
+    app: ems-web
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP

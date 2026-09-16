@@ -1,0 +1,55 @@
+name: Deploy to Production Kubernetes
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    name: Production Deployment & DB Migrations
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm & Node.js
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.5.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Prisma Production Migrations
+        run: pnpm --filter @ems/database prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+
+      - name: Set Kubernetes Context
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Deploy Kubernetes Manifests
+        run: |
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/api-deployment.yaml
+          kubectl apply -f k8s/web-deployment.yaml
+          kubectl apply -f k8s/worker-deployment.yaml
+          kubectl apply -f k8s/ingress.yaml
+
+      - name: Verify Rollout Status
+        run: |
+          kubectl rollout status deployment/ems-api -n ems-production --timeout=180s
+          kubectl rollout status deployment/ems-web -n ems-production --timeout=180s
+          kubectl rollout status deployment/ems-worker -n ems-production --timeout=180s

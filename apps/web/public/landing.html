@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEO EMS — Intelligent Workforce Management Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f7f6f3;
+      --bg-warm: #f0eeea;
+      --surface: #ffffff;
+      --surface-muted: #faf9f7;
+      --border: #e2dfda;
+      --border-subtle: #ece9e4;
+      --text-primary: #1a1816;
+      --text-secondary: #6b6560;
+      --text-tertiary: #9b9590;
+      --text-inverse: #faf9f7;
+      --accent: #2c5f4a;
+      --accent-light: #e8f0ec;
+      --accent-hover: #234d3b;
+      --accent-muted: #d4e3da;
+      --positive: #2c7a4e;
+      --positive-bg: #e8f5ec;
+      --warning: #b8860b;
+      --warning-bg: #fdf6e3;
+      --info: #4a6fa5;
+      --info-bg: #eef2f8;
+      --purple: #6b4c8a;
+      --purple-bg: #f3eef8;
+      --rose: #a0344a;
+      --rose-bg: #fce8ec;
+      --shadow-sm: 0 1px 2px rgba(26, 24, 22, 0.04);
+      --shadow-md: 0 2px 8px rgba(26, 24, 22, 0.06), 0 1px 2px rgba(26, 24, 22, 0.04);
+      --shadow-lg: 0 4px 16px rgba(26, 24, 22, 0.08), 0 2px 4px rgba(26, 24, 22, 0.04);
+      --shadow-xl: 0 8px 30px rgba(26, 24, 22, 0.1);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'DM Mono', 'SF Mono', 'Fira Code', monospace;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── NAVIGATION ──────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(247, 246, 243, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: var(--text-inverse);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+    }
+
+    .brand-badge {
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-link {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--positive);
+    }
+
+    .btn-secondary {
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-warm);
+      border-color: var(--accent-muted);
+    }
+
+    .btn-primary {
+      padding: 8px 18px;
+      border-radius: var(--radius-md);
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: var(--text-inverse);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ─── HERO ────────────────────────────────────────── */
+    .hero {
+      padding: 76px 24px 60px;
+      text-align: center;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--accent);
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 22px;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 58px;
+      line-height: 1.08;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 16.5px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 740px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+    }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .btn-hero-primary {
+      padding: 12px 26px;
+      border-radius: var(--radius-md);
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: var(--text-inverse);
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-md);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-hero-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-hero-secondary {
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 14.5px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--bg-warm);
+      border-color: var(--accent-muted);
+    }
+
+    /* Trust Telemetry Bar */
+    .trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 14px 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      max-width: 860px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .trust-item svg {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ─── PERSONA LOGIN SECTION ───────────────────────── */
+    .section {
+      padding: 40px 24px 60px;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .section-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+
+    .personas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .persona-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 24px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--transition-base);
+    }
+
+    .persona-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-muted);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .persona-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .role-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-superadmin {
+      background: var(--rose-bg);
+      color: var(--rose);
+      border: 1px solid rgba(160, 52, 74, 0.25);
+    }
+
+    .badge-hradmin {
+      background: var(--info-bg);
+      color: var(--info);
+      border: 1px solid rgba(74, 111, 165, 0.25);
+    }
+
+    .badge-manager {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid rgba(184, 134, 11, 0.25);
+    }
+
+    .badge-employee {
+      background: var(--positive-bg);
+      color: var(--positive);
+      border: 1px solid rgba(44, 122, 78, 0.25);
+    }
+
+    .persona-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .persona-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .persona-name {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+
+    .persona-email {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .persona-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      min-height: 56px;
+    }
+
+    .persona-btn {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--bg-warm);
+      color: var(--text-primary);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .persona-btn:hover {
+      background: var(--accent);
+      color: var(--text-inverse);
+      border-color: var(--accent);
+    }
+
+    /* ─── CAPABILITIES GRID ───────────────────────────── */
+    .caps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .cap-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cap-card:hover {
+      border-color: var(--accent-muted);
+      box-shadow: var(--shadow-md);
+    }
+
+    .cap-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-md);
+      background: var(--accent-light);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .cap-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .cap-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .cap-meta {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ─── BANNER ──────────────────────────────────────── */
+    .arch-banner {
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .arch-banner h3 {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--text-primary);
+    }
+
+    .arch-banner p {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      max-width: 600px;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    .footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 32px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 12.5px;
+      color: var(--text-tertiary);
+    }
+
+    .footer-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    @media (max-width: 1080px) {
+      .personas-grid { grid-template-columns: repeat(2, 1fr); }
+      .caps-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-title { font-size: 46px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .personas-grid { grid-template-columns: 1fr; }
+      .caps-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 36px; }
+      .hero { padding: 48px 16px 36px; }
+      .trust-bar { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header class="nav">
+    <a href="/landing.html" class="nav-brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <div class="brand-title">Neoteric Digital</div>
+        <div class="brand-sub">
+          <span>Workforce Operating System</span>
+          <span class="brand-badge">EMS v1.0</span>
+        </div>
+      </div>
+    </a>
+
+    <div class="nav-links">
+      <a href="#personas" class="nav-link">Demo Personas</a>
+      <a href="#capabilities" class="nav-link">Capabilities</a>
+      <a href="#architecture" class="nav-link">Architecture</a>
+      <a href="/ai-assistant.html" class="nav-link" style="color: var(--accent); font-weight: 600;">AI Assistant</a>
+    </div>
+
+    <div class="nav-actions">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span id="dhakaClock">Dhaka (UTC+6)</span>
+      </div>
+      <a href="/dashboard.html" class="btn-primary">
+        <span>Launch Dashboard</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-tag">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+      <span>Enterprise Workforce Operating System &bull; Neoteric Digital</span>
+    </div>
+
+    <h1 class="hero-title">
+      Intelligent Workforce Operations, <br />
+      <em>Orchestrated with Elegance.</em>
+    </h1>
+
+    <p class="hero-subtitle">
+      A unified, production-grade enterprise platform engineered for high-performance organizations.
+      Harmonizing organizational hierarchies, precision payroll, shift attendance, and compliance-grade AI intelligence.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#personas" class="btn-hero-primary">
+        <span>Experience Demo Personas</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+
+      <a href="/ai-assistant.html" class="btn-hero-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent);"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <span>Open Executive AI Suite</span>
+      </a>
+    </div>
+
+    <!-- Trust Telemetry Bar -->
+    <div class="trust-bar">
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <span>6 Modular Systems</span>
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>
+        <span>100% Tamper-Evident SHA-256</span>
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span>Decimal-Safe Payroll</span>
+      </div>
+      <div class="trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>ISO-27001 & SOC2 Compliant</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Personas Section -->
+  <section class="section" id="personas">
+    <div class="section-header">
+      <span class="section-tag">Instant Persona Simulation</span>
+      <h2 class="section-title">Experience NEO EMS by Role</h2>
+      <p class="section-desc">
+        Select any enterprise persona below for instantaneous entry into the workspace.
+      </p>
+    </div>
+
+    <div class="personas-grid">
+      <!-- Super Admin -->
+      <div class="persona-card">
+        <div>
+          <div class="persona-top">
+            <span class="role-badge badge-superadmin">SUPER_ADMIN</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-tertiary);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+
+          <div class="persona-header">
+            <div class="persona-avatar">SA</div>
+            <div>
+              <h3 class="persona-name">Super Administrator</h3>
+              <div class="persona-email">superadmin@ems.local</div>
+            </div>
+          </div>
+
+          <p class="persona-desc">
+            Full platform governance, cryptographic audit ledgers, tenant controls, and root system telemetry.
+          </p>
+        </div>
+
+        <a href="/dashboard.html" class="persona-btn">
+          <span>Sign In as SUPER_ADMIN</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- HR Admin -->
+      <div class="persona-card">
+        <div>
+          <div class="persona-top">
+            <span class="role-badge badge-hradmin">HR_ADMIN</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-tertiary);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+
+          <div class="persona-header">
+            <div class="persona-avatar">HR</div>
+            <div>
+              <h3 class="persona-name">HR Manager</h3>
+              <div class="persona-email">hradmin@ems.local</div>
+            </div>
+          </div>
+
+          <p class="persona-desc">
+            Manages multi-tier departments, employee lifecycle, leave quotas, and automated payroll batches.
+          </p>
+        </div>
+
+        <a href="/dashboard.html" class="persona-btn">
+          <span>Sign In as HR_ADMIN</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Manager -->
+      <div class="persona-card">
+        <div>
+          <div class="persona-top">
+            <span class="role-badge badge-manager">MANAGER</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-tertiary);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+
+          <div class="persona-header">
+            <div class="persona-avatar">SR</div>
+            <div>
+              <h3 class="persona-name">Engineering Manager</h3>
+              <div class="persona-email">manager@ems.local</div>
+            </div>
+          </div>
+
+          <p class="persona-desc">
+            Direct report approvals, timesheet validations, competency evaluations, and OKR milestones.
+          </p>
+        </div>
+
+        <a href="/dashboard.html" class="persona-btn">
+          <span>Sign In as MANAGER</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Employee -->
+      <div class="persona-card">
+        <div>
+          <div class="persona-top">
+            <span class="role-badge badge-employee">EMPLOYEE</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-tertiary);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+
+          <div class="persona-header">
+            <div class="persona-avatar">SM</div>
+            <div>
+              <h3 class="persona-name">Senior Staff Engineer</h3>
+              <div class="persona-email">sadia.rahman@ems.local</div>
+            </div>
+          </div>
+
+          <p class="persona-desc">
+            Self-service shift clock-in, itemized payslip inspection, PTO requests, and appraisal reviews.
+          </p>
+        </div>
+
+        <a href="/dashboard.html" class="persona-btn">
+          <span>Sign In as EMPLOYEE</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities Section -->
+  <section class="section" id="capabilities">
+    <div class="section-header">
+      <span class="section-tag">Core Enterprise Engine</span>
+      <h2 class="section-title">Engineered for Modern Enterprise Scale</h2>
+      <p class="section-desc">
+        Every module built with strict architectural guardrails, transaction safety, and clean aesthetics.
+      </p>
+    </div>
+
+    <div class="caps-grid">
+      <!-- 1. Org & Directory -->
+      <div class="cap-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="9" y1="22" x2="9" y2="22"/><line x1="15" y1="22" x2="15" y2="22"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+        </div>
+        <h3 class="cap-title">Organizational Hierarchy & Directory</h3>
+        <p class="cap-desc">
+          Multi-tier department structures, manager-employee reporting lines, headcount distribution, and real-time organizational charts.
+        </p>
+        <div class="cap-meta">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Multi-Level Department Trees</span>
+        </div>
+      </div>
+
+      <!-- 2. Attendance & Leave -->
+      <div class="cap-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3 class="cap-title">Daily Attendance & Leave Management</h3>
+        <p class="cap-desc">
+          Clock-in/out tracking with IP verification, automatic shift duration tallying, and transaction-safe paid time off request lifecycles.
+        </p>
+        <div class="cap-meta">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Automated Overtime & Shift Calculations</span>
+        </div>
+      </div>
+
+      <!-- 3. Payroll -->
+      <div class="cap-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <h3 class="cap-title">Decimal-Safe Compensation & Payroll</h3>
+        <p class="cap-desc">
+          Accurate base salary and allowance disbursements with zero floating-point drift, tax withholdings, and downloadable itemized payslips.
+        </p>
+        <div class="cap-meta">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Batch ACH Disbursements</span>
+        </div>
+      </div>
+
+      <!-- 4. Performance -->
+      <div class="cap-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h3 class="cap-title">Performance Appraisals & Goals</h3>
+        <p class="cap-desc">
+          360-degree review cycles, self and manager rating calibrations, OKR milestone completion trackers, and qualitative feedback capture.
+        </p>
+        <div class="cap-meta">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Quarterly OKRs & Calibrated Ratings</span>
+        </div>
+      </div>
+
+      <!-- 5. Audit Trail -->
+      <div class="cap-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="cap-title">Forensic Audit Trail & Ledger</h3>
+        <p class="cap-desc">
+          Immutable write-once log recording state mutations, role escalations, and payroll executions with SHA-256 tamper-evident checksums.
+        </p>
+        <div class="cap-meta">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>SOC2 & ISO-27001 Alignment</span>
+        </div>
+      </div>
+
+      <!-- 6. AI Intelligence -->
+      <div class="cap-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+        <h3 class="cap-title">Executive AI Intelligence</h3>
+        <p class="cap-desc">
+          Query organizational headcounts, synthesize compensation variances, draft review feedback, and summarize workforce shifts via conversational LLM.
+        </p>
+        <div class="cap-meta">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Natural Language Workforce Analytics</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner -->
+    <div class="arch-banner" id="architecture">
+      <div>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;">Production Architecture</span>
+        <h3 style="margin-top: 4px;">Built on Next.js 14, NestJS, and PostgreSQL</h3>
+        <p>Engineered with Turborepo monorepo architecture, Prisma ORM, JWT stateless security, Docker containerization, and strict TypeScript types.</p>
+      </div>
+
+      <a href="/dashboard.html" class="btn-primary">
+        <span>Enter Application</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="brand-mark" style="width: 28px; height: 28px; font-size: 15px;">N</div>
+        <span class="footer-copy">&copy; 2026 Neoteric Digital. All rights reserved.</span>
+      </div>
+
+      <div class="footer-meta">
+        NEO EMS &bull; Dhaka (UTC+6) &bull; Enterprise Monorepo v1.0
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function updateClock() {
+      const clock = document.getElementById('dhakaClock');
+      if (!clock) return;
+      const now = new Date();
+      const str = now.toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Dhaka',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+      clock.textContent = str + ' • Dhaka (UTC+6)';
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
