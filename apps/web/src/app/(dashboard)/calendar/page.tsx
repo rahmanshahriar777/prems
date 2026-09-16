@@ -60,104 +60,18 @@ const CATEGORY_DOT_COLORS: Record<EventCategory, string> = {
   review: '#246859'
 };
 
-const INITIAL_EVENTS: CalendarEvent[] = [
-  {
-    id: 'evt-1',
-    title: 'Daily Engineering Standup',
-    category: 'meeting',
-    date: '2026-09-15',
-    startTime: '09:30',
-    endTime: '10:00',
-    location: 'Google Meet',
-    description: 'Review blockers, pull request updates, and sprint progress.',
-    priority: 'normal'
-  },
-  {
-    id: 'evt-2',
-    title: 'Complete SOC2 Audit Documentation',
-    category: 'task',
-    date: '2026-09-15',
-    startTime: '11:00',
-    endTime: '12:30',
-    location: 'Security Portal',
-    description: 'Verify SHA-256 log hashes and upload quarterly compliance signoff.',
-    priority: 'high',
-    completed: false
-  },
-  {
-    id: 'evt-3',
-    title: '1-on-1 with Engineering Lead (Shahriar)',
-    category: 'review',
-    date: '2026-09-15',
-    startTime: '14:00',
-    endTime: '14:45',
-    location: 'Meeting Room B / Zoom',
-    description: 'Quarterly review milestones, OKR progress, and career growth roadmap.',
-    priority: 'normal'
-  },
-  {
-    id: 'evt-4',
-    title: 'Submit Monthly Timesheet & Overtime',
-    category: 'reminder',
-    date: '2026-09-15',
-    startTime: '17:30',
-    endTime: '18:00',
-    location: 'EMS Portal',
-    description: 'Finalize attendance log entries prior to payroll batch cutoff.',
-    priority: 'urgent',
-    completed: false
-  },
-  {
-    id: 'evt-5',
-    title: 'Sprint 24 Planning & Backlog Grooming',
-    category: 'meeting',
-    date: '2026-09-16',
-    startTime: '10:00',
-    endTime: '11:30',
-    location: 'Conference Room 1',
-    description: 'Story point estimation for AI Assistant Phase 2 capabilities.',
-    priority: 'high'
-  },
-  {
-    id: 'evt-6',
-    title: 'All-Hands Town Hall Q3',
-    category: 'event',
-    date: '2026-09-18',
-    startTime: '15:00',
-    endTime: '16:30',
-    location: 'Main Auditorium & Zoom Live',
-    description: 'Executive roadmap presentation by Practical Roof Solutions Ltd leadership.',
-    priority: 'normal'
-  },
-  {
-    id: 'evt-7',
-    title: 'Approved Medical Leave',
-    category: 'pto',
-    date: '2026-09-22',
-    startTime: '09:00',
-    endTime: '18:00',
-    location: 'Out of Office',
-    description: 'Approved PTO by HR Operations.',
-    priority: 'normal'
-  },
-  {
-    id: 'evt-8',
-    title: 'Monthly Compensation & Payroll Review',
-    category: 'task',
-    date: '2026-09-25',
-    startTime: '13:00',
-    endTime: '14:30',
-    location: 'Finance Suite',
-    description: 'Verify bank disbursement batch records and tax deductions.',
-    priority: 'high',
-    completed: false
-  }
-];
+const INITIAL_EVENTS: CalendarEvent[] = [];
 
 export default function CalendarPage() {
   // Current view date state (year and month navigation)
-  const [currentDate, setCurrentDate] = useState(() => new Date(2026, 8, 15)); // Sep 15, 2026
-  const [selectedDateStr, setSelectedDateStr] = useState('2026-09-15');
+  const [currentDate, setCurrentDate] = useState(() => new Date());
+  const [selectedDateStr, setSelectedDateStr] = useState(() => {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  });
   const [activeView, setActiveView] = useState<'month' | 'week'>('month');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [events, setEvents] = useState<CalendarEvent[]>(INITIAL_EVENTS);
@@ -177,9 +91,12 @@ export default function CalendarPage() {
   // Local storage persistence
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('neoems_calendar_events');
+      localStorage.removeItem('neoems_calendar_events');
+      const saved = localStorage.getItem('prs_calendar_events');
       if (saved) {
         setEvents(JSON.parse(saved));
+      } else {
+        setEvents([]);
       }
     } catch {
       // ignore
@@ -198,7 +115,7 @@ export default function CalendarPage() {
   const saveEvents = (updated: CalendarEvent[]) => {
     setEvents(updated);
     try {
-      localStorage.setItem('neoems_calendar_events', JSON.stringify(updated));
+      localStorage.setItem('prs_calendar_events', JSON.stringify(updated));
     } catch {
       // ignore
     }
@@ -234,9 +151,12 @@ export default function CalendarPage() {
   };
 
   const handleToday = () => {
-    const today = new Date(2026, 8, 15);
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
     setCurrentDate(today);
-    setSelectedDateStr('2026-09-15');
+    setSelectedDateStr(`${year}-${month}-${day}`);
   };
 
   // Filter events
@@ -247,7 +167,9 @@ export default function CalendarPage() {
 
   // Metric summaries
   const todayEvents = useMemo(() => {
-    return events.filter(e => e.date === '2026-09-15');
+    const d = new Date();
+    const todayStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    return events.filter(e => e.date === todayStr);
   }, [events]);
 
   const pendingTasksCount = useMemo(() => {

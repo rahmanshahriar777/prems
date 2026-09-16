@@ -947,50 +947,8 @@
           </div>
 
           <div class="agenda-body" id="agendaItems">
-            <div class="agenda-item">
-              <div class="agenda-item-top">
-                <span class="cat-badge" style="background:var(--cat-meeting-bg);color:var(--cat-meeting-text)">Meeting</span>
-              </div>
-              <div class="agenda-item-title-row">
-                <span class="agenda-item-title">Daily Engineering Standup</span>
-              </div>
-              <div class="agenda-item-time">09:30 AM — 10:00 AM</div>
-              <div class="agenda-item-location">Google Meet</div>
-            </div>
-
-            <div class="agenda-item">
-              <div class="agenda-item-top">
-                <span class="cat-badge" style="background:var(--cat-task-bg);color:var(--cat-task-text)">Task</span>
-              </div>
-              <div class="agenda-item-title-row">
-                <input type="checkbox" class="task-checkbox">
-                <span class="agenda-item-title">Complete SOC2 Audit Documentation</span>
-              </div>
-              <div class="agenda-item-time">11:00 AM — 12:30 PM</div>
-              <div class="agenda-item-location">Security Portal</div>
-            </div>
-
-            <div class="agenda-item">
-              <div class="agenda-item-top">
-                <span class="cat-badge" style="background:var(--cat-review-bg);color:var(--cat-review-text)">1-on-1</span>
-              </div>
-              <div class="agenda-item-title-row">
-                <span class="agenda-item-title">1-on-1 with Engineering Lead</span>
-              </div>
-              <div class="agenda-item-time">02:00 PM — 02:45 PM</div>
-              <div class="agenda-item-location">Meeting Room B</div>
-            </div>
-
-            <div class="agenda-item">
-              <div class="agenda-item-top">
-                <span class="cat-badge" style="background:var(--cat-reminder-bg);color:var(--cat-reminder-text)">Reminder</span>
-              </div>
-              <div class="agenda-item-title-row">
-                <input type="checkbox" class="task-checkbox">
-                <span class="agenda-item-title">Submit Monthly Timesheet & Overtime</span>
-              </div>
-              <div class="agenda-item-time">05:30 PM — 06:00 PM</div>
-              <div class="agenda-item-location">EMS Portal</div>
+            <div style="text-align: center; padding: 40px 16px; color: var(--text-tertiary); font-size: 13px;">
+              No events scheduled for this day
             </div>
           </div>
 
@@ -1049,15 +1007,27 @@
   </div>
 
   <script>
-    const events = [
-      { date: 15, title: "09:30 Daily Standup", cat: "meeting" },
-      { date: 15, title: "11:00 SOC2 Audit", cat: "task" },
-      { date: 15, title: "14:00 1-on-1 Lead", cat: "review" },
-      { date: 16, title: "10:00 Sprint 24", cat: "meeting" },
-      { date: 18, title: "15:00 Town Hall Q3", cat: "event" },
-      { date: 22, title: "All day Medical Leave", cat: "pto" },
-      { date: 25, title: "13:00 Payroll Review", cat: "task" }
-    ];
+    const events = [];
+    let selectedDay = 15;
+
+    function updateAgenda(d) {
+      const body = document.getElementById('agendaItems');
+      const dayEvents = events.filter(e => e.date === d);
+      if (dayEvents.length === 0) {
+        body.innerHTML = `<div style="text-align: center; padding: 40px 16px; color: var(--text-tertiary); font-size: 13px;">No events scheduled for this day</div>`;
+        return;
+      }
+      body.innerHTML = dayEvents.map(e => `
+        <div class="agenda-item">
+          <div class="agenda-item-top">
+            <span class="cat-badge ${e.cat}">${e.cat.toUpperCase()}</span>
+          </div>
+          <div class="agenda-item-title-row">
+            <span class="agenda-item-title">${e.title}</span>
+          </div>
+        </div>
+      `).join('');
+    }
 
     function renderMatrix() {
       const matrix = document.getElementById('daysMatrix');
@@ -1091,9 +1061,13 @@
     }
 
     function selectDay(d) {
+      selectedDay = d;
       document.querySelectorAll('.day-cell').forEach(el => el.classList.remove('selected'));
-      event.currentTarget.classList.add('selected');
+      if (window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('selected');
+      }
       document.getElementById('agendaDateTitle').innerText = `September ${d}, 2026`;
+      updateAgenda(d);
     }
 
     function openModal() {
@@ -1108,18 +1082,20 @@
       const title = document.getElementById('mTitle').value;
       const cat = document.getElementById('mCategory').value;
       if (!title) return;
-      events.push({ date: 15, title: title, cat: cat });
+      events.push({ date: selectedDay, title: title, cat: cat });
       closeModal();
       renderMatrix();
+      updateAgenda(selectedDay);
     }
 
     function addQuickTask(e) {
       e.preventDefault();
       const inp = document.getElementById('quickInput');
       if (!inp.value.trim()) return;
-      events.push({ date: 15, title: inp.value.trim(), cat: 'task' });
+      events.push({ date: selectedDay, title: inp.value.trim(), cat: 'task' });
       inp.value = '';
       renderMatrix();
+      updateAgenda(selectedDay);
     }
 
     renderMatrix();
