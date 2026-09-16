@@ -32,36 +32,14 @@ export default function EmployeeDetailPage() {
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || id === 'new') {
+      setLoading(false);
+      return;
+    }
     api.get(`/employees/${id}`)
       .then((data) => setEmployee(data))
       .catch(() => {
-        // Mock fallback for demonstration
-        setEmployee({
-          id,
-          employeeNumber: 'EMP-2026-0004',
-          firstName: 'Sadia',
-          lastName: 'Rahman',
-          email: 'sadia.rahman@ems.local',
-          phone: '+880 1711-000004',
-          joiningDate: '2024-06-01',
-          status: 'FULL_TIME',
-          profileSummary: 'Senior full-stack TypeScript architect and microservices contributor.',
-          department: { name: 'Engineering', code: 'ENG' },
-          designation: { title: 'Senior Software Engineer', level: 4 },
-          manager: { firstName: 'Shahriar', lastName: 'Rahman', email: 'manager@ems.local' },
-          salaryStructures: [
-            {
-              baseSalary: 9500.0,
-              effectiveFrom: '2024-06-01',
-              salaryStructure: { name: 'Senior Engineering Salary Grade' },
-            },
-          ],
-          leaveBalances: [
-            { leaveType: { name: 'Annual Leave' }, remainingDays: 17, allocatedDays: 20 },
-            { leaveType: { name: 'Sick Leave' }, remainingDays: 10, allocatedDays: 10 },
-          ],
-        });
+        setEmployee(null);
       })
       .finally(() => setLoading(false));
   }, [id]);

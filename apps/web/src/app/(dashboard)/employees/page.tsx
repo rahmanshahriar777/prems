@@ -274,17 +274,28 @@ export default function EmployeesPage() {
               <p className="emp-empty-desc">
                 No active employee records match your search criteria or filter configuration.
               </p>
-              {(search || selectedDept !== 'ALL') && (
+              {search || selectedDept !== 'ALL' ? (
                 <button
                   onClick={() => {
                     setSearch('');
                     setSelectedDept('ALL');
                   }}
                   className="emp-btn-primary"
-                  style={{ display: 'inline-flex' }}
+                  style={{ display: 'inline-flex', marginTop: '12px' }}
                 >
                   Reset Query
                 </button>
+              ) : (
+                hasRole(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN) && (
+                  <Link
+                    href="/employees/new"
+                    className="emp-btn-primary"
+                    style={{ display: 'inline-flex', marginTop: '14px', textDecoration: 'none' }}
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add First Employee</span>
+                  </Link>
+                )
               )}
             </div>
           ) : viewMode === 'grid' ? (
