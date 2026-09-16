@@ -55,7 +55,7 @@ export class LeavesController {
       : user.employeeId;
 
     if (!targetEmpId) {
-      throw new ForbiddenException('User is not associated with an employee profile');
+      return [];
     }
 
     const targetYear = year ? parseInt(year, 10) : new Date().getFullYear();
@@ -65,10 +65,13 @@ export class LeavesController {
   @Post('leave-requests')
   @ApiOperation({ summary: 'Submit a new leave request' })
   createLeaveRequest(@Body() dto: CreateLeaveRequestDto, @CurrentUser() user: JwtPayload) {
-    if (!user.employeeId) {
-      throw new ForbiddenException('User is not associated with an employee profile');
+    const isHrOrAdmin = user.roles.includes(SystemRole.HR_ADMIN) || user.roles.includes(SystemRole.SUPER_ADMIN);
+    const targetEmpId = (isHrOrAdmin && dto.employeeId) ? dto.employeeId : user.employeeId;
+
+    if (!targetEmpId) {
+      throw new ForbiddenException('User is not associated with an employee profile and no employee was selected');
     }
-    return this.service.createLeaveRequest(user.employeeId, dto);
+    return this.service.createLeaveRequest(targetEmpId, dto);
   }
 
   @Get('leave-requests')

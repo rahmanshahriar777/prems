@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import {
   CalendarDays,
   Plus,
@@ -203,10 +204,10 @@ export default function LeavesPage() {
                   <span className="count">{totalRemainingDays} Days</span>
                 </div>
 
-                <button onClick={() => setShowApplyModal(true)} className="leave-btn-primary">
+                <Link href="/leaves/new" className="leave-btn-primary" style={{ textDecoration: 'none' }}>
                   <Plus className="w-4 h-4" />
                   <span>Request Leave</span>
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -349,7 +350,7 @@ export default function LeavesPage() {
               <p style={{ fontSize: '13px', color: 'var(--leave-text-secondary)', marginTop: '4px' }}>
                 There are no leave requests matching your selected filter or search term.
               </p>
-              {(search || statusFilter !== 'ALL') && (
+              {search || statusFilter !== 'ALL' ? (
                 <button
                   onClick={() => {
                     setSearch('');
@@ -360,6 +361,15 @@ export default function LeavesPage() {
                 >
                   Reset Filter
                 </button>
+              ) : (
+                <Link
+                  href="/leaves/new"
+                  className="leave-btn-primary"
+                  style={{ marginTop: '16px', display: 'inline-flex', textDecoration: 'none' }}
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Submit Leave Request</span>
+                </Link>
               )}
             </div>
           ) : (

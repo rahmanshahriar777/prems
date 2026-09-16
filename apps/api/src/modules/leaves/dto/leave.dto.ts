@@ -15,6 +15,11 @@ import {
 import { LeaveStatus, LeaveTypeEnum } from '@ems/shared';
 
 export class CreateLeaveRequestDto {
+  @ApiPropertyOptional({ example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11' })
+  @IsUUID()
+  @IsOptional()
+  employeeId?: string;
+
   @ApiProperty()
   @IsUUID()
   @IsNotEmpty()
