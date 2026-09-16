@@ -58,107 +58,15 @@ export default function EmployeesPage() {
           params: { search: search || undefined, limit: 100 },
         });
         if (isMounted) {
-          if (res?.items && Array.isArray(res.items) && res.items.length > 0) {
+          if (res?.items && Array.isArray(res.items)) {
             setEmployees(res.items);
           } else {
-            // Fallback demo personnel if backend returned empty list
-            setEmployees([
-              {
-                id: '1',
-                employeeNumber: 'EMP-2026-0001',
-                firstName: 'System',
-                lastName: 'Administrator',
-                email: 'superadmin@ems.local',
-                phone: '+1 (555) 010-0001',
-                department: { name: 'Engineering' },
-                designation: { title: 'VP of Engineering' },
-                status: 'FULL_TIME',
-              },
-              {
-                id: '2',
-                employeeNumber: 'EMP-2026-0002',
-                firstName: 'HR',
-                lastName: 'Manager',
-                email: 'hradmin@ems.local',
-                phone: '+880 1711-000002',
-                department: { name: 'Human Resources' },
-                designation: { title: 'HR Operations Manager' },
-                status: 'FULL_TIME',
-              },
-              {
-                id: '3',
-                employeeNumber: 'EMP-2026-0003',
-                firstName: 'Shahriar',
-                lastName: 'Rahman',
-                email: 'manager@ems.local',
-                phone: '+880 1711-000003',
-                department: { name: 'Engineering' },
-                designation: { title: 'Engineering Manager' },
-                status: 'FULL_TIME',
-              },
-              {
-                id: '4',
-                employeeNumber: 'EMP-2026-0004',
-                firstName: 'Sadia',
-                lastName: 'Rahman',
-                email: 'sadia.rahman@ems.local',
-                phone: '+880 1711-000004',
-                department: { name: 'Engineering' },
-                designation: { title: 'Senior Software Engineer' },
-                status: 'FULL_TIME',
-              },
-            ]);
+            setEmployees([]);
           }
         }
       } catch {
         if (isMounted) {
-          // Fallback demo records if backend is offline
-          setEmployees([
-            {
-              id: '1',
-              employeeNumber: 'EMP-2026-0001',
-              firstName: 'System',
-              lastName: 'Administrator',
-              email: 'superadmin@ems.local',
-              phone: '+1 (555) 010-0001',
-              department: { name: 'Engineering' },
-              designation: { title: 'VP of Engineering' },
-              status: 'FULL_TIME',
-            },
-            {
-              id: '2',
-              employeeNumber: 'EMP-2026-0002',
-              firstName: 'HR',
-              lastName: 'Manager',
-              email: 'hradmin@ems.local',
-              phone: '+880 1711-000002',
-              department: { name: 'Human Resources' },
-              designation: { title: 'HR Operations Manager' },
-              status: 'FULL_TIME',
-            },
-            {
-              id: '3',
-              employeeNumber: 'EMP-2026-0003',
-              firstName: 'Shahriar',
-              lastName: 'Rahman',
-              email: 'manager@ems.local',
-              phone: '+880 1711-000003',
-              department: { name: 'Engineering' },
-              designation: { title: 'Engineering Manager' },
-              status: 'FULL_TIME',
-            },
-            {
-              id: '4',
-              employeeNumber: 'EMP-2026-0004',
-              firstName: 'Sadia',
-              lastName: 'Rahman',
-              email: 'sadia.rahman@ems.local',
-              phone: '+880 1711-000004',
-              department: { name: 'Engineering' },
-              designation: { title: 'Senior Software Engineer' },
-              status: 'FULL_TIME',
-            },
-          ]);
+          setEmployees([]);
         }
       } finally {
         if (isMounted) setLoading(false);
