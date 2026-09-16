@@ -163,10 +163,10 @@ export default function DepartmentsPage() {
                   <span className="count">{departments.length}</span>
                 </div>
 
-                <button onClick={() => { setModalError(null); setShowModal(true); }} className="dept-btn-primary">
+                <Link href="/organization/departments/new" className="dept-btn-primary">
                   <Plus className="w-4 h-4" />
                   <span>New Department</span>
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -299,14 +299,14 @@ export default function DepartmentsPage() {
                   Reset Query
                 </button>
               ) : (
-                <button
-                  onClick={() => { setModalError(null); setShowModal(true); }}
+                <Link
+                  href="/organization/departments/new"
                   className="dept-btn-primary"
-                  style={{ marginTop: '16px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                  style={{ marginTop: '16px', display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
                 >
                   <Plus className="w-4 h-4" />
                   <span>Create First Department</span>
-                </button>
+                </Link>
               )}
             </div>
           ) : viewMode === 'grid' ? (
