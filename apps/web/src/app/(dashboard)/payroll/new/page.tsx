@@ -507,7 +507,7 @@ export default function NewPayrollRunPage() {
                       Operating Currency
                     </div>
                     <div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--pay-text-primary)', marginTop: '4px' }}>
-                      BDT (৳)
+                      GBP (£)
                     </div>
                     <div style={{ fontSize: '11.5px', color: 'var(--pay-text-tertiary)', marginTop: '2px' }}>
                       Minor units decimal-safe

@@ -188,7 +188,7 @@ export default function EmployeeDetailPage() {
                 <div>
                   <span className="text-slate-500 block text-[10px] uppercase font-mono">Monthly Base Salary</span>
                   <span className="text-lg font-bold text-emerald-400 font-mono">
-                    BDT {Number(employee.salaryStructures[0].baseSalary).toLocaleString()} (Taka)
+                    {Number(employee.salaryStructures[0].baseSalary).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-[11px] text-slate-400">

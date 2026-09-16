@@ -10,11 +10,11 @@ import '../../../styles/dashboard.css';
 export default function DashboardPage() {
   const { user } = useAuth();
   const [stats, setStats] = useState({
-    headcount: 4,
-    attendanceRate: 96.2,
+    headcount: 0,
+    attendanceRate: 0,
     pendingLeaves: 0,
-    monthlyPayroll: '38K',
-    payrollPeriod: 'Approved (Aug)',
+    monthlyPayroll: '—',
+    payrollPeriod: 'No runs yet',
   });
   const [clockStatus, setClockStatus] = useState<'IDLE' | 'CLOCKED_IN' | 'CLOCKED_OUT'>('IDLE');
   const [timeState, setTimeState] = useState({
@@ -67,6 +67,21 @@ export default function DashboardPage() {
       .then((res) => {
         if (Array.isArray(res)) {
           setStats((prev) => ({ ...prev, pendingLeaves: res.length }));
+        }
+      })
+      .catch(() => {});
+
+    api.get('/payroll/runs?limit=1&status=PAID')
+      .then((res) => {
+        const runs = res?.data ?? res;
+        if (Array.isArray(runs) && runs.length > 0) {
+          const latest = runs[0];
+          const total = latest?.totalNetPay ?? latest?.totalGrossPay ?? 0;
+          const formatted = total > 0
+            ? `£${(total / 1000).toFixed(1)}K`
+            : '£0';
+          const period = latest?.periodLabel ?? latest?.month ?? 'Latest run';
+          setStats((prev) => ({ ...prev, monthlyPayroll: formatted, payrollPeriod: period }));
         }
       })
       .catch(() => {});
@@ -201,6 +216,7 @@ export default function DashboardPage() {
               <div className="kpi-label">Monthly Payroll</div>
               <div className="kpi-context">{stats.payrollPeriod}</div>
             </div>
+
           </div>
 
           {/* System Modules Grid */}
@@ -311,7 +327,7 @@ export default function DashboardPage() {
                 <div className="module-desc">Salary processing, deductions, payslip generation, and disbursement tracking.</div>
               </div>
               <div className="module-footer">
-                <span className="module-stat">{stats.monthlyPayroll} approved</span>
+                <span className="module-stat">{stats.monthlyPayroll !== '—' ? `${stats.monthlyPayroll} approved` : 'No payroll runs yet'}</span>
                 <span className="module-arrow">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6" />

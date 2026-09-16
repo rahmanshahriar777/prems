@@ -23,9 +23,9 @@ The application is deployed and actively serving production traffic on **Google 
 
 ### Quick Demo Accounts (Password: `Password123!`)
 - 👑 **Super Admin**: `superadmin@ems.local`
-- 📋 **HR Manager**: `hradmin@ems.local`
-- 👔 **Manager (Shahriar Rahman)**: `manager@ems.local`
-- 💻 **Employee (Sadia Rahman)**: `sadia.rahman@ems.local`
+- 📋 **Operations Admin**: `operations@ems.local`
+- 👔 **Manager**: `manager@ems.local`
+- 💻 **Employee (Rasel Mahmud)**: `rasel.mahmud@ems.local`
 
 ## 🏛️ System Architecture
 
@@ -151,9 +151,9 @@ All demo accounts use password: `Password123!`
 | Role | Email | Permissions Scope |
 | :--- | :--- | :--- |
 | **Super Admin** | `superadmin@ems.local` | Universal access, audit logs, system configurations |
-| **HR Admin** | `hradmin@ems.local` | HR Manager: Employee CRUD, departments, leave management, payroll runs |
-| **Manager** | `manager@ems.local` | Shahriar Rahman: Team timesheet review, leave approvals, performance reviews |
-| **Employee** | `sadia.rahman@ems.local` | Sadia Rahman: Clock in/out, view payslips, request leaves, performance tracking |
+| **Operations Admin** | `operations@ems.local` | Operations Admin: Employee CRUD, departments, leave management, payroll runs |
+| **Manager** | `manager@ems.local` | Team Manager: Team timesheet review, leave approvals, performance reviews |
+| **Employee** | `rasel.mahmud@ems.local` | Rasel Mahmud: Clock in/out, view payslips, request leaves, performance tracking |
 
 ---
 

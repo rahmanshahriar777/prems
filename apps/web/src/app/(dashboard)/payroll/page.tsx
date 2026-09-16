@@ -155,7 +155,7 @@ export default function PayrollPage() {
               <div className="pay-header-actions">
                 <div className="pay-stat-pill">
                   <span>Standard</span>
-                  <span className="count">BDT (৳) Currency</span>
+                  <span className="count">GBP (£) Currency</span>
                 </div>
 
                 {hasRole(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN) && (
@@ -172,7 +172,7 @@ export default function PayrollPage() {
               <div className="pay-quick-stat-card">
                 <div>
                   <div className="pay-quick-stat-label">Monthly Net Disbursed</div>
-                  <div className="pay-quick-stat-value">BDT {totalDisbursed.toLocaleString()}</div>
+                  <div className="pay-quick-stat-value">{totalDisbursed.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}</div>
                 </div>
                 <div className="pay-quick-stat-icon">
                   <Banknote className="w-5 h-5" />
@@ -197,7 +197,7 @@ export default function PayrollPage() {
                 <div>
                   <div className="pay-quick-stat-label">Average Compensation</div>
                   <div className="pay-quick-stat-value">
-                    BDT {payslips.length ? Math.round(totalDisbursed / payslips.length).toLocaleString() : '0'}
+                    {payslips.length ? Math.round(totalDisbursed / payslips.length).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' }) : '£0'}
                   </div>
                 </div>
                 <div className="pay-quick-stat-icon">
@@ -353,15 +353,15 @@ export default function PayrollPage() {
                       </td>
 
                       <td className="pay-amount-mono">
-                        BDT {Number(slip.grossPay).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        {Number(slip.grossPay).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
                       </td>
 
                       <td className="pay-amount-deduct">
-                        -BDT {Number(slip.totalDeductions).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        -{Number(slip.totalDeductions).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
                       </td>
 
                       <td className="pay-amount-net">
-                        BDT {Number(slip.netPay).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        {Number(slip.netPay).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
                       </td>
 
                       <td>
@@ -440,7 +440,7 @@ export default function PayrollPage() {
             <div className="pay-breakdown-list">
               <div className="pay-breakdown-row" style={{ fontWeight: 600, borderBottom: '1px solid var(--pay-border)' }}>
                 <span style={{ color: 'var(--pay-text-primary)' }}>Component Description</span>
-                <span style={{ color: 'var(--pay-text-primary)' }}>Amount (BDT)</span>
+                <span style={{ color: 'var(--pay-text-primary)' }}>Amount (GBP)</span>
               </div>
 
               {Array.isArray(selectedPayslip.breakdown) && selectedPayslip.breakdown.length > 0 ? (
@@ -455,14 +455,14 @@ export default function PayrollPage() {
                       }}
                     >
                       {item.type === 'DEDUCTION' ? '-' : '+'}
-                      BDT {Number(item.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                      {Number(item.amount).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
                     </span>
                   </div>
                 ))
               ) : (
                 <div className="pay-breakdown-row">
                   <span>Gross Salary Allowance</span>
-                  <span className="pay-amount-mono">BDT {Number(selectedPayslip.grossPay).toLocaleString()}</span>
+                  <span className="pay-amount-mono">{Number(selectedPayslip.grossPay).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}</span>
                 </div>
               )}
             </div>
@@ -470,7 +470,7 @@ export default function PayrollPage() {
             <div className="pay-total-card">
               <span className="pay-total-label">Total Net Disbursed:</span>
               <span className="pay-total-val">
-                BDT {Number(selectedPayslip.netPay).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                {Number(selectedPayslip.netPay).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
               </span>
             </div>
 

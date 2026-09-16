@@ -137,32 +137,14 @@ async function main() {
     },
   });
 
-  // HR Admin
+  // Operations Admin (user account only — no employee directory record)
   const hrUser = await prisma.user.upsert({
-    where: { email: 'hradmin@ems.local' },
+    where: { email: 'operations@ems.local' },
     update: { passwordHash: demoPasswordHash },
     create: {
-      email: 'hradmin@ems.local',
+      email: 'operations@ems.local',
       passwordHash: demoPasswordHash,
       roles: { create: { roleId: roles[SystemRole.HR_ADMIN].id } },
-    },
-  });
-
-  await prisma.employee.upsert({
-    where: { email: 'hradmin@ems.local' },
-    update: {},
-    create: {
-      employeeNumber: 'EMP-2026-0002',
-      userId: hrUser.id,
-      firstName: 'HR',
-      lastName: 'Manager',
-      email: 'hradmin@ems.local',
-      phone: '+880 1711-000002',
-      departmentId: deptHr.id,
-      designationId: desigHrMgr.id,
-      status: EmploymentStatus.FULL_TIME,
-      joiningDate: new Date('2024-02-15'),
-      profileSummary: 'Director of People and Human Resources operations.',
     },
   });
 
@@ -183,8 +165,8 @@ async function main() {
     create: {
       employeeNumber: 'EMP-2026-0003',
       userId: mgrUser.id,
-      firstName: 'Shahriar',
-      lastName: 'Rahman',
+      firstName: 'Team',
+      lastName: 'Manager',
       email: 'manager@ems.local',
       phone: '+880 1711-000003',
       departmentId: deptEngineering.id,
@@ -197,30 +179,30 @@ async function main() {
 
   // Team Employees
   const empUser = await prisma.user.upsert({
-    where: { email: 'sadia.rahman@ems.local' },
+    where: { email: 'rasel.mahmud@ems.local' },
     update: { passwordHash: demoPasswordHash },
     create: {
-      email: 'sadia.rahman@ems.local',
+      email: 'rasel.mahmud@ems.local',
       passwordHash: demoPasswordHash,
       roles: { create: { roleId: roles[SystemRole.EMPLOYEE].id } },
     },
   });
 
-  const sadiaEmployee = await prisma.employee.upsert({
-    where: { email: 'sadia.rahman@ems.local' },
+  const raselEmployee = await prisma.employee.upsert({
+    where: { email: 'rasel.mahmud@ems.local' },
     update: {},
     create: {
       employeeNumber: 'EMP-2026-0004',
       userId: empUser.id,
-      firstName: 'Sadia',
-      lastName: 'Rahman',
-      email: 'sadia.rahman@ems.local',
+      firstName: 'Rasel',
+      lastName: 'Mahmud',
+      email: 'rasel.mahmud@ems.local',
       phone: '+880 1711-000004',
       departmentId: deptEngineering.id,
       designationId: desigSrEng.id,
       managerId: managerEmployee.id,
       status: EmploymentStatus.FULL_TIME,
-      gender: Gender.FEMALE,
+      gender: Gender.MALE,
       joiningDate: new Date('2024-06-01'),
       profileSummary: 'Full-stack TypeScript developer specializing in distributed microservices and Next.js.',
     },

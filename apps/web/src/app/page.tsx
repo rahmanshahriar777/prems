@@ -42,15 +42,15 @@ const DEMO_ACCOUNTS: DemoAccount[] = [
     avatar: 'SA'
   },
   {
-    role: 'HR Manager',
-    email: 'hradmin@ems.local',
+    role: 'Operations Admin',
+    email: 'operations@ems.local',
     desc: 'Manages multi-tier departments, employee lifecycle, leave quotas, and automated payroll batches.',
-    badge: 'HR_ADMIN',
+    badge: 'Operation Admin',
     badgeClass: 'badge-hradmin',
-    avatar: 'HR'
+    avatar: 'OA'
   },
   {
-    role: 'Engineering Manager',
+    role: 'Manager',
     email: 'manager@ems.local',
     desc: 'Direct report approvals, timesheet validations, competency evaluations, and OKR milestones.',
     badge: 'MANAGER',
@@ -58,12 +58,12 @@ const DEMO_ACCOUNTS: DemoAccount[] = [
     avatar: 'SR'
   },
   {
-    role: 'Senior Staff Engineer',
-    email: 'sadia.rahman@ems.local',
+    role: 'Employee',
+    email: 'rasel.mahmud@ems.local',
     desc: 'Self-service shift clock-in, itemized payslip inspection, PTO requests, and appraisal reviews.',
     badge: 'EMPLOYEE',
     badgeClass: 'badge-employee',
-    avatar: 'SM'
+    avatar: 'RM'
   }
 ];
 

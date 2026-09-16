@@ -165,7 +165,7 @@ export const Sidebar: React.FC = () => {
 
             <div className="sidebar-user-details">
               <div className="sidebar-user-name">
-                {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Shahriar Rahman' : 'Shahriar Rahman'}
+                {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User' : 'User'}
               </div>
               <div className="sidebar-user-role">
                 <span>{user?.roles?.[0] || 'SUPER_ADMIN'}</span>

@@ -33,21 +33,21 @@ const DEMO_PERSONAS: Persona[] = [
     badgeColor: 'var(--login-rose)'
   },
   {
-    role: 'HR Manager',
-    badge: 'HR_ADMIN',
-    email: 'hradmin@ems.local',
+    role: 'Operations Admin',
+    badge: 'Operation Admin',
+    email: 'operations@ems.local',
     badgeColor: 'var(--login-info)'
   },
   {
-    role: 'Engineering Manager',
+    role: 'Manager',
     badge: 'MANAGER',
     email: 'manager@ems.local',
     badgeColor: 'var(--login-warning)'
   },
   {
-    role: 'Senior Staff Engineer',
+    role: 'Employee',
     badge: 'EMPLOYEE',
-    email: 'sadia.rahman@ems.local',
+    email: 'rasel.mahmud@ems.local',
     badgeColor: 'var(--login-positive)'
   }
 ];
