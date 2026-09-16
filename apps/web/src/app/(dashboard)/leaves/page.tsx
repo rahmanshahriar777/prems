@@ -83,72 +83,27 @@ export default function LeavesPage() {
         api.get('/leave-types').catch(() => null),
       ]);
 
-      if (balRes && Array.isArray(balRes) && balRes.length > 0) {
+      if (balRes && Array.isArray(balRes)) {
         setBalances(balRes);
       } else {
-        setBalances([
-          { leaveType: { name: 'Annual Paid Leave' }, allocatedDays: 20, usedDays: 3, remainingDays: 17 },
-          { leaveType: { name: 'Sick & Medical Leave' }, allocatedDays: 10, usedDays: 0, remainingDays: 10 },
-          { leaveType: { name: 'Casual & Personal' }, allocatedDays: 5, usedDays: 0, remainingDays: 5 },
-        ]);
+        setBalances([]);
       }
 
-      if (reqRes && Array.isArray(reqRes) && reqRes.length > 0) {
+      if (reqRes && Array.isArray(reqRes)) {
         setLeaveRequests(reqRes);
       } else {
-        setLeaveRequests([
-          {
-            id: '1',
-            employee: { firstName: 'Sadia', lastName: 'Rahman', employeeNumber: 'EMP-2026-0004' },
-            leaveType: { name: 'Annual Paid Leave' },
-            startDate: '2026-09-20',
-            endDate: '2026-09-22',
-            totalDays: 3,
-            reason: 'Attending architecture summit and family event',
-            status: 'PENDING',
-          },
-          {
-            id: '2',
-            employee: { firstName: 'Shahriar', lastName: 'Rahman', employeeNumber: 'EMP-2026-0003' },
-            leaveType: { name: 'Casual & Personal' },
-            startDate: '2026-08-10',
-            endDate: '2026-08-11',
-            totalDays: 1,
-            reason: 'Personal household relocation',
-            status: 'APPROVED',
-          },
-        ]);
+        setLeaveRequests([]);
       }
 
       if (typesRes && Array.isArray(typesRes) && typesRes.length > 0) {
         setLeaveTypes(typesRes);
         setLeaveTypeId(typesRes[0].id);
       } else {
-        setLeaveTypes([
-          { id: 'type-1', name: 'Annual Paid Leave', defaultDaysPerYear: 20 },
-          { id: 'type-2', name: 'Sick & Medical Leave', defaultDaysPerYear: 10 },
-          { id: 'type-3', name: 'Casual & Personal', defaultDaysPerYear: 5 },
-        ]);
-        setLeaveTypeId('type-1');
+        setLeaveTypes([]);
       }
     } catch {
-      setBalances([
-        { leaveType: { name: 'Annual Paid Leave' }, allocatedDays: 20, usedDays: 3, remainingDays: 17 },
-        { leaveType: { name: 'Sick & Medical Leave' }, allocatedDays: 10, usedDays: 0, remainingDays: 10 },
-        { leaveType: { name: 'Casual & Personal' }, allocatedDays: 5, usedDays: 0, remainingDays: 5 },
-      ]);
-      setLeaveRequests([
-        {
-          id: '1',
-          employee: { firstName: 'Sadia', lastName: 'Rahman', employeeNumber: 'EMP-2026-0004' },
-          leaveType: { name: 'Annual Paid Leave' },
-          startDate: '2026-09-20',
-          endDate: '2026-09-22',
-          totalDays: 3,
-          reason: 'Attending architecture summit and family event',
-          status: 'PENDING',
-        },
-      ]);
+      setBalances([]);
+      setLeaveRequests([]);
     } finally {
       setLoading(false);
     }
@@ -256,44 +211,60 @@ export default function LeavesPage() {
             </div>
 
             {/* Balances Entitlements Cards */}
-            <div className="leave-balances-grid">
-              {balances.map((b, i) => {
-                const IconComponent = getBalanceIcon(b.leaveType?.name);
-                const percent = Math.min(100, Math.round((b.usedDays / (b.allocatedDays || 1)) * 100));
-                return (
-                  <div key={i} className="leave-balance-card">
-                    <div>
-                      <div className="leave-balance-header">
-                        <span className="leave-balance-title">{b.leaveType?.name || 'Leave Entitlement'}</span>
-                        <div className="leave-balance-icon">
-                          <IconComponent className="w-4 h-4" />
+            {balances.length === 0 ? (
+              <div
+                style={{
+                  padding: '24px 20px',
+                  textAlign: 'center',
+                  background: 'var(--leave-surface)',
+                  border: '1px dashed var(--leave-border)',
+                  borderRadius: 'var(--leave-radius-lg)',
+                  color: 'var(--leave-text-secondary)',
+                  fontSize: '13px',
+                }}
+              >
+                No active leave balances assigned. Entitlements are automatically established upon employee enrollment.
+              </div>
+            ) : (
+              <div className="leave-balances-grid">
+                {balances.map((b, i) => {
+                  const IconComponent = getBalanceIcon(b.leaveType?.name);
+                  const percent = Math.min(100, Math.round((b.usedDays / (b.allocatedDays || 1)) * 100));
+                  return (
+                    <div key={i} className="leave-balance-card">
+                      <div>
+                        <div className="leave-balance-header">
+                          <span className="leave-balance-title">{b.leaveType?.name || 'Leave Entitlement'}</span>
+                          <div className="leave-balance-icon">
+                            <IconComponent className="w-4 h-4" />
+                          </div>
+                        </div>
+
+                        <div className="leave-balance-stat">
+                          <span className="leave-balance-remaining">{b.remainingDays}</span>
+                          <span className="leave-balance-unit">days remaining</span>
+                        </div>
+
+                        <div className="leave-progress-track">
+                          <div
+                            className="leave-progress-fill"
+                            style={{
+                              width: `${100 - percent}%`,
+                              background: b.remainingDays <= 3 ? 'var(--leave-warning)' : 'var(--leave-accent)',
+                            }}
+                          />
                         </div>
                       </div>
 
-                      <div className="leave-balance-stat">
-                        <span className="leave-balance-remaining">{b.remainingDays}</span>
-                        <span className="leave-balance-unit">days remaining</span>
-                      </div>
-
-                      <div className="leave-progress-track">
-                        <div
-                          className="leave-progress-fill"
-                          style={{
-                            width: `${100 - percent}%`,
-                            background: b.remainingDays <= 3 ? 'var(--leave-warning)' : 'var(--leave-accent)',
-                          }}
-                        />
+                      <div className="leave-balance-meta">
+                        <span>Allocated: {b.allocatedDays}d</span>
+                        <span>Used: {b.usedDays || 0}d</span>
                       </div>
                     </div>
-
-                    <div className="leave-balance-meta">
-                      <span>Allocated: {b.allocatedDays}d</span>
-                      <span>Used: {b.usedDays || 0}d</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </header>
 
           {/* Search & Status Filter Toolbar */}

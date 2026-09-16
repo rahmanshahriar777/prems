@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paid Time Off & Leaves — NEO EMS</title>
+  <title>Paid Time Off & Leaves — Practical Roof Solutions Ltd</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
@@ -859,9 +859,9 @@
             <div class="leave-header-actions">
               <div class="leave-stat-pill">
                 <span>Total Available</span>
-                <span class="count">32 Days</span>
+                <span class="count">0 Days</span>
               </div>
-              <button class="leave-btn-primary" onclick="alert('Opening leave application modal...')">
+              <button class="leave-btn-primary" onclick="openLeaveModal()">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 <span>Request Leave</span>
               </button>
@@ -869,84 +869,8 @@
           </div>
 
           <!-- Balances Row -->
-          <div class="leave-balances-grid">
-            <!-- Card 1 -->
-            <div class="leave-balance-card">
-              <div>
-                <div class="leave-balance-header">
-                  <span class="leave-balance-title">Annual Paid Leave</span>
-                  <div class="leave-balance-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
-                  </div>
-                </div>
-
-                <div class="leave-balance-stat">
-                  <span class="leave-balance-remaining">17</span>
-                  <span class="leave-balance-unit">days remaining</span>
-                </div>
-
-                <div class="leave-progress-track">
-                  <div class="leave-progress-fill" style="width: 85%;"></div>
-                </div>
-              </div>
-
-              <div class="leave-balance-meta">
-                <span>Allocated: 20d</span>
-                <span>Used: 3d</span>
-              </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="leave-balance-card">
-              <div>
-                <div class="leave-balance-header">
-                  <span class="leave-balance-title">Sick & Medical Leave</span>
-                  <div class="leave-balance-icon" style="background: var(--info-bg); color: var(--info);">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                  </div>
-                </div>
-
-                <div class="leave-balance-stat">
-                  <span class="leave-balance-remaining">10</span>
-                  <span class="leave-balance-unit">days remaining</span>
-                </div>
-
-                <div class="leave-progress-track">
-                  <div class="leave-progress-fill" style="width: 100%;"></div>
-                </div>
-              </div>
-
-              <div class="leave-balance-meta">
-                <span>Allocated: 10d</span>
-                <span>Used: 0d</span>
-              </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="leave-balance-card">
-              <div>
-                <div class="leave-balance-header">
-                  <span class="leave-balance-title">Casual & Personal</span>
-                  <div class="leave-balance-icon" style="background: var(--purple-bg); color: var(--purple);">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-                  </div>
-                </div>
-
-                <div class="leave-balance-stat">
-                  <span class="leave-balance-remaining">5</span>
-                  <span class="leave-balance-unit">days remaining</span>
-                </div>
-
-                <div class="leave-progress-track">
-                  <div class="leave-progress-fill" style="width: 100%;"></div>
-                </div>
-              </div>
-
-              <div class="leave-balance-meta">
-                <span>Allocated: 5d</span>
-                <span>Used: 0d</span>
-              </div>
-            </div>
+          <div style="padding: 28px 20px; text-align: center; background: #ffffff; border: 1px dashed var(--border); border-radius: 12px; color: var(--text-secondary); font-size: 13px; margin-top: 16px;">
+            No active leave balances assigned. Entitlements are automatically established upon employee enrollment.
           </div>
         </header>
 
@@ -958,9 +882,9 @@
           </div>
 
           <div class="leave-filter-tabs">
-            <button class="leave-tab-btn active" onclick="filterLeaveTab('ALL', this)">All Requests (2)</button>
-            <button class="leave-tab-btn" onclick="filterLeaveTab('PENDING', this)">Pending Review (1)</button>
-            <button class="leave-tab-btn" onclick="filterLeaveTab('APPROVED', this)">Approved (1)</button>
+            <button class="leave-tab-btn active" onclick="filterLeaveTab('ALL', this)">All Requests (0)</button>
+            <button class="leave-tab-btn" onclick="filterLeaveTab('PENDING', this)">Pending Review (0)</button>
+            <button class="leave-tab-btn" onclick="filterLeaveTab('APPROVED', this)">Approved (0)</button>
           </div>
         </div>
 
@@ -979,51 +903,9 @@
               </tr>
             </thead>
             <tbody id="leaveTableBody">
-              <tr data-status="PENDING" data-applicant="Sadia Rahman" data-code="EMP-2026-0004" data-type="Annual Paid Leave">
-                <td>
-                  <div class="leave-table-user">
-                    <div class="leave-user-avatar">SR</div>
-                    <div>
-                      <div class="leave-user-name">Sadia Rahman</div>
-                      <div class="leave-user-code">EMP-2026-0004</div>
-                    </div>
-                  </div>
-                </td>
-                <td style="font-weight: 500; color: var(--text-primary);">Annual Paid Leave</td>
-                <td><span class="leave-dates-tag">2026-09-20 &rarr; 2026-09-22</span></td>
-                <td><span class="leave-days-badge">3d</span></td>
-                <td><span style="font-size: 12.5px;">Attending architecture summit and family event</span></td>
-                <td><span class="leave-status-badge leave-status-pending">PENDING</span></td>
-                <td style="text-align: right;">
-                  <div class="leave-actions-row">
-                    <button class="leave-action-btn leave-btn-approve" onclick="actionLeave(this, 'Approved')">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                      <span>Approve</span>
-                    </button>
-                    <button class="leave-action-btn leave-btn-reject" onclick="actionLeave(this, 'Rejected')">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                      <span>Reject</span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr data-status="APPROVED" data-applicant="Shahriar Rahman" data-code="EMP-2026-0003" data-type="Casual & Personal">
-                <td>
-                  <div class="leave-table-user">
-                    <div class="leave-user-avatar" style="background: var(--info-bg); color: var(--info);">SR</div>
-                    <div>
-                      <div class="leave-user-name">Shahriar Rahman</div>
-                      <div class="leave-user-code">EMP-2026-0003</div>
-                    </div>
-                  </div>
-                </td>
-                <td style="font-weight: 500; color: var(--text-primary);">Casual & Personal</td>
-                <td><span class="leave-dates-tag">2026-08-10 &rarr; 2026-08-11</span></td>
-                <td><span class="leave-days-badge">1d</span></td>
-                <td><span style="font-size: 12.5px;">Personal household relocation</span></td>
-                <td><span class="leave-status-badge leave-status-approved">APPROVED</span></td>
-                <td style="text-align: right;">
-                  <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-tertiary);">Processed</span>
+              <tr id="leaveEmptyRow">
+                <td colspan="7" style="text-align: center; padding: 48px 20px; color: var(--text-tertiary); font-size: 13px;">
+                  No leave requests recorded. Click "Request Leave" above to submit an application.
                 </td>
               </tr>
             </tbody>
@@ -1071,7 +953,8 @@
     }
 
     function applyFilters() {
-      const rows = document.querySelectorAll('#leaveTableBody tr');
+      const rows = document.querySelectorAll('#leaveTableBody tr:not(#leaveEmptyRow)');
+      let visible = 0;
       rows.forEach(row => {
         const status = row.getAttribute('data-status');
         const applicant = (row.getAttribute('data-applicant') || '').toLowerCase();
@@ -1083,10 +966,19 @@
 
         if (matchStatus && matchSearch) {
           row.style.display = '';
+          visible++;
         } else {
           row.style.display = 'none';
         }
       });
+      const emptyRow = document.getElementById('leaveEmptyRow');
+      if (emptyRow) {
+        emptyRow.style.display = rows.length === 0 || visible === 0 ? '' : 'none';
+      }
+    }
+
+    function openLeaveModal() {
+      window.location.href = '/leaves';
     }
 
     function actionLeave(btn, action) {
