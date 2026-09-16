@@ -125,7 +125,7 @@ const INITIAL_EVENTS: CalendarEvent[] = [
     startTime: '15:00',
     endTime: '16:30',
     location: 'Main Auditorium & Zoom Live',
-    description: 'Executive roadmap presentation by Neoteric Digital leadership.',
+    description: 'Executive roadmap presentation by Practical Roof Solutions Ltd leadership.',
     priority: 'normal'
   },
   {

@@ -103,9 +103,9 @@ export default function LoginPage() {
         {/* Header with Logo */}
         <div className="login-header">
           <Link href="/" className="login-brand-link">
-            <div className="login-brand-mark">N</div>
+            <div className="login-brand-mark">P</div>
             <div className="login-brand-text">
-              <div className="login-brand-name">Neoteric Digital</div>
+              <div className="login-brand-name">Practical Roof Solutions Ltd</div>
               <div className="login-brand-sub">
                 <span>Identity Gateway</span>
                 <span className="login-brand-badge">EMS</span>
@@ -243,7 +243,7 @@ export default function LoginPage() {
         <div className="login-footer-links">
           <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
             <ArrowLeft size={13} />
-            <span>Return to Neoteric Digital Overview</span>
+            <span>Return to Practical Roof Solutions Ltd Overview</span>
           </Link>
         </div>
       </div>

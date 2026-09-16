@@ -268,7 +268,7 @@ export default function PayrollPage() {
               <div>
                 <h1 className="pay-title">Compensation & Payroll Runs</h1>
                 <p className="pay-subtitle">
-                  Decimal-safe monetary calculations, itemized salary disbursements, and compliance audits across Neoteric Digital.
+                  Decimal-safe monetary calculations, itemized salary disbursements, and compliance audits across Practical Roof Solutions Ltd.
                 </p>
               </div>
 
@@ -507,9 +507,9 @@ export default function PayrollPage() {
           <div className="pay-modal" onClick={(e) => e.stopPropagation()}>
             <div className="pay-modal-header">
               <div className="pay-brand-header">
-                <div className="pay-brand-box">N</div>
+                <div className="pay-brand-box">P</div>
                 <div>
-                  <h4 className="pay-modal-title">Neoteric Digital</h4>
+                  <h4 className="pay-modal-title">Practical Roof Solutions Ltd</h4>
                   <p className="pay-modal-sub">Official Salary Disbursement Statement</p>
                 </div>
               </div>
@@ -581,7 +581,7 @@ export default function PayrollPage() {
 
             <div className="pay-modal-footer">
               <span style={{ fontSize: '10.5px', fontFamily: 'var(--pay-font-mono)', color: 'var(--pay-text-tertiary)' }}>
-                Digitally certified &bull; Neoteric Decimal Payroll
+                Digitally certified &bull; Practical Roof Solutions Ltd Decimal Payroll
               </span>
               <button
                 onClick={() => alert('Official Payslip downloaded to device.')}

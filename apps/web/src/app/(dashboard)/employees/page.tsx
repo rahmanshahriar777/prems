@@ -118,7 +118,7 @@ export default function EmployeesPage() {
               <div>
                 <h1 className="emp-title">Employees Directory</h1>
                 <p className="emp-subtitle">
-                  Workforce telemetry, departmental rosters, and verified personnel credentials across Neoteric Digital.
+                  Workforce telemetry, departmental rosters, and verified personnel credentials across Practical Roof Solutions Ltd.
                 </p>
               </div>
 

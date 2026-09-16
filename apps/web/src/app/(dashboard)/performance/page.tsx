@@ -189,7 +189,7 @@ export default function PerformancePage() {
               <div>
                 <h1 className="perf-title">Performance & Professional Development</h1>
                 <p className="perf-subtitle">
-                  Quarterly appraisal cycles, OKRs, competency reviews, and continuous leadership telemetry across Neoteric Digital.
+                  Quarterly appraisal cycles, OKRs, competency reviews, and continuous leadership telemetry across Practical Roof Solutions Ltd.
                 </p>
               </div>
 

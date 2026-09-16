@@ -1,5 +1,5 @@
 /**
- * Neoteric Digital Corporate Email Template Generator
+ * Practical Roof Solutions Ltd Corporate Email Template Generator
  * Produces clean, responsive, client-compatible HTML emails.
  */
 
@@ -36,12 +36,12 @@ export function generateCorporateEmailHtml(options: EmailTemplateOptions): strin
 </head>
 <body>
   <div class="container">
-    <!-- Header with Neoteric Digital Logo -->
+    <!-- Header with Practical Roof Solutions Ltd Logo -->
     <div class="header">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td>
-            <img src="${logoUrl}" alt="Neoteric Digital" height="38" style="height: 38px; width: auto; display: block; border: 0;" />
+            <img src="${logoUrl}" alt="Practical Roof Solutions Ltd" height="38" style="height: 38px; width: auto; display: block; border: 0;" />
           </td>
           <td align="right" style="font-family: monospace; font-size: 11px; color: #64748b; text-transform: uppercase;">
             Enterprise EMS
@@ -63,14 +63,14 @@ export function generateCorporateEmailHtml(options: EmailTemplateOptions): strin
 
       <p style="margin-top: 32px; color: #475569; font-size: 14px;">
         Warm regards,<br />
-        <strong>Neoteric Digital Human Resources & Operations</strong>
+        <strong>Practical Roof Solutions Ltd Human Resources & Operations</strong>
       </p>
     </div>
 
     <!-- Official Corporate Footer -->
     <div class="footer">
       <p style="margin: 0 0 8px 0;">
-        &copy; ${new Date().getFullYear()} <strong>Neoteric Digital Ltd.</strong> All rights reserved.
+        &copy; ${new Date().getFullYear()} <strong>Practical Roof Solutions Ltd.</strong> All rights reserved.
       </p>
       <p style="margin: 0; font-size: 11px; color: #94a3b8;">
         This is an official system transmission. Dhaka Office (UTC+6).<br />

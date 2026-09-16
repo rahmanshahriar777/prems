@@ -53,12 +53,12 @@ export const Logo: React.FC<LogoProps> = ({
         className={`relative overflow-hidden rounded-xl bg-white shadow-sm flex items-center justify-center p-1 border border-slate-200/80 ${
           sizeStyles[size]?.mark || 'w-10 h-10'
         } ${className}`}
-        title="Neoteric Digital"
+        title="Practical Roof Solutions Ltd"
       >
         <div className="relative w-full h-full overflow-hidden rounded-lg">
           <img
             src="/logo.png"
-            alt="Neoteric Digital Icon"
+            alt="Practical Roof Solutions Ltd Icon"
             className="w-[260%] max-w-none h-full object-cover object-left"
             loading={priority ? 'eager' : 'lazy'}
           />
@@ -76,7 +76,7 @@ export const Logo: React.FC<LogoProps> = ({
     >
       <img
         src="/logo.png"
-        alt="Neoteric Digital"
+        alt="Practical Roof Solutions Ltd"
         className={`object-contain ${sizeStyles[size]?.full || 'h-9 w-auto'} transition-all duration-200`}
         style={{ aspectRatio: '960 / 364' }}
         loading={priority ? 'eager' : 'lazy'}

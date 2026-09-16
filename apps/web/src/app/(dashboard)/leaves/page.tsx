@@ -238,7 +238,7 @@ export default function LeavesPage() {
               <div>
                 <h1 className="leave-title">Paid Time Off & Leaves</h1>
                 <p className="leave-subtitle">
-                  Entitlement telemetry, self-service leave requests, and workforce availability across Neoteric Digital.
+                  Entitlement telemetry, self-service leave requests, and workforce availability across Practical Roof Solutions Ltd.
                 </p>
               </div>
 

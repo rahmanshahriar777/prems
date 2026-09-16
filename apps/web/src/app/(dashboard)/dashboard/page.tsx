@@ -101,7 +101,7 @@ export default function DashboardPage() {
               <div>
                 <h1 className="welcome-greeting">Welcome back, {displayName}</h1>
                 <p className="welcome-subtitle">
-                  Neoteric Digital EMS — All enterprise operations active and nominal.
+                  Practical Roof Solutions Ltd EMS — All enterprise operations active and nominal.
                 </p>
               </div>
               <div className="welcome-meta">

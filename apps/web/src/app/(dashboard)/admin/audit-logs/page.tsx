@@ -271,7 +271,7 @@ export default function AuditLogsPage() {
                     padding: '2px 8px',
                     borderRadius: '4px'
                   }}>
-                    Forensic Ledger &bull; Neoteric Digital
+                    Forensic Ledger &bull; Practical Roof Solutions Ltd
                   </span>
                 </div>
                 <h1 className="audit-title">System Compliance & Audit Trail</h1>
@@ -525,7 +525,7 @@ export default function AuditLogsPage() {
           <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: 'var(--audit-text-tertiary)', flexWrap: 'wrap', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Lock size={12} style={{ color: 'var(--audit-accent)' }} />
-              <span>Cryptographic write-once append-only ledger verified by Neoteric Core Security Guard.</span>
+              <span>Cryptographic write-once append-only ledger verified by Practical Roof Solutions Ltd Core Security Guard.</span>
             </div>
             <div>
               Displaying {filteredLogs.length} of {logs.length} logged mutations

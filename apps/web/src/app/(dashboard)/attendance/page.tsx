@@ -220,7 +220,7 @@ export default function AttendancePage() {
               <div>
                 <h1 className="att-title">Daily Attendance Tracker</h1>
                 <p className="att-subtitle">
-                  Real-time timesheet telemetry, biometric punch synchronization, and shift verification for Neoteric Digital.
+                  Real-time timesheet telemetry, biometric punch synchronization, and shift verification for Practical Roof Solutions Ltd.
                 </p>
               </div>
 

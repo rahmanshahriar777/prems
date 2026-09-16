@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Starting Neoteric Digital EMS on Google Cloud Run..."
+echo "🚀 Starting Practical Roof Solutions Ltd EMS on Google Cloud Run..."
 
 # Set Cloud Run port (default 8080)
 PORT="${PORT:-8080}"

@@ -98,11 +98,11 @@ export const Sidebar: React.FC = () => {
       {/* Brand Header */}
       <Link href="/dashboard" className="sidebar-brand">
         <div className="sidebar-brand-left">
-          <div className="sidebar-brand-mark">N</div>
+          <div className="sidebar-brand-mark">P</div>
           <div>
-            <div className="sidebar-brand-title">Neoteric</div>
+            <div className="sidebar-brand-title">Practical Roof</div>
             <div className="sidebar-brand-sub">
-              <span className="sidebar-brand-label">Digital</span>
+              <span className="sidebar-brand-label">Solutions Ltd</span>
               <span className="sidebar-brand-dot"></span>
               <span className="sidebar-brand-type">EMS</span>
             </div>

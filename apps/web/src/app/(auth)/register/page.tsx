@@ -38,7 +38,7 @@ export default function RegisterPage() {
           </Link>
           <div>
             <h2 className="text-2xl font-bold text-slate-100 tracking-tight">Create Account</h2>
-            <p className="text-xs text-slate-400 mt-1">Join the Neoteric Digital Employee Management System</p>
+            <p className="text-xs text-slate-400 mt-1">Join the Practical Roof Solutions Ltd Employee Management System</p>
           </div>
         </div>
 

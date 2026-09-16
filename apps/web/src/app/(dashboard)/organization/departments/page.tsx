@@ -155,7 +155,7 @@ export default function DepartmentsPage() {
               <div>
                 <h1 className="dept-title">Organizational Departments</h1>
                 <p className="dept-subtitle">
-                  Divisional hierarchies, functional units, and headcount distribution across Neoteric Digital.
+                  Divisional hierarchies, functional units, and headcount distribution across Practical Roof Solutions Ltd.
                 </p>
               </div>
 
