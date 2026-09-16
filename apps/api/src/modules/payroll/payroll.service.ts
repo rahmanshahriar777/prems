@@ -180,7 +180,7 @@ export class PayrollService {
     }
 
     // Fetch active employees eligible for payroll
-    const employees = await this.prisma.employee.findMany({
+    let employees = await this.prisma.employee.findMany({
       where: {
         deletedAt: null,
         status: 'FULL_TIME',
@@ -198,7 +198,59 @@ export class PayrollService {
     });
 
     if (employees.length === 0) {
-      throw new BadRequestException('No active employees with assigned salary structures found for this run');
+      const unassignedEmployees = await this.prisma.employee.findMany({
+        where: {
+          deletedAt: null,
+          ...(dto.departmentId && { departmentId: dto.departmentId }),
+        },
+      });
+
+      if (unassignedEmployees.length > 0) {
+        const defaultStructure =
+          (await this.prisma.salaryStructure.findFirst({
+            where: { isDefault: true },
+            include: { components: true },
+          })) ||
+          (await this.prisma.salaryStructure.findFirst({
+            include: { components: true },
+          }));
+
+        if (defaultStructure) {
+          for (const emp of unassignedEmployees) {
+            await this.prisma.employeeSalaryStructure.create({
+              data: {
+                employeeId: emp.id,
+                salaryStructureId: defaultStructure.id,
+                baseSalary: 5000,
+                effectiveFrom: new Date(),
+                isActive: true,
+              },
+            });
+          }
+
+          employees = await this.prisma.employee.findMany({
+            where: {
+              deletedAt: null,
+              ...(dto.departmentId && { departmentId: dto.departmentId }),
+              salaryStructures: {
+                some: { isActive: true },
+              },
+            },
+            include: {
+              salaryStructures: {
+                where: { isActive: true },
+                include: { salaryStructure: { include: { components: true } } },
+              },
+            },
+          });
+        }
+      }
+    }
+
+    if (employees.length === 0) {
+      throw new BadRequestException(
+        'No active employees found in the directory for this payroll cycle. Please onboard an employee first.',
+      );
     }
 
     return this.prisma.$transaction(async (tx) => {

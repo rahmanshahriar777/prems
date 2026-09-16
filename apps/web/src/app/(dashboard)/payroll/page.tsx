@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import {
   Banknote,
   Plus,
@@ -158,10 +159,10 @@ export default function PayrollPage() {
                 </div>
 
                 {hasRole(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN) && (
-                  <button onClick={() => setShowRunModal(true)} className="pay-btn-primary">
+                  <Link href="/payroll/new" className="pay-btn-primary" style={{ textDecoration: 'none' }}>
                     <Plus className="w-4 h-4" />
                     <span>Run Payroll Cycle</span>
-                  </button>
+                  </Link>
                 )}
               </div>
             </div>
@@ -303,14 +304,14 @@ export default function PayrollPage() {
                   Reset Query
                 </button>
               ) : hasRole(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN) && (
-                <button
-                  onClick={() => setShowRunModal(true)}
+                <Link
+                  href="/payroll/new"
                   className="pay-btn-primary"
-                  style={{ marginTop: '16px', display: 'inline-flex' }}
+                  style={{ marginTop: '16px', display: 'inline-flex', textDecoration: 'none' }}
                 >
                   <Plus className="w-4 h-4" />
                   <span>Run First Payroll Cycle</span>
-                </button>
+                </Link>
               )}
             </div>
           ) : (
