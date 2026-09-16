@@ -120,6 +120,12 @@ export class CreateGoalDto {
   @Matches(/^\d{4}-\d{2}-\d{2}$/)
   targetDate: string;
 
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  @MaxLength(100)
+  category?: string;
+
   @ApiPropertyOptional({ default: 0 })
   @IsInt()
   @Min(0)

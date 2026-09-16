@@ -165,22 +165,52 @@ export class PerformanceService {
   // Goals
   // ---------------------------------------------------------------------------
 
-  async getGoals(employeeId: string) {
-    return this.prisma.goal.findMany({
-      where: { employeeId },
+  async getGoals(employeeId?: string) {
+    const where = employeeId ? { employeeId } : {};
+    const goals = await this.prisma.goal.findMany({
+      where,
+      include: {
+        employee: {
+          select: { id: true, firstName: true, lastName: true, employeeNumber: true, designation: { select: { title: true } } },
+        },
+      },
       orderBy: { targetDate: 'asc' },
+    });
+
+    return goals.map((g) => {
+      let category = 'Operational Target';
+      let cleanDescription = g.description;
+      if (g.description && g.description.startsWith('[') && g.description.includes(']')) {
+        const endBracket = g.description.indexOf(']');
+        category = g.description.substring(1, endBracket);
+        cleanDescription = g.description.substring(endBracket + 1).trim();
+      }
+      return {
+        ...g,
+        category,
+        description: cleanDescription,
+      };
     });
   }
 
   async createGoal(employeeId: string, dto: CreateGoalDto) {
+    let finalDescription = dto.description;
+    if (dto.category) {
+      finalDescription = `[${dto.category}] ${dto.description || ''}`.trim();
+    }
     return this.prisma.goal.create({
       data: {
         employeeId: dto.employeeId || employeeId,
         title: dto.title,
-        description: dto.description,
+        description: finalDescription,
         targetDate: new Date(dto.targetDate),
-        progress: dto.progress || 0,
+        progress: dto.progress !== undefined ? dto.progress : 0,
         status: (dto.status as any) || 'NOT_STARTED',
+      },
+      include: {
+        employee: {
+          select: { id: true, firstName: true, lastName: true, employeeNumber: true },
+        },
       },
     });
   }

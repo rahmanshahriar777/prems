@@ -92,16 +92,19 @@ export class PerformanceController {
   @Get('goals')
   @ApiOperation({ summary: 'List goals for current employee or target employee' })
   getGoals(@CurrentUser() user: JwtPayload, @Query('employeeId') employeeId?: string) {
-    const target = employeeId || user.employeeId;
-    if (!target) throw new ForbiddenException('Employee profile required');
+    const isHrOrAdmin = user.roles?.some((r) => [SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN].includes(r));
+    const target = employeeId || (isHrOrAdmin ? undefined : user.employeeId);
+    if (!target && !isHrOrAdmin) throw new ForbiddenException('Employee profile required');
     return this.service.getGoals(target);
   }
 
   @Post('goals')
   @ApiOperation({ summary: 'Create a personal or team goal' })
   createGoal(@Body() dto: CreateGoalDto, @CurrentUser() user: JwtPayload) {
-    if (!user.employeeId) throw new ForbiddenException('Employee profile required');
-    return this.service.createGoal(user.employeeId, dto);
+    const isHrOrAdmin = user.roles?.some((r) => [SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN].includes(r));
+    const targetEmpId = (isHrOrAdmin && dto.employeeId) ? dto.employeeId : (dto.employeeId || user.employeeId);
+    if (!targetEmpId) throw new ForbiddenException('Employee profile required');
+    return this.service.createGoal(targetEmpId, dto);
   }
 
   @Patch('goals/:id')

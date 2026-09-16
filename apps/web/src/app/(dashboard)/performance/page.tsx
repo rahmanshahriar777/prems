@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import {
   TrendingUp,
   Target,
@@ -159,10 +160,10 @@ export default function PerformancePage() {
                   <span className="count">{cycles.length > 0 ? cycles[0].title : 'No Active Cycles'}</span>
                 </div>
 
-                <button onClick={() => setShowGoalModal(true)} className="perf-btn-primary">
+                <Link href="/performance/new" className="perf-btn-primary">
                   <Plus className="w-4 h-4" />
                   <span>Set New Goal / OKR</span>
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -382,14 +383,14 @@ export default function PerformancePage() {
                     <p style={{ fontSize: '12px', color: 'var(--perf-text-tertiary)', maxWidth: '320px', margin: '0 0 16px 0' }}>
                       No active OKRs or quarterly targets recorded. Establish a target to initiate tracked telemetry.
                     </p>
-                    <button
-                      onClick={() => setShowGoalModal(true)}
+                    <Link
+                      href="/performance/new"
                       className="perf-btn-primary"
-                      style={{ fontSize: '12px', padding: '6px 14px' }}
+                      style={{ fontSize: '12px', padding: '6px 14px', textDecoration: 'none' }}
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>Establish New Target</span>
-                    </button>
+                    </Link>
                   </div>
                 )}
               </div>
