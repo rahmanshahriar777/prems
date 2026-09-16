@@ -52,6 +52,7 @@ export default function DepartmentsPage() {
   const [code, setCode] = useState('');
   const [description, setDescription] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [modalError, setModalError] = useState<string | null>(null);
 
   const fetchDepts = async () => {
     setLoading(true);
@@ -85,16 +86,26 @@ export default function DepartmentsPage() {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
+    setModalError(null);
+    if (!name.trim() || !code.trim()) {
+      setModalError('Department Name and Code are required');
+      return;
+    }
     setSubmitting(true);
     try {
-      await api.post('/departments', { name, code, description });
+      await api.post('/departments', {
+        name: name.trim(),
+        code: code.trim().toUpperCase(),
+        description: description.trim() || undefined,
+      });
       setShowModal(false);
       setName('');
       setCode('');
       setDescription('');
+      setModalError(null);
       fetchDepts();
     } catch (err: any) {
-      alert(err.message || 'Failed to create department');
+      setModalError(err.message || 'Failed to create department');
     } finally {
       setSubmitting(false);
     }
@@ -152,12 +163,10 @@ export default function DepartmentsPage() {
                   <span className="count">{departments.length}</span>
                 </div>
 
-                {hasRole(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN) && (
-                  <button onClick={() => setShowModal(true)} className="dept-btn-primary">
-                    <Plus className="w-4 h-4" />
-                    <span>New Department</span>
-                  </button>
-                )}
+                <button onClick={() => { setModalError(null); setShowModal(true); }} className="dept-btn-primary">
+                  <Plus className="w-4 h-4" />
+                  <span>New Department</span>
+                </button>
               </div>
             </div>
 
@@ -277,15 +286,26 @@ export default function DepartmentsPage() {
                 No Departments Found
               </h3>
               <p style={{ fontSize: '13px', color: 'var(--dept-text-secondary)', marginTop: '4px' }}>
-                No organizational units match your current search query.
+                {search
+                  ? 'No organizational units match your current search query.'
+                  : 'No organizational divisions are currently configured. Set up business divisions to organize your workforce.'}
               </p>
-              {search && (
+              {search ? (
                 <button
                   onClick={() => setSearch('')}
                   className="dept-btn-primary"
                   style={{ marginTop: '16px' }}
                 >
                   Reset Query
+                </button>
+              ) : (
+                <button
+                  onClick={() => { setModalError(null); setShowModal(true); }}
+                  className="dept-btn-primary"
+                  style={{ marginTop: '16px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Create First Department</span>
                 </button>
               )}
             </div>
@@ -424,6 +444,22 @@ export default function DepartmentsPage() {
                 <X className="w-4 h-4" />
               </button>
             </div>
+
+            {modalError && (
+              <div
+                style={{
+                  background: 'var(--dept-rose-bg)',
+                  border: '1px solid var(--dept-rose)',
+                  color: 'var(--dept-rose)',
+                  padding: '10px 14px',
+                  borderRadius: 'var(--dept-radius-md)',
+                  fontSize: '12.5px',
+                  marginBottom: '14px',
+                }}
+              >
+                {modalError}
+              </div>
+            )}
 
             <form onSubmit={handleCreate}>
               <div className="dept-form-group">

@@ -50,8 +50,8 @@ export const Sidebar: React.FC = () => {
     {
       title: 'People & Org',
       items: [
-        { label: 'Employees', href: '/employees', icon: Users, badge: '4' },
-        { label: 'Departments', href: '/organization/departments', icon: Building2, badge: '5' },
+        { label: 'Employees', href: '/employees', icon: Users },
+        { label: 'Departments', href: '/organization/departments', icon: Building2 },
         { label: 'Calendar', href: '/calendar', icon: Calendar, badge: 'Today' },
         { label: 'Attendance', href: '/attendance', icon: Clock, badge: 'Active' },
         { label: 'Leaves', href: '/leaves', icon: CalendarDays },
