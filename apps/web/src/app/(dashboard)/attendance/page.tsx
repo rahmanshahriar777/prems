@@ -63,111 +63,27 @@ export default function AttendancePage() {
     try {
       if (activeTab === 'my') {
         const res = await api.get('/attendance/me');
-        if (res?.items && Array.isArray(res.items) && res.items.length > 0) {
+        if (res?.items && Array.isArray(res.items)) {
           setAttendanceList(res.items);
         } else {
-          setAttendanceList([
-            {
-              id: '1',
-              date: new Date().toISOString().split('T')[0],
-              clockInTime: '09:02:14 AM',
-              clockOutTime: '06:05:00 PM',
-              totalHoursWorked: 9.05,
-              status: 'PRESENT',
-              notes: 'Standard core shift logged',
-            },
-            {
-              id: '2',
-              date: '2026-09-12',
-              clockInTime: '09:18:00 AM',
-              clockOutTime: '06:10:00 PM',
-              totalHoursWorked: 8.87,
-              status: 'LATE',
-              notes: 'Transit delay on metro rail',
-            },
-            {
-              id: '3',
-              date: '2026-09-11',
-              clockInTime: '08:58:30 AM',
-              clockOutTime: '06:00:00 PM',
-              totalHoursWorked: 9.02,
-              status: 'PRESENT',
-              notes: 'Architecture review meeting',
-            },
-          ]);
+          setAttendanceList([]);
         }
         if (res?.meta?.today) {
           setTodayRecord(res.meta.today);
         } else {
-          setTodayRecord({
-            clockInTime: '09:02:14 AM',
-            status: 'PRESENT',
-          });
+          setTodayRecord(null);
         }
       } else {
         const res = await api.get('/attendance/team');
-        if (res?.items && Array.isArray(res.items) && res.items.length > 0) {
+        if (res?.items && Array.isArray(res.items)) {
           setAttendanceList(res.items);
         } else {
-          setAttendanceList([
-            {
-              id: '1',
-              date: new Date().toISOString().split('T')[0],
-              employee: { firstName: 'Sadia', lastName: 'Rahman', employeeNumber: 'EMP-2026-0004' },
-              clockInTime: '08:55:12 AM',
-              clockOutTime: '06:02:00 PM',
-              totalHoursWorked: 9.12,
-              status: 'PRESENT',
-              notes: 'Platform sprint delivery',
-            },
-            {
-              id: '2',
-              date: new Date().toISOString().split('T')[0],
-              employee: { firstName: 'Shahriar', lastName: 'Rahman', employeeNumber: 'EMP-2026-0003' },
-              clockInTime: '09:04:40 AM',
-              clockOutTime: '06:15:00 PM',
-              totalHoursWorked: 9.17,
-              status: 'PRESENT',
-              notes: 'Executive sprint retro',
-            },
-            {
-              id: '3',
-              date: new Date().toISOString().split('T')[0],
-              employee: { firstName: 'HR', lastName: 'Manager', employeeNumber: 'EMP-2026-0002' },
-              clockInTime: '09:22:10 AM',
-              clockOutTime: '06:10:00 PM',
-              totalHoursWorked: 8.8,
-              status: 'LATE',
-              notes: 'Interviews screening session',
-            },
-          ]);
+          setAttendanceList([]);
         }
       }
     } catch {
-      setAttendanceList([
-        {
-          id: '1',
-          date: new Date().toISOString().split('T')[0],
-          clockInTime: '09:02:14 AM',
-          clockOutTime: '06:05:00 PM',
-          totalHoursWorked: 9.05,
-          status: 'PRESENT',
-          notes: 'Standard core shift logged',
-        },
-        {
-          id: '2',
-          date: '2026-09-12',
-          clockInTime: '09:18:00 AM',
-          clockOutTime: '06:10:00 PM',
-          totalHoursWorked: 8.87,
-          status: 'LATE',
-          notes: 'Transit delay on metro rail',
-        },
-      ]);
-      setTodayRecord({
-        clockInTime: '09:02:14 AM',
-        status: 'PRESENT',
-      });
+      setAttendanceList([]);
+      setTodayRecord(null);
     } finally {
       setLoading(false);
     }
@@ -209,6 +125,28 @@ export default function AttendancePage() {
   }, [attendanceList, statusFilter, search]);
 
   const isClockedIn = todayRecord?.clockInTime && !todayRecord?.clockOutTime;
+
+  const stats = useMemo(() => {
+    const total = attendanceList.length;
+    if (total === 0) {
+      return {
+        logged: 0,
+        punctuality: '--%',
+        avgHours: '-- hrs',
+        compliance: 'Ready for Clock In',
+      };
+    }
+    const presentCount = attendanceList.filter((r) => r.status === 'PRESENT').length;
+    const punctuality = ((presentCount / total) * 100).toFixed(1) + '%';
+    const totalHours = attendanceList.reduce((acc, r) => acc + (r.totalHoursWorked || 0), 0);
+    const avgHours = (totalHours / total).toFixed(2) + ' hrs';
+    return {
+      logged: total,
+      punctuality,
+      avgHours,
+      compliance: 'Grace Compliant',
+    };
+  }, [attendanceList]);
 
   return (
     <DashboardLayout title="Daily Attendance Tracker">
@@ -280,7 +218,7 @@ export default function AttendancePage() {
               <div className="att-quick-stat-card">
                 <div>
                   <div className="att-quick-stat-label">Logged Days</div>
-                  <div className="att-quick-stat-value">{attendanceList.length} Shifts</div>
+                  <div className="att-quick-stat-value">{stats.logged} Shifts</div>
                 </div>
                 <div className="att-quick-stat-icon">
                   <Calendar className="w-5 h-5" />
@@ -290,7 +228,7 @@ export default function AttendancePage() {
               <div className="att-quick-stat-card">
                 <div>
                   <div className="att-quick-stat-label">Punctuality Rate</div>
-                  <div className="att-quick-stat-value">96.2%</div>
+                  <div className="att-quick-stat-value">{stats.punctuality}</div>
                 </div>
                 <div className="att-quick-stat-icon">
                   <TrendingUp className="w-5 h-5" />
@@ -300,7 +238,7 @@ export default function AttendancePage() {
               <div className="att-quick-stat-card">
                 <div>
                   <div className="att-quick-stat-label">Average Shift</div>
-                  <div className="att-quick-stat-value">8.95 hrs</div>
+                  <div className="att-quick-stat-value">{stats.avgHours}</div>
                 </div>
                 <div className="att-quick-stat-icon">
                   <Timer className="w-5 h-5" />
@@ -311,7 +249,7 @@ export default function AttendancePage() {
                 <div>
                   <div className="att-quick-stat-label">Policy Compliance</div>
                   <div className="att-quick-stat-value" style={{ fontSize: '15px', color: 'var(--att-accent)' }}>
-                    Grace Compliant
+                    {stats.compliance}
                   </div>
                 </div>
                 <div className="att-quick-stat-icon">
