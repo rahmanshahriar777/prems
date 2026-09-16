@@ -72,18 +72,18 @@ export default function HomePage() {
   const { user, login } = useAuth();
   const [loggingIn, setLoggingIn] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [dhakaTime, setDhakaTime] = useState<string>('Dhaka (UTC+6)');
+  const [londonTime, setLondonTime] = useState<string>('London Time');
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const str = now.toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Dhaka',
+      const str = now.toLocaleTimeString('en-GB', {
+        timeZone: 'Europe/London',
         hour: '2-digit',
         minute: '2-digit',
         hour12: true
       });
-      setDhakaTime(`${str} • Dhaka (UTC+6)`);
+      setLondonTime(`${str} • London (UK)`);
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
@@ -144,7 +144,7 @@ export default function HomePage() {
         <div className="landing-nav-actions">
           <div className="landing-status-pill">
             <span className="landing-status-dot"></span>
-            <span>{dhakaTime}</span>
+            <span>{londonTime}</span>
           </div>
 
           {user ? (
@@ -428,7 +428,7 @@ export default function HomePage() {
           </div>
 
           <div className="landing-footer-meta">
-            NEO EMS &bull; Dhaka (UTC+6) &bull; Enterprise Monorepo v1.0
+            Practical Roof Solutions Ltd &bull; London (UK) &bull; Enterprise Monorepo v1.0
           </div>
         </div>
       </footer>

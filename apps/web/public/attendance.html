@@ -811,7 +811,7 @@
         <div class="topbar-left">
           <div class="topbar-time">
             <span class="topbar-time-dot"></span>
-            <span id="dhakaClock">10:56 AM &bull; Dhaka (UTC+6)</span>
+            <span id="londonClock">10:56 AM &bull; London (UK)</span>
           </div>
         </div>
 
@@ -837,7 +837,7 @@
 
             <div class="att-clock-badge">
               <span class="att-clock-dot"></span>
-              <span id="headerClock">Dhaka (UTC+6): 10:56 AM</span>
+              <span id="headerClock">London (UK): 10:56 AM</span>
             </div>
           </div>
 
@@ -933,8 +933,8 @@
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Clock In (Dhaka UTC+6)</th>
-                <th>Clock Out (Dhaka UTC+6)</th>
+                <th>Clock In (London Time)</th>
+                <th>Clock Out (London Time)</th>
                 <th>Hours Worked</th>
                 <th>Status</th>
                 <th>Shift Notes</th>
@@ -973,20 +973,20 @@
   </div>
 
   <script>
-    // Live Dhaka Clock
+    // Live London Clock
     function updateClock() {
       const now = new Date();
       const timeStr = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'Asia/Dhaka',
+        timeZone: 'Europe/London',
         hour: 'numeric',
         minute: '2-digit',
         second: '2-digit',
         hour12: true
       }).format(now);
-      const clockEl = document.getElementById('dhakaClock');
+      const clockEl = document.getElementById('londonClock');
       const headerClockEl = document.getElementById('headerClock');
-      if (clockEl) clockEl.innerHTML = `${timeStr} &bull; Dhaka (UTC+6)`;
-      if (headerClockEl) headerClockEl.innerHTML = `Dhaka (UTC+6): ${timeStr}`;
+      if (clockEl) clockEl.innerHTML = `${timeStr} &bull; London (UK)`;
+      if (headerClockEl) headerClockEl.innerHTML = `London (UK): ${timeStr}`;
     }
     updateClock();
     setInterval(updateClock, 1000);

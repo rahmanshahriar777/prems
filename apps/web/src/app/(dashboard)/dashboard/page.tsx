@@ -26,22 +26,22 @@ export default function DashboardPage() {
   useEffect(() => {
     const updateClock = () => {
       const now = new Date();
-      const timeShort = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'Asia/Dhaka',
+      const timeShort = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London',
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
       }).format(now);
 
-      const period = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'Asia/Dhaka',
+      const period = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London',
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
       }).format(now);
 
       const dateStr = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Asia/Dhaka',
+        timeZone: 'Europe/London',
         weekday: 'short',
         day: 'numeric',
         month: 'short',
@@ -402,7 +402,7 @@ export default function DashboardPage() {
                 </span>
                 <span className="clock-shift-text">Shift: <strong>09:00 – 18:00</strong></span>
               </div>
-              <span className="clock-timezone">Asia/Dhaka (UTC+6:00)</span>
+              <span className="clock-timezone">Europe/London (GMT/BST)</span>
               <div className="clock-divider" />
               <div className="clock-status">
                 <span className={`clock-status-dot ${clockStatus === 'CLOCKED_IN' ? 'active' : ''}`} />

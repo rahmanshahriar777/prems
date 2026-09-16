@@ -1,14 +1,15 @@
-export const DHAKA_TIMEZONE = 'Asia/Dhaka';
+export const LONDON_TIMEZONE = 'Europe/London';
+export const DHAKA_TIMEZONE = LONDON_TIMEZONE; // Aliased for backwards compatibility
 
 /**
- * Format a Date object or ISO string into Dhaka (UTC+6) time string (hh:mm:ss AM/PM)
+ * Format a Date object or ISO string into London time string (hh:mm:ss AM/PM)
  */
-export function formatDhakaTime(date: Date | string = new Date()): string {
+export function formatLondonTime(date: Date | string = new Date()): string {
   try {
     const d = typeof date === 'string' ? new Date(date) : date;
     if (isNaN(d.getTime())) return '--:--:--';
-    return d.toLocaleTimeString('en-US', {
-      timeZone: DHAKA_TIMEZONE,
+    return d.toLocaleTimeString('en-GB', {
+      timeZone: LONDON_TIMEZONE,
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
@@ -19,15 +20,17 @@ export function formatDhakaTime(date: Date | string = new Date()): string {
   }
 }
 
+export const formatDhakaTime = formatLondonTime;
+
 /**
- * Format a Date object or ISO string into Dhaka (UTC+6) date string (e.g., Sun, Sep 13, 2026)
+ * Format a Date object or ISO string into London date string (e.g., Sun, 15 Sep 2026)
  */
-export function formatDhakaDate(date: Date | string = new Date()): string {
+export function formatLondonDate(date: Date | string = new Date()): string {
   try {
     const d = typeof date === 'string' ? new Date(date) : date;
     if (isNaN(d.getTime())) return '----/--/--';
-    return d.toLocaleDateString('en-US', {
-      timeZone: DHAKA_TIMEZONE,
+    return d.toLocaleDateString('en-GB', {
+      timeZone: LONDON_TIMEZONE,
       weekday: 'short',
       month: 'short',
       day: 'numeric',
@@ -38,9 +41,14 @@ export function formatDhakaDate(date: Date | string = new Date()): string {
   }
 }
 
+export const formatDhakaDate = formatLondonDate;
+
 /**
- * Format full Dhaka date and time string
+ * Format full London date and time string
  */
-export function formatDhakaDateTime(date: Date | string = new Date()): string {
-  return `${formatDhakaDate(date)} • ${formatDhakaTime(date)}`;
+export function formatLondonDateTime(date: Date | string = new Date()): string {
+  return `${formatLondonDate(date)} • ${formatLondonTime(date)}`;
 }
+
+export const formatDhakaDateTime = formatLondonDateTime;
+

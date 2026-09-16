@@ -23,6 +23,7 @@ import {
   CheckCircle2,
   CalendarDays
 } from 'lucide-react';
+import { formatLondonTime } from '../../../lib/date-utils';
 import '../../../styles/calendar.css';
 
 export type EventCategory = 'meeting' | 'task' | 'reminder' | 'event' | 'pto' | 'review';
@@ -183,6 +184,15 @@ export default function CalendarPage() {
     } catch {
       // ignore
     }
+  }, []);
+
+  const [londonTime, setLondonTime] = useState<string>('');
+
+  useEffect(() => {
+    const update = () => setLondonTime(formatLondonTime());
+    update();
+    const timer = setInterval(update, 1000);
+    return () => clearInterval(timer);
   }, []);
 
   const saveEvents = (updated: CalendarEvent[]) => {
@@ -430,7 +440,7 @@ export default function CalendarPage() {
           <div className="cal-header-actions">
             <div className="cal-clock-badge">
               <span className="cal-clock-dot" />
-              <span>Dhaka UTC+6 • 09:41 AM</span>
+              <span>London UK • {londonTime || '09:41 AM'}</span>
             </div>
 
             <button

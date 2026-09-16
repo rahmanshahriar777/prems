@@ -750,7 +750,7 @@
         <div class="topbar-left">
           <div class="topbar-time">
             <span class="topbar-time-dot"></span>
-            <span id="dhakaClock">11:00 AM &bull; Dhaka (UTC+6)</span>
+            <span id="londonClock">11:00 AM &bull; London (UK)</span>
           </div>
         </div>
 
@@ -974,13 +974,13 @@
     function updateClock() {
       const now = new Date();
       const timeStr = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'Asia/Dhaka',
+        timeZone: 'Europe/London',
         hour: 'numeric',
         minute: '2-digit',
         hour12: true
       }).format(now);
-      const clockEl = document.getElementById('dhakaClock');
-      if (clockEl) clockEl.innerHTML = `${timeStr} &bull; Dhaka (UTC+6)`;
+      const clockEl = document.getElementById('londonClock');
+      if (clockEl) clockEl.innerHTML = `${timeStr} &bull; London (UK)`;
     }
     updateClock();
     setInterval(updateClock, 1000);

@@ -380,7 +380,7 @@
       <div>
         <span class="status-pill">
           <span class="status-dot"></span>
-          <span id="dhakaClock">Dhaka (UTC+6)</span>
+          <span id="londonClock">London (UK)</span>
         </span>
       </div>
     </header>
@@ -485,16 +485,16 @@
 
   <script>
     function updateClock() {
-      const clock = document.getElementById('dhakaClock');
+      const clock = document.getElementById('londonClock');
       if (!clock) return;
       const now = new Date();
       const str = now.toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Dhaka',
+        timeZone: 'Europe/London',
         hour: '2-digit',
         minute: '2-digit',
         hour12: true
       });
-      clock.textContent = str + ' • Dhaka (UTC+6)';
+      clock.textContent = str + ' • London (UK)';
     }
     setInterval(updateClock, 1000);
     updateClock();

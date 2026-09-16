@@ -963,7 +963,7 @@
           <div class="topbar-clock">
             <span class="topbar-clock-dot"></span>
             <span id="topbarTime">--:--:-- --</span>
-            <span style="color:var(--text-tertiary)">Dhaka</span>
+            <span style="color:var(--text-tertiary)">London</span>
           </div>
           <div class="topbar-divider"></div>
           <button class="topbar-btn" title="Search">
@@ -1167,7 +1167,7 @@
     function updateClock() {
       const now = new Date();
       const time = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'Asia/Dhaka',
+        timeZone: 'Europe/London',
         hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
       }).format(now);
       document.getElementById('topbarTime').textContent = time;

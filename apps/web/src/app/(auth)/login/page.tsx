@@ -60,18 +60,18 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [dhakaTime, setDhakaTime] = useState('Dhaka (UTC+6)');
+  const [londonTime, setLondonTime] = useState('London Time');
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const str = now.toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Dhaka',
+      const str = now.toLocaleTimeString('en-GB', {
+        timeZone: 'Europe/London',
         hour: '2-digit',
         minute: '2-digit',
         hour12: true
       });
-      setDhakaTime(`${str} • Dhaka (UTC+6)`);
+      setLondonTime(`${str} • London (UK)`);
     };
     updateTime();
     const timer = setInterval(updateTime, 1000);
@@ -134,7 +134,7 @@ export default function LoginPage() {
               color: 'var(--login-text-tertiary)'
             }}>
               <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--login-positive)' }}></span>
-              <span>{dhakaTime}</span>
+              <span>{londonTime}</span>
             </span>
           </div>
         </div>

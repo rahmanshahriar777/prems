@@ -73,7 +73,7 @@ export function generateCorporateEmailHtml(options: EmailTemplateOptions): strin
         &copy; ${new Date().getFullYear()} <strong>Practical Roof Solutions Ltd.</strong> All rights reserved.
       </p>
       <p style="margin: 0; font-size: 11px; color: #94a3b8;">
-        This is an official system transmission. Dhaka Office (UTC+6).<br />
+        This is an official system transmission. London Office (UK).<br />
         ${options.footerNote || 'Confidential & Proprietary Workforce Management System'}
       </p>
     </div>

@@ -21,7 +21,7 @@ import { DashboardLayout } from '../../../components/layout/dashboard-layout';
 import { api } from '../../../lib/api-client';
 import { useAuth } from '../../../context/auth-context';
 import { SystemRole } from '@ems/shared';
-import { formatDhakaTime } from '../../../lib/date-utils';
+import { formatLondonTime } from '../../../lib/date-utils';
 import '../../../styles/attendance.css';
 
 interface AttendanceRecord {
@@ -49,10 +49,10 @@ export default function AttendancePage() {
   const [activeTab, setActiveTab] = useState<'my' | 'team'>('my');
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'PRESENT' | 'LATE' | 'ABSENT'>('ALL');
-  const [liveDhakaTime, setLiveDhakaTime] = useState<string>('');
+  const [liveLondonTime, setLiveLondonTime] = useState<string>('');
 
   useEffect(() => {
-    const updateTime = () => setLiveDhakaTime(formatDhakaTime());
+    const updateTime = () => setLiveLondonTime(formatLondonTime());
     updateTime();
     const timer = setInterval(updateTime, 1000);
     return () => clearInterval(timer);
@@ -226,7 +226,7 @@ export default function AttendancePage() {
 
               <div className="att-clock-badge">
                 <span className="att-clock-dot" />
-                <span>Dhaka (UTC+6): {liveDhakaTime || '10:55 AM'}</span>
+                <span>London Time: {liveLondonTime || '--:--'}</span>
               </div>
             </div>
 
@@ -433,8 +433,8 @@ export default function AttendancePage() {
                   <tr>
                     <th>Date</th>
                     {activeTab === 'team' && <th>Personnel</th>}
-                    <th>Clock In (Dhaka UTC+6)</th>
-                    <th>Clock Out (Dhaka UTC+6)</th>
+                    <th>Clock In (London Time)</th>
+                    <th>Clock Out (London Time)</th>
                     <th>Hours Worked</th>
                     <th>Status</th>
                     <th>Shift Notes</th>
@@ -467,11 +467,11 @@ export default function AttendancePage() {
                       )}
 
                       <td className="att-time-col">
-                        {rec.clockInTime ? formatDhakaTime(rec.clockInTime) : '--:--'}
+                        {rec.clockInTime ? formatLondonTime(rec.clockInTime) : '--:--'}
                       </td>
 
                       <td className="att-time-col">
-                        {rec.clockOutTime ? formatDhakaTime(rec.clockOutTime) : '--:--'}
+                        {rec.clockOutTime ? formatLondonTime(rec.clockOutTime) : '--:--'}
                       </td>
 
                       <td>

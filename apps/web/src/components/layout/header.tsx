@@ -4,18 +4,18 @@ import React, { useState, useEffect } from 'react';
 import { Bell, Clock, Camera } from 'lucide-react';
 import { useAuth } from '../../context/auth-context';
 import { api } from '../../lib/api-client';
-import { formatDhakaTime } from '../../lib/date-utils';
+import { formatLondonTime } from '../../lib/date-utils';
 import { AvatarModal } from '../profile/avatar-modal';
 
 export const Header: React.FC<{ title?: string }> = ({ title }) => {
   const { user } = useAuth();
   const [clocking, setClocking] = useState(false);
   const [clockMessage, setClockMessage] = useState<string | null>(null);
-  const [dhakaTime, setDhakaTime] = useState<string>('');
+  const [londonTime, setLondonTime] = useState<string>('');
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   useEffect(() => {
-    const updateTime = () => setDhakaTime(formatDhakaTime());
+    const updateTime = () => setLondonTime(formatLondonTime());
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
@@ -47,12 +47,12 @@ export const Header: React.FC<{ title?: string }> = ({ title }) => {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Live Dhaka Time (UTC+6) Clock */}
+          {/* Live London Time Clock */}
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#faf9f7] border border-[#e2dfda] text-xs font-mono text-[#1a1816] shadow-xs">
             <Clock className="w-3.5 h-3.5 text-[#2c5f4a] animate-spin-slow" />
-            <span className="font-bold">{dhakaTime || '--:--:--'}</span>
+            <span className="font-bold">{londonTime || '--:--:--'}</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#e8f0ec] text-[#2c5f4a] font-mono font-semibold">
-              Dhaka UTC+6
+              London Time
             </span>
           </div>
 
