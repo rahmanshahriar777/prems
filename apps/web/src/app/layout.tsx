@@ -3,9 +3,9 @@ import '../styles/globals.css';
 import { AuthProvider } from '../context/auth-context';
 
 export const metadata: Metadata = {
-  title: 'Neoteric Digital — EMS | Enterprise Management System',
+  title: 'Practical Roof Solutions Ltd — EMS | Enterprise Management System',
   description:
-    'Neoteric Digital enterprise Employee Management System with attendance, leaves, payroll, and performance management.',
+    'Practical Roof Solutions Ltd enterprise Employee Management System with attendance, leaves, payroll, and performance management.',
   icons: {
     icon: '/logo.png',
     shortcut: '/favicon.ico',

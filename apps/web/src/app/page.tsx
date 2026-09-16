@@ -114,9 +114,9 @@ export default function HomePage() {
       {/* Navigation Header */}
       <header className="landing-nav">
         <Link href="/" className="landing-nav-brand">
-          <div className="landing-brand-mark">N</div>
+          <div className="landing-brand-mark">P</div>
           <div>
-            <div className="landing-brand-title">Neoteric Digital</div>
+            <div className="landing-brand-title">Practical Roof Solutions Ltd</div>
             <div className="landing-brand-sub">
               <span>Workforce Operating System</span>
               <span className="landing-brand-badge">EMS v1.0</span>
@@ -163,7 +163,7 @@ export default function HomePage() {
       <section className="landing-hero">
         <div className="landing-hero-tag">
           <Sparkles size={13} />
-          <span>Enterprise Workforce Operating System &bull; Neoteric Digital</span>
+          <span>Enterprise Workforce Operating System &bull; Practical Roof Solutions Ltd</span>
         </div>
 
         <h1 className="landing-hero-title">
@@ -409,9 +409,9 @@ export default function HomePage() {
       <footer className="landing-footer">
         <div className="landing-footer-inner">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div className="landing-brand-mark" style={{ width: '28px', height: '28px', fontSize: '15px' }}>N</div>
+            <div className="landing-brand-mark" style={{ width: '28px', height: '28px', fontSize: '15px' }}>P</div>
             <span className="landing-footer-copy">
-              &copy; {new Date().getFullYear()} Neoteric Digital. All rights reserved.
+              &copy; {new Date().getFullYear()} Practical Roof Solutions Ltd. All rights reserved.
             </span>
           </div>
 
