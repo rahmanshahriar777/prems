@@ -50,19 +50,17 @@ export const Logo: React.FC<LogoProps> = ({
   if (variant === 'mark') {
     return (
       <div
-        className={`relative overflow-hidden rounded-xl bg-white shadow-sm flex items-center justify-center p-1 border border-slate-200/80 ${
+        className={`relative overflow-hidden rounded-xl bg-white shadow-sm flex items-center justify-center p-0.5 border border-slate-200/80 ${
           sizeStyles[size]?.mark || 'w-10 h-10'
         } ${className}`}
         title="Practical Roof Solutions Ltd"
       >
-        <div className="relative w-full h-full overflow-hidden rounded-lg">
-          <img
-            src="/logo.png"
-            alt="Practical Roof Solutions Ltd Icon"
-            className="w-[260%] max-w-none h-full object-cover object-left"
-            loading={priority ? 'eager' : 'lazy'}
-          />
-        </div>
+        <img
+          src="/logo.png"
+          alt="Practical Roof Solutions Ltd Icon"
+          className="w-full h-full object-contain"
+          loading={priority ? 'eager' : 'lazy'}
+        />
       </div>
     );
   }
@@ -77,8 +75,8 @@ export const Logo: React.FC<LogoProps> = ({
       <img
         src="/logo.png"
         alt="Practical Roof Solutions Ltd"
-        className={`object-contain ${sizeStyles[size]?.full || 'h-9 w-auto'} transition-all duration-200`}
-        style={{ aspectRatio: '960 / 364' }}
+        className={`object-contain ${sizeStyles[size]?.full || 'h-10 w-auto'} transition-all duration-200`}
+        style={{ aspectRatio: '480 / 297' }}
         loading={priority ? 'eager' : 'lazy'}
       />
     </div>

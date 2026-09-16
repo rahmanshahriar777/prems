@@ -103,7 +103,9 @@ export default function LoginPage() {
         {/* Header with Logo */}
         <div className="login-header">
           <Link href="/" className="login-brand-link">
-            <div className="login-brand-mark">P</div>
+            <div className="login-brand-mark">
+              <img src="/logo.png" alt="Practical Roof Solutions Ltd" />
+            </div>
             <div className="login-brand-text">
               <div className="login-brand-name">Practical Roof Solutions Ltd</div>
               <div className="login-brand-sub">

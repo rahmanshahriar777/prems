@@ -507,7 +507,9 @@ export default function PayrollPage() {
           <div className="pay-modal" onClick={(e) => e.stopPropagation()}>
             <div className="pay-modal-header">
               <div className="pay-brand-header">
-                <div className="pay-brand-box">P</div>
+                <div className="pay-brand-box" style={{ background: '#ffffff', overflow: 'hidden', padding: '2px', border: '1px solid var(--pay-border)' }}>
+                  <img src="/logo.png" alt="Practical Roof Solutions Ltd" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
                 <div>
                   <h4 className="pay-modal-title">Practical Roof Solutions Ltd</h4>
                   <p className="pay-modal-sub">Official Salary Disbursement Statement</p>

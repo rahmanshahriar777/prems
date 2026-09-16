@@ -98,7 +98,9 @@ export const Sidebar: React.FC = () => {
       {/* Brand Header */}
       <Link href="/dashboard" className="sidebar-brand">
         <div className="sidebar-brand-left">
-          <div className="sidebar-brand-mark">P</div>
+          <div className="sidebar-brand-mark">
+            <img src="/logo.png" alt="Practical Roof Solutions Ltd" />
+          </div>
           <div>
             <div className="sidebar-brand-title">Practical Roof</div>
             <div className="sidebar-brand-sub">

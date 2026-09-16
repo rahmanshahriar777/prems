@@ -114,7 +114,9 @@ export default function HomePage() {
       {/* Navigation Header */}
       <header className="landing-nav">
         <Link href="/" className="landing-nav-brand">
-          <div className="landing-brand-mark">P</div>
+          <div className="landing-brand-mark" style={{ background: '#ffffff', overflow: 'hidden', padding: '2px', border: '1px solid rgba(255,255,255,0.2)' }}>
+            <img src="/logo.png" alt="Practical Roof Solutions Ltd" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          </div>
           <div>
             <div className="landing-brand-title">Practical Roof Solutions Ltd</div>
             <div className="landing-brand-sub">
@@ -161,6 +163,14 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="landing-hero">
+        <div style={{ marginBottom: '22px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img
+            src="/logo.png"
+            alt="Practical Roof Solutions Ltd"
+            style={{ maxHeight: '85px', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.18))' }}
+          />
+        </div>
+
         <div className="landing-hero-tag">
           <Sparkles size={13} />
           <span>Enterprise Workforce Operating System &bull; Practical Roof Solutions Ltd</span>
@@ -409,7 +419,9 @@ export default function HomePage() {
       <footer className="landing-footer">
         <div className="landing-footer-inner">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div className="landing-brand-mark" style={{ width: '28px', height: '28px', fontSize: '15px' }}>P</div>
+            <div className="landing-brand-mark" style={{ width: '32px', height: '32px', background: '#ffffff', overflow: 'hidden', padding: '1.5px', border: '1px solid rgba(255,255,255,0.15)' }}>
+              <img src="/logo.png" alt="Practical Roof Solutions Ltd" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
             <span className="landing-footer-copy">
               &copy; {new Date().getFullYear()} Practical Roof Solutions Ltd. All rights reserved.
             </span>
