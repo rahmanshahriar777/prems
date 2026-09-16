@@ -120,7 +120,7 @@ export default function HomePage() {
           <div>
             <div className="landing-brand-title">Practical Roof Solutions Ltd</div>
             <div className="landing-brand-sub">
-              <span>Workforce Operating System</span>
+              <span>Employee Management System</span>
             </div>
           </div>
         </Link>
@@ -172,7 +172,7 @@ export default function HomePage() {
 
         <div className="landing-hero-tag">
           <Sparkles size={13} />
-          <span>Enterprise Workforce Operating System &bull; Practical Roof Solutions Ltd</span>
+          <span>Employee Management System &bull; Practical Roof Solutions Ltd</span>
         </div>
 
         <h1 className="landing-hero-title">
