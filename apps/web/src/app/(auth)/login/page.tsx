@@ -56,7 +56,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { login, user } = useAuth();
   const [email, setEmail] = useState('superadmin@ems.local');
-  const [password, setPassword] = useState('Password123!');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -165,12 +165,7 @@ export default function LoginPage() {
             </div>
 
             <div className="login-form-group">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <label className="login-label" style={{ margin: 0 }}>Password</label>
-                <span style={{ fontSize: '11.5px', color: 'var(--login-text-tertiary)' }}>
-                  Demo: <code style={{ fontFamily: 'var(--login-font-mono)', color: 'var(--login-accent)' }}>Password123!</code>
-                </span>
-              </div>
+              <label className="login-label">Password</label>
 
               <div className="login-input-wrapper">
                 <Lock size={16} className="login-input-icon" />
