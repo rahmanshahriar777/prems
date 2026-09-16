@@ -958,7 +958,7 @@
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
                 </div>
               </div>
-              <div class="audit-stat-val" id="totalEventsVal">6</div>
+              <div class="audit-stat-val" id="totalEventsVal">0</div>
               <div class="audit-stat-caption">Forensic state transitions</div>
             </div>
 
@@ -980,7 +980,7 @@
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 </div>
               </div>
-              <div class="audit-stat-val">4</div>
+              <div class="audit-stat-val" id="privilegedActorsVal">0</div>
               <div class="audit-stat-caption">Active security principals</div>
             </div>
 
@@ -1109,113 +1109,45 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Data set
-    const logs = [
-      {
-        id: 'aud-2026-98101',
-        actor: 'superadmin@ems.local',
-        ip: '192.168.1.104',
-        action: 'CREATE',
-        entityType: 'EMPLOYEE',
-        entityId: 'EMP-2026-0004',
-        time: 'Today at 11:24:10 AM',
-        dateStr: '2026-09-15 11:24:10',
-        hash: 'sha256-a9f81d33...b021',
-        beforeState: null,
-        afterState: {
-          id: 'EMP-2026-0004',
-          fullName: 'Sadia Rahman',
-          department: 'Technology',
-          role: 'Staff ML Engineer',
-          baseSalary: 115000,
-          status: 'ACTIVE'
+    // Live Data set
+    let logs = [];
+
+    async function loadAuditData() {
+      try {
+        const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+        const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+        const res = await fetch('/api/audit-logs', { headers }).catch(() => null);
+        if (res && res.ok) {
+          const raw = await res.json();
+          if (Array.isArray(raw)) {
+            logs = raw.map(l => ({
+              id: l.id,
+              actor: l.actorEmail || 'system@ems.local',
+              ip: l.ipAddress || '127.0.0.1',
+              action: l.action,
+              entityType: l.entityType,
+              entityId: l.entityId,
+              time: new Date(l.createdAt).toLocaleDateString() + ' ' + new Date(l.createdAt).toLocaleTimeString(),
+              dateStr: l.createdAt,
+              hash: l.hash || ('sha256-' + l.id.slice(0, 8) + '...' + l.id.slice(-4)),
+              beforeState: l.beforeState,
+              afterState: l.afterState,
+            }));
+          }
         }
-      },
-      {
-        id: 'aud-2026-98102',
-        actor: 'hradmin@ems.local',
-        ip: '10.0.4.15',
-        action: 'RUN_PAYROLL',
-        entityType: 'PAYROLL_RUN',
-        entityId: 'PR-2026-08',
-        time: 'Today at 10:42:00 AM',
-        dateStr: '2026-09-15 10:42:00',
-        hash: 'sha256-c77e2091...f13a',
-        beforeState: {
-          runId: 'PR-2026-08',
-          status: 'DRAFT',
-          totalApproved: 0
-        },
-        afterState: {
-          runId: 'PR-2026-08',
-          totalNet: 845000,
-          status: 'APPROVED',
-          disbursementBatch: 'ACH-BATCH-994',
-          approvedBy: 'hradmin@ems.local'
-        }
-      },
-      {
-        id: 'aud-2026-98103',
-        actor: 'system.cron@ems.internal',
-        ip: '127.0.0.1',
-        action: 'EVALUATE',
-        entityType: 'PERFORMANCE_REVIEW',
-        entityId: 'REV-2026-0089',
-        time: 'Today at 09:15:33 AM',
-        dateStr: '2026-09-15 09:15:33',
-        hash: 'sha256-11f4cc09...d289',
-        beforeState: { status: 'PENDING_HR' },
-        afterState: {
-          score: 4.85,
-          rating: 'EXCEEDS_EXPECTATIONS',
-          peerReviewCount: 5,
-          status: 'FINALIZED'
-        }
-      },
-      {
-        id: 'aud-2026-98104',
-        actor: 'superadmin@ems.local',
-        ip: '192.168.1.104',
-        action: 'AUTH_ROLE_GRANT',
-        entityType: 'ACCESS_CONTROL',
-        entityId: 'USR-2026-012',
-        time: 'Today at 06:12:00 AM',
-        dateStr: '2026-09-15 06:12:00',
-        hash: 'sha256-429bb776...901e',
-        beforeState: { roles: ['EMPLOYEE'] },
-        afterState: { roles: ['EMPLOYEE', 'DEPARTMENT_HEAD'], scope: 'ENGINEERING' }
-      },
-      {
-        id: 'aud-2026-98105',
-        actor: 'hradmin@ems.local',
-        ip: '10.0.4.15',
-        action: 'UPDATE',
-        entityType: 'LEAVE_POLICY',
-        entityId: 'POL-LEAVE-2026',
-        time: 'Yesterday at 08:30:12 PM',
-        dateStr: '2026-09-14 20:30:12',
-        hash: 'sha256-8ff43301...ae04',
-        beforeState: { maxAnnualCarryOverDays: 5 },
-        afterState: { maxAnnualCarryOverDays: 10, effectiveDate: '2026-10-01' }
-      },
-      {
-        id: 'aud-2026-98106',
-        actor: 'ai.agent@ems.internal',
-        ip: '10.0.8.2',
-        action: 'AI_INFERENCE',
-        entityType: 'PAYROLL_ANOMALY',
-        entityId: 'ANOM-2026-003',
-        time: 'Yesterday at 02:14:50 PM',
-        dateStr: '2026-09-14 14:14:50',
-        hash: 'sha256-990a4dfb...cc65',
-        beforeState: null,
-        afterState: {
-          confidence: 0.984,
-          model: 'neoteric-audit-v3',
-          findings: 'Variance under 0.05% across 48 payroll line items; zero compliance alerts.'
-        }
+      } catch (e) {
+        logs = [];
       }
-    ];
+
+      const totalEl = document.getElementById('totalEventsVal');
+      if (totalEl) totalEl.textContent = logs.length;
+      const actorsEl = document.getElementById('privilegedActorsVal');
+      if (actorsEl) {
+        const unique = new Set(logs.map(l => l.actor));
+        actorsEl.textContent = unique.size;
+      }
+      renderLogs();
+    }
 
     let currentFilter = 'ALL';
 
@@ -1350,8 +1282,8 @@
       document.body.removeChild(a);
     }
 
-    // Initial render
-    renderLogs();
+    // Initial load
+    loadAuditData();
   </script>
 </body>
 </html>

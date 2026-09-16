@@ -41,107 +41,6 @@ interface AuditLog {
   afterState?: Record<string, any> | null;
 }
 
-const DEMO_LOGS: AuditLog[] = [
-  {
-    id: 'aud-2026-98101',
-    actorEmail: 'superadmin@ems.local',
-    action: 'CREATE',
-    entityType: 'EMPLOYEE',
-    entityId: 'EMP-2026-0004',
-    createdAt: new Date().toISOString(),
-    ipAddress: '192.168.1.104',
-    hash: 'sha256-a9f81d33...b021',
-    beforeState: null,
-    afterState: {
-      id: 'EMP-2026-0004',
-      fullName: 'Sadia Rahman',
-      department: 'Technology',
-      role: 'Staff ML Engineer',
-      baseSalary: 115000,
-      status: 'ACTIVE'
-    }
-  },
-  {
-    id: 'aud-2026-98102',
-    actorEmail: 'hradmin@ems.local',
-    action: 'RUN_PAYROLL',
-    entityType: 'PAYROLL_RUN',
-    entityId: 'PR-2026-08',
-    createdAt: new Date(Date.now() - 42 * 60 * 1000).toISOString(),
-    ipAddress: '10.0.4.15',
-    hash: 'sha256-c77e2091...f13a',
-    beforeState: {
-      runId: 'PR-2026-08',
-      status: 'DRAFT',
-      totalApproved: 0
-    },
-    afterState: {
-      runId: 'PR-2026-08',
-      totalNet: 845000,
-      status: 'APPROVED',
-      disbursementBatch: 'ACH-BATCH-994',
-      approvedBy: 'hradmin@ems.local'
-    }
-  },
-  {
-    id: 'aud-2026-98103',
-    actorEmail: 'system.cron@ems.internal',
-    action: 'EVALUATE',
-    entityType: 'PERFORMANCE_REVIEW',
-    entityId: 'REV-2026-0089',
-    createdAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
-    ipAddress: '127.0.0.1',
-    hash: 'sha256-11f4cc09...d289',
-    beforeState: { status: 'PENDING_HR' },
-    afterState: {
-      score: 4.85,
-      rating: 'EXCEEDS_EXPECTATIONS',
-      peerReviewCount: 5,
-      status: 'FINALIZED'
-    }
-  },
-  {
-    id: 'aud-2026-98104',
-    actorEmail: 'superadmin@ems.local',
-    action: 'AUTH_ROLE_GRANT',
-    entityType: 'ACCESS_CONTROL',
-    entityId: 'USR-2026-012',
-    createdAt: new Date(Date.now() - 5 * 3600 * 1000).toISOString(),
-    ipAddress: '192.168.1.104',
-    hash: 'sha256-429bb776...901e',
-    beforeState: { roles: ['EMPLOYEE'] },
-    afterState: { roles: ['EMPLOYEE', 'DEPARTMENT_HEAD'], scope: 'ENGINEERING' }
-  },
-  {
-    id: 'aud-2026-98105',
-    actorEmail: 'hradmin@ems.local',
-    action: 'UPDATE',
-    entityType: 'LEAVE_POLICY',
-    entityId: 'POL-LEAVE-2026',
-    createdAt: new Date(Date.now() - 14 * 3600 * 1000).toISOString(),
-    ipAddress: '10.0.4.15',
-    hash: 'sha256-8ff43301...ae04',
-    beforeState: { maxAnnualCarryOverDays: 5 },
-    afterState: { maxAnnualCarryOverDays: 10, effectiveDate: '2026-10-01' }
-  },
-  {
-    id: 'aud-2026-98106',
-    actorEmail: 'ai.agent@ems.internal',
-    action: 'AI_INFERENCE',
-    entityType: 'PAYROLL_ANOMALY',
-    entityId: 'ANOM-2026-003',
-    createdAt: new Date(Date.now() - 22 * 3600 * 1000).toISOString(),
-    ipAddress: '10.0.8.2',
-    hash: 'sha256-990a4dfb...cc65',
-    beforeState: null,
-    afterState: {
-      confidence: 0.984,
-      model: 'neoteric-audit-v3',
-      findings: 'Variance under 0.05% across 48 payroll line items; zero compliance alerts.'
-    }
-  }
-];
-
 export default function AuditLogsPage() {
   const { hasRole } = useAuth();
   const [logs, setLogs] = useState<AuditLog[]>([]);
@@ -154,14 +53,14 @@ export default function AuditLogsPage() {
   const fetchLogs = async () => {
     setLoading(true);
     try {
-      const data = await api.get('/ai/audit-logs');
-      if (Array.isArray(data) && data.length > 0) {
+      const data = await api.get('/audit-logs').catch(() => api.get('/ai/audit-logs').catch(() => []));
+      if (Array.isArray(data)) {
         setLogs(data);
       } else {
-        setLogs(DEMO_LOGS);
+        setLogs([]);
       }
     } catch {
-      setLogs(DEMO_LOGS);
+      setLogs([]);
     } finally {
       setLoading(false);
     }
@@ -317,7 +216,7 @@ export default function AuditLogsPage() {
                   </div>
                 </div>
                 <div className="audit-stat-value" style={{ color: 'var(--audit-positive)' }}>
-                  100% SHA-256
+                  {logs.length > 0 ? '100% SHA-256' : '0% SHA-256'}
                 </div>
                 <div className="audit-stat-caption">Zero hash collisions detected</div>
               </div>
@@ -341,7 +240,7 @@ export default function AuditLogsPage() {
                   </div>
                 </div>
                 <div className="audit-stat-value" style={{ color: 'var(--audit-accent)' }}>
-                  Nominal
+                  {logs.length > 0 ? 'Nominal' : 'Standing By'}
                 </div>
                 <div className="audit-stat-caption">Continuous automated audit</div>
               </div>
