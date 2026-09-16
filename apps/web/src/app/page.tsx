@@ -121,7 +121,6 @@ export default function HomePage() {
             <div className="landing-brand-title">Practical Roof Solutions Ltd</div>
             <div className="landing-brand-sub">
               <span>Workforce Operating System</span>
-              <span className="landing-brand-badge">EMS v1.0</span>
             </div>
           </div>
         </Link>
@@ -428,7 +427,7 @@ export default function HomePage() {
           </div>
 
           <div className="landing-footer-meta">
-            Practical Roof Solutions Ltd &bull; London (UK) &bull; Enterprise Monorepo v1.0
+            Practical Roof Solutions Ltd &bull; London (UK)
           </div>
         </div>
       </footer>

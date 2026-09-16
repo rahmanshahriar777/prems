@@ -110,10 +110,6 @@ export const Sidebar: React.FC = () => {
             </div>
           </div>
         </div>
-
-        <span className="sidebar-system-badge">
-          v1.0
-        </span>
       </Link>
 
       {/* Navigation Scroll Area */}
