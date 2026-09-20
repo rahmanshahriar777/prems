@@ -82,10 +82,18 @@ nginx -t
 systemctl restart nginx
 
 # 4. Request Let's Encrypt SSL Certificate
-echo "🔒 [4/6] Requesting Let's Encrypt SSL Certificate for ${DOMAIN} and ${WWW_DOMAIN}..."
+DOMAINS_ARGS="-d ${DOMAIN}"
+WWW_RESOLVED=$(dig +short A "${WWW_DOMAIN}" | tail -n1 || true)
+if [ "$WWW_RESOLVED" = "$SERVER_IP" ]; then
+  echo "   - www subdomain also resolves to ${SERVER_IP}, including in certificate."
+  DOMAINS_ARGS="${DOMAINS_ARGS} -d ${WWW_DOMAIN}"
+else
+  echo "   - Note: ${WWW_DOMAIN} does not yet resolve to ${SERVER_IP}, proceeding with apex domain ${DOMAIN}."
+fi
+
+echo "🔒 [4/6] Requesting Let's Encrypt SSL Certificate for ${DOMAINS_ARGS}..."
 certbot --nginx \
-  -d "${DOMAIN}" \
-  -d "${WWW_DOMAIN}" \
+  ${DOMAINS_ARGS} \
   --non-interactive \
   --agree-tos \
   --email "${ADMIN_EMAIL}" \
