@@ -119,7 +119,7 @@ async function main() {
     },
   });
 
-  await prisma.employee.upsert({
+  const adminEmployee = await prisma.employee.upsert({
     where: { email: 'superadmin@ems.local' },
     update: {},
     create: {
@@ -148,35 +148,6 @@ async function main() {
     },
   });
 
-  // Manager
-  const mgrUser = await prisma.user.upsert({
-    where: { email: 'manager@ems.local' },
-    update: { passwordHash: demoPasswordHash },
-    create: {
-      email: 'manager@ems.local',
-      passwordHash: demoPasswordHash,
-      roles: { create: { roleId: roles[SystemRole.MANAGER].id } },
-    },
-  });
-
-  const managerEmployee = await prisma.employee.upsert({
-    where: { email: 'manager@ems.local' },
-    update: {},
-    create: {
-      employeeNumber: 'EMP-2026-0003',
-      userId: mgrUser.id,
-      firstName: 'Team',
-      lastName: 'Manager',
-      email: 'manager@ems.local',
-      phone: '+880 1711-000003',
-      departmentId: deptEngineering.id,
-      designationId: desigVpEng.id,
-      status: EmploymentStatus.FULL_TIME,
-      joiningDate: new Date('2024-03-01'),
-      profileSummary: 'Engineering Team Lead overseeing backend and cloud platform services.',
-    },
-  });
-
   // Team Employees
   const empUser = await prisma.user.upsert({
     where: { email: 'rasel.mahmud@ems.local' },
@@ -200,7 +171,7 @@ async function main() {
       phone: '+880 1711-000004',
       departmentId: deptEngineering.id,
       designationId: desigSrEng.id,
-      managerId: managerEmployee.id,
+      managerId: adminEmployee.id,
       status: EmploymentStatus.FULL_TIME,
       gender: Gender.MALE,
       joiningDate: new Date('2024-06-01'),
@@ -374,7 +345,7 @@ async function main() {
     create: {
       cycleId: reviewCycle.id,
       employeeId: raselEmployee.id,
-      reviewerId: managerEmployee.id,
+      reviewerId: adminEmployee.id,
       selfRating: 4.8,
       selfAchievements: 'Designed and implemented end-to-end full-stack modules across Auth, Employee, Leave, and Performance.',
       selfImprovements: 'Expand automated Kubernetes chaos engineering tests.',
