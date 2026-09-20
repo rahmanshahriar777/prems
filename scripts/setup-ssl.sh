@@ -1,29 +1,14 @@
 #!/bin/bash
 set -ex
 
-echo "=== Installing Nginx and Certbot for Free Let's Encrypt SSL ==="
+echo "=== Installing Free Let's Encrypt SSL on ems-vm ==="
 
-# 1. Remap container to local 127.0.0.1:8080
-IMAGE="us-central1-docker.pkg.dev/project-58b53849-89ee-4aeb-a05/cloud-run-source-deploy/ndems-app:v2"
-docker stop ems-app || true
-docker rm ems-app || true
-docker run -d \
-  --name ems-app \
-  --restart always \
-  -p 127.0.0.1:8080:8080 \
-  -e PORT=8080 \
-  "$IMAGE"
-
-# 2. Install host Nginx and Certbot
-apt-get update
-apt-get install -y nginx certbot python3-certbot-nginx
-
-# 3. Create Nginx virtual host configuration
+# 1. Update Nginx server_name for static IP
 cat << 'EOF' > /etc/nginx/sites-available/ems
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name 34.46.124.175 34.46.124.175.sslip.io 34.46.124.175.nip.io;
+    server_name 34.9.3.144 34.9.3.144.sslip.io 34.9.3.144.nip.io;
 
     client_max_body_size 50M;
 
@@ -31,7 +16,7 @@ server {
         proxy_pass http://127.0.0.1:8080;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
+        proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
         proxy_set_header X-Real-IP $remote_addr;
@@ -46,17 +31,17 @@ ln -sf /etc/nginx/sites-available/ems /etc/nginx/sites-enabled/ems
 nginx -t
 systemctl restart nginx
 
-# 4. Request free Let's Encrypt SSL certificate
+# 2. Request Let's Encrypt SSL Certificate
 echo "Requesting Let's Encrypt SSL Certificate..."
 certbot --nginx \
-  -d 34.46.124.175.sslip.io \
-  -d 34.46.124.175.nip.io \
+  -d 34.9.3.144.sslip.io \
+  -d 34.9.3.144.nip.io \
   --non-interactive \
   --agree-tos \
   --email saif.sicbd@gmail.com \
   --redirect
 
-# 5. Reload Nginx with SSL enabled
+# 3. Reload Nginx
 systemctl reload nginx
 
-echo "=== SSL Setup Completed Successfully ==="
+echo "=== Let's Encrypt SSL Successfully Installed and Verified ==="
