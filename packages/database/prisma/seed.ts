@@ -242,18 +242,18 @@ async function main() {
     });
   }
 
-  // Seed Leave Balance for Sadia Rahman
+  // Seed Leave Balance for Rasel Mahmud
   await prisma.leaveBalance.upsert({
     where: {
       employeeId_leaveTypeId_year: {
-        employeeId: sadiaEmployee.id,
+        employeeId: raselEmployee.id,
         leaveTypeId: leaveTypes['ANNUAL'].id,
         year: 2026,
       },
     },
     update: {},
     create: {
-      employeeId: sadiaEmployee.id,
+      employeeId: raselEmployee.id,
       leaveTypeId: leaveTypes['ANNUAL'].id,
       year: 2026,
       allocatedDays: 20,
@@ -266,7 +266,7 @@ async function main() {
   // Seed Leave Request
   await prisma.leaveRequest.create({
     data: {
-      employeeId: sadiaEmployee.id,
+      employeeId: raselEmployee.id,
       leaveTypeId: leaveTypes['ANNUAL'].id,
       startDate: new Date('2026-09-20'),
       endDate: new Date('2026-09-22'),
@@ -284,13 +284,13 @@ async function main() {
   await prisma.attendanceRecord.upsert({
     where: {
       employeeId_date: {
-        employeeId: sadiaEmployee.id,
+        employeeId: raselEmployee.id,
         date: today,
       },
     },
     update: {},
     create: {
-      employeeId: sadiaEmployee.id,
+      employeeId: raselEmployee.id,
       date: today,
       clockInTime: new Date(new Date().setHours(9, 2, 0, 0)),
       clockOutTime: new Date(new Date().setHours(18, 5, 0, 0)),
@@ -310,13 +310,13 @@ async function main() {
       id: 'standard-tech-structure',
       name: 'Senior Engineering Salary Grade',
       description: 'Standard compensation structure with basic, HRA, and tax deductions',
-      currency: 'BDT',
+      currency: 'GBP',
       isDefault: true,
       components: {
         create: [
           { name: 'Basic Pay', type: SalaryComponentType.EARNING, calculationType: CalculationType.PERCENTAGE_OF_GROSS, value: 50, isTaxable: true },
           { name: 'House Rent Allowance (HRA)', type: SalaryComponentType.EARNING, calculationType: CalculationType.PERCENTAGE_OF_BASIC, value: 40, isTaxable: true },
-          { name: 'Medical & Transit Allowance', type: SalaryComponentType.EARNING, calculationType: CalculationType.FIXED, value: 500, isTaxable: false },
+          { name: 'Travel & Tool Allowance', type: SalaryComponentType.EARNING, calculationType: CalculationType.FIXED, value: 500, isTaxable: false },
           { name: 'Income Tax (Estimated)', type: SalaryComponentType.DEDUCTION, calculationType: CalculationType.PERCENTAGE_OF_GROSS, value: 15, isTaxable: false },
         ],
       },
@@ -324,67 +324,19 @@ async function main() {
   });
 
   await prisma.employeeSalaryStructure.upsert({
-    where: { id: 'sadia-salary-assignment' },
+    where: { id: 'rasel-salary-assignment' },
     update: {},
     create: {
-      id: 'sadia-salary-assignment',
-      employeeId: sadiaEmployee.id,
+      id: 'rasel-salary-assignment',
+      employeeId: raselEmployee.id,
       salaryStructureId: standardSalaryStructure.id,
-      baseSalary: 9500.0,
+      baseSalary: 5500.0,
       effectiveFrom: new Date('2024-06-01'),
       isActive: true,
     },
   });
 
-  const payrollRun = await prisma.payrollRun.upsert({
-    where: {
-      month_year_departmentId: {
-        month: 8,
-        year: 2026,
-        departmentId: deptEngineering.id,
-      },
-    },
-    update: {},
-    create: {
-      month: 8,
-      year: 2026,
-      departmentId: deptEngineering.id,
-      status: PayrollStatus.APPROVED,
-      totalGross: 9500.0,
-      totalNet: 8075.0,
-      totalDeductions: 1425.0,
-      processedAt: new Date('2026-08-31'),
-      approvedAt: new Date('2026-08-31'),
-      approvedBy: 'superadmin@ems.local',
-    },
-  });
-
-  await prisma.payslip.upsert({
-    where: {
-      payrollRunId_employeeId: {
-        payrollRunId: payrollRun.id,
-        employeeId: sadiaEmployee.id,
-      },
-    },
-    update: {},
-    create: {
-      payrollRunId: payrollRun.id,
-      employeeId: sadiaEmployee.id,
-      grossPay: 9500.0,
-      totalDeductions: 1425.0,
-      netPay: 8075.0,
-      status: PayrollStatus.PAID,
-      disbursementDate: new Date('2026-08-31'),
-      breakdown: [
-        { component: 'Basic Pay', type: 'EARNING', amount: 4750.0 },
-        { component: 'House Rent Allowance (HRA)', type: 'EARNING', amount: 1900.0 },
-        { component: 'Medical & Transit Allowance', type: 'EARNING', amount: 500.0 },
-        { component: 'Special Performance Allowance', type: 'EARNING', amount: 2350.0 },
-        { component: 'Income Tax (Estimated)', type: 'DEDUCTION', amount: 1425.0 },
-      ],
-    },
-  });
-  console.log('✅ Salary structure, payroll run, and payslip seeded');
+  console.log('✅ Salary structure seeded');
 
   // 10. Performance Review Cycle & Goal
   const reviewCycle = await prisma.performanceReviewCycle.upsert({
@@ -402,8 +354,8 @@ async function main() {
 
   await prisma.goal.create({
     data: {
-      employeeId: sadiaEmployee.id,
-      title: 'Architect Next-Gen NEO Employee Management Monorepo',
+      employeeId: raselEmployee.id,
+      title: 'Practical Roofing Operations Management Monorepo',
       description: 'Deliver production-ready TypeScript monorepo with Turborepo, NestJS, Next.js, and enterprise workforce management.',
       targetDate: new Date('2026-10-31'),
       progress: 85,
@@ -415,13 +367,13 @@ async function main() {
     where: {
       cycleId_employeeId: {
         cycleId: reviewCycle.id,
-        employeeId: sadiaEmployee.id,
+        employeeId: raselEmployee.id,
       },
     },
     update: {},
     create: {
       cycleId: reviewCycle.id,
-      employeeId: sadiaEmployee.id,
+      employeeId: raselEmployee.id,
       reviewerId: managerEmployee.id,
       selfRating: 4.8,
       selfAchievements: 'Designed and implemented end-to-end full-stack modules across Auth, Employee, Leave, and Performance.',
