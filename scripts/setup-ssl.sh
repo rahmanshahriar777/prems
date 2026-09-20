@@ -41,7 +41,9 @@ certbot --nginx \
   --email saif.sicbd@gmail.com \
   --redirect
 
-# 3. Reload Nginx
+# 3. Configure raw IP redirect to HTTPS domain
+sed -i 's/return 404;/return 301 https:\/\/34.9.3.144.sslip.io\$request_uri;/g' /etc/nginx/sites-available/ems
+nginx -t
 systemctl reload nginx
 
 echo "=== Let's Encrypt SSL Successfully Installed and Verified ==="
