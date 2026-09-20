@@ -52,6 +52,13 @@ export class EmployeesController {
     return this.service.findOne(id);
   }
 
+  @Post('bulk-import')
+  @Roles(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN)
+  @ApiOperation({ summary: 'Bulk import or update employees from datasheet' })
+  bulkImport(@Body() items: any[], @CurrentUser() user: JwtPayload) {
+    return this.service.bulkImport(items, user.sub, user.email);
+  }
+
   @Post()
   @Roles(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN)
   @ApiOperation({ summary: 'Create a new employee profile' })

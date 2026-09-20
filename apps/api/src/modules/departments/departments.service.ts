@@ -119,4 +119,44 @@ export class DepartmentsService {
 
     return { message: 'Department deleted successfully' };
   }
+
+  async bulkImport(items: Array<{ code: string; name: string; description?: string }>, actorId?: string, actorEmail?: string) {
+    const results = [];
+    for (const item of items) {
+      if (!item.code || !item.name) continue;
+      const code = item.code.trim().toUpperCase();
+      const existing = await this.prisma.department.findUnique({ where: { code } });
+      if (existing) {
+        const updated = await this.prisma.department.update({
+          where: { id: existing.id },
+          data: {
+            name: item.name.trim(),
+            description: item.description || existing.description,
+            deletedAt: null,
+          },
+        });
+        results.push(updated);
+      } else {
+        const created = await this.prisma.department.create({
+          data: {
+            code,
+            name: item.name.trim(),
+            description: item.description,
+          },
+        });
+        results.push(created);
+      }
+    }
+
+    await this.audit.log({
+      actorId,
+      actorEmail,
+      action: AuditAction.CREATE,
+      entityType: 'DEPARTMENT_BULK_IMPORT',
+      entityId: 'BULK',
+      afterState: { importedCount: results.length },
+    });
+
+    return { success: true, count: results.length, departments: results };
+  }
 }

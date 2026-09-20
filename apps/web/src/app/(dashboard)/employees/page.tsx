@@ -19,11 +19,13 @@ import {
   Building,
   UserCheck,
   X,
+  FileSpreadsheet,
 } from 'lucide-react';
 import { DashboardLayout } from '../../../components/layout/dashboard-layout';
 import { api } from '../../../lib/api-client';
 import { useAuth } from '../../../context/auth-context';
 import { SystemRole } from '@ems/shared';
+import { ImportDatasheetModal } from '../../../components/datasheet/import-datasheet-modal';
 import '../../../styles/employees.css';
 
 interface Employee {
@@ -49,36 +51,30 @@ export default function EmployeesPage() {
   const [selectedDept, setSelectedDept] = useState<string>('ALL');
   const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
 
-  useEffect(() => {
-    let isMounted = true;
-    const fetchEmployees = async () => {
-      setLoading(true);
-      try {
-        const res = await api.get('/employees', {
-          params: { search: search || undefined, limit: 100 },
-        });
-        if (isMounted) {
-          if (res?.items && Array.isArray(res.items)) {
-            setEmployees(res.items);
-          } else {
-            setEmployees([]);
-          }
-        }
-      } catch {
-        if (isMounted) {
-          setEmployees([]);
-        }
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
+  const [showImportModal, setShowImportModal] = useState(false);
 
-    const delay = setTimeout(fetchEmployees, 250);
-    return () => {
-      isMounted = false;
-      clearTimeout(delay);
-    };
+  const fetchEmployees = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await api.get('/employees', {
+        params: { search: search || undefined, limit: 100 },
+      });
+      if (res?.items && Array.isArray(res.items)) {
+        setEmployees(res.items);
+      } else {
+        setEmployees([]);
+      }
+    } catch {
+      setEmployees([]);
+    } finally {
+      setLoading(false);
+    }
   }, [search]);
+
+  useEffect(() => {
+    const delay = setTimeout(fetchEmployees, 250);
+    return () => clearTimeout(delay);
+  }, [fetchEmployees]);
 
   // Derived departments list
   const departments = useMemo(() => {
@@ -129,10 +125,20 @@ export default function EmployeesPage() {
                 </div>
 
                 {hasRole(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN) && (
-                  <Link href="/employees/new" className="emp-btn-primary">
-                    <Plus className="w-4 h-4" />
-                    <span>New Employee</span>
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowImportModal(true)}
+                      className="flex items-center gap-2 px-3.5 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300/80 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer"
+                    >
+                      <FileSpreadsheet className="w-4 h-4 text-amber-700" />
+                      <span>Import Datasheet</span>
+                    </button>
+                    <Link href="/employees/new" className="emp-btn-primary">
+                      <Plus className="w-4 h-4" />
+                      <span>New Employee</span>
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>
@@ -429,6 +435,13 @@ export default function EmployeesPage() {
           )}
         </div>
       </div>
+
+      <ImportDatasheetModal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onSuccess={() => fetchEmployees()}
+        defaultTab="employees"
+      />
     </DashboardLayout>
   );
 }

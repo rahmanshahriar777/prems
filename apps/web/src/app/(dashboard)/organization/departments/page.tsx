@@ -21,11 +21,13 @@ import {
   Megaphone,
   Scale,
   X,
+  FileSpreadsheet,
 } from 'lucide-react';
 import { DashboardLayout } from '../../../../components/layout/dashboard-layout';
 import { api } from '../../../../lib/api-client';
 import { useAuth } from '../../../../context/auth-context';
 import { SystemRole } from '@ems/shared';
+import { ImportDatasheetModal } from '../../../../components/datasheet/import-datasheet-modal';
 import '../../../../styles/departments.css';
 
 interface Department {
@@ -46,6 +48,7 @@ export default function DepartmentsPage() {
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
+  const [showImportModal, setShowImportModal] = useState(false);
 
   // Form State
   const [name, setName] = useState('');
@@ -162,6 +165,17 @@ export default function DepartmentsPage() {
                   <span>Total Divisions</span>
                   <span className="count">{departments.length}</span>
                 </div>
+
+                {hasRole(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN) && (
+                  <button
+                    type="button"
+                    onClick={() => setShowImportModal(true)}
+                    className="flex items-center gap-2 px-3.5 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300/80 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer"
+                  >
+                    <FileSpreadsheet className="w-4 h-4 text-amber-700" />
+                    <span>Import Datasheet</span>
+                  </button>
+                )}
 
                 <Link href="/organization/departments/new" className="dept-btn-primary">
                   <Plus className="w-4 h-4" />
@@ -518,6 +532,13 @@ export default function DepartmentsPage() {
           </div>
         </div>
       )}
+
+      <ImportDatasheetModal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onSuccess={() => fetchDepts()}
+        defaultTab="departments"
+      />
     </DashboardLayout>
   );
 }

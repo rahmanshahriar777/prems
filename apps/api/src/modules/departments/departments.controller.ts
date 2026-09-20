@@ -36,6 +36,13 @@ export class DepartmentsController {
     return this.service.findOne(id);
   }
 
+  @Post('bulk-import')
+  @Roles(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN)
+  @ApiOperation({ summary: 'Bulk import or update departments from datasheet' })
+  bulkImport(@Body() items: Array<{ code: string; name: string; description?: string }>, @CurrentUser() user: JwtPayload) {
+    return this.service.bulkImport(items, user.sub, user.email);
+  }
+
   @Post()
   @Roles(SystemRole.SUPER_ADMIN, SystemRole.HR_ADMIN)
   @ApiOperation({ summary: 'Create a new department' })

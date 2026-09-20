@@ -311,4 +311,128 @@ export class EmployeesService {
       },
     };
   }
+
+  async bulkImport(
+    items: Array<{
+      employeeNumber?: string;
+      fullName?: string;
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      jobTitle?: string;
+      departmentId?: string;
+      departmentCode?: string;
+      reportsTo?: string;
+      status?: string;
+      phone?: string;
+      coreResponsibilities?: string;
+    }>,
+    actorId?: string,
+    actorEmail?: string,
+  ) {
+    const results = [];
+
+    const allDepts = await this.prisma.department.findMany({ where: { deletedAt: null } });
+    const deptMap = new Map<string, string>();
+    allDepts.forEach((d) => {
+      deptMap.set(d.code.toUpperCase(), d.id);
+      deptMap.set(d.name.toLowerCase(), d.id);
+    });
+
+    for (const item of items) {
+      if (!item.employeeNumber && !item.fullName) continue;
+
+      let firstName = item.firstName || '';
+      let lastName = item.lastName || '';
+      if (!firstName && item.fullName) {
+        const parts = item.fullName.trim().split(/\s+/);
+        firstName = parts[0] || 'Employee';
+        lastName = parts.slice(1).join(' ') || parts[0];
+      }
+
+      const empNum = (item.employeeNumber || `EMP-${Date.now()}`).trim();
+      const email = (
+        item.email ||
+        `${firstName.toLowerCase().replace(/[^a-z0-9]/g, '')}.${lastName.toLowerCase().replace(/[^a-z0-9]/g, '')}@ems.local`
+      ).trim();
+
+      let deptId: string | undefined;
+      if (item.departmentCode && deptMap.has(item.departmentCode.toUpperCase())) {
+        deptId = deptMap.get(item.departmentCode.toUpperCase());
+      } else if (item.departmentId && deptMap.has(item.departmentId.toUpperCase())) {
+        deptId = deptMap.get(item.departmentId.toUpperCase());
+      }
+
+      let desigId: string | undefined;
+      if (item.jobTitle) {
+        const title = item.jobTitle.trim();
+        const code = 'DES-' + title.toUpperCase().replace(/[^A-Z0-9]/g, '_').substring(0, 20);
+        const desig = await this.prisma.designation.upsert({
+          where: { code },
+          update: { title, departmentId: deptId },
+          create: { code, title, departmentId: deptId },
+        });
+        desigId = desig.id;
+      }
+
+      let empStatus: any = 'FULL_TIME';
+      if (item.status) {
+        const s = item.status.toUpperCase();
+        if (['FULL_TIME', 'PART_TIME', 'CONTRACT', 'PROBATION', 'ACTIVE'].includes(s)) {
+          empStatus = s === 'ACTIVE' ? 'FULL_TIME' : s;
+        }
+      }
+
+      const existing = await this.prisma.employee.findFirst({
+        where: {
+          OR: [{ employeeNumber: empNum }, { email }],
+        },
+      });
+
+      if (existing) {
+        const updated = await this.prisma.employee.update({
+          where: { id: existing.id },
+          data: {
+            firstName,
+            lastName,
+            email,
+            phone: item.phone || existing.phone,
+            departmentId: deptId || existing.departmentId,
+            designationId: desigId || existing.designationId,
+            status: empStatus,
+            profileSummary: item.coreResponsibilities || existing.profileSummary,
+            deletedAt: null,
+          },
+        });
+        results.push(updated);
+      } else {
+        const created = await this.prisma.employee.create({
+          data: {
+            employeeNumber: empNum,
+            firstName,
+            lastName,
+            email,
+            phone: item.phone,
+            departmentId: deptId,
+            designationId: desigId,
+            status: empStatus,
+            joiningDate: new Date('2024-01-15'),
+            profileSummary: item.coreResponsibilities,
+          },
+        });
+        results.push(created);
+      }
+    }
+
+    await this.audit.log({
+      actorId,
+      actorEmail,
+      action: AuditAction.CREATE,
+      entityType: 'EMPLOYEE_BULK_IMPORT',
+      entityId: 'BULK',
+      afterState: { importedCount: results.length },
+    });
+
+    return { success: true, count: results.length, employees: results };
+  }
 }

@@ -446,7 +446,9 @@ async function main() {
       ipAddress: '127.0.0.1',
     },
   });
-  console.log('✅ System audit log seeded');
+  // 12. Practical Roofing Datasheet (10 Departments & 19 Employees)
+  const { seedPracticalRoofingDataset } = await import('./seed-datasheet');
+  await seedPracticalRoofingDataset();
 
   console.log('🎉 Database seeding finished successfully!');
 }
