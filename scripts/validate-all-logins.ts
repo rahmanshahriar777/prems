@@ -24,12 +24,12 @@ async function validateAllLogins() {
   ];
 
   const password = 'Password123!';
-  console.log(`\nValidating live logins on https://34.46.124.175.sslip.io for ${employees.length} accounts...\n`);
+  console.log(`\nValidating live logins on https://34.9.3.144.sslip.io for ${employees.length} accounts...\n`);
 
   let successCount = 0;
   for (const emp of employees) {
     try {
-      const res = await fetch('https://34.46.124.175.sslip.io/api/v1/auth/login', {
+      const res = await fetch('https://34.9.3.144.sslip.io/api/v1/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emp.email, password })
